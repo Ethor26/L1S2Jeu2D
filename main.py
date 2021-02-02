@@ -14,5 +14,6 @@ if __name__ == '__main__':
     print_hi('PyCharm')
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
-
 print("hello")
+from matplotlib import pyplot
+print(pyplot.plot([1, 2, 3, 6], [1, 4, 9, 36]))
