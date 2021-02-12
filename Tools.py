@@ -19,3 +19,4 @@ print("hello")
 from matplotlib import pyplot
 print(pyplot.plot([1, 2, 3, 6], [1, 4, 9, 36]))
 print(bin(56))
+"bonjour"
