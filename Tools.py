@@ -17,7 +17,6 @@ if __name__ == '__main__':
 print("hello")
 # Importation de pyplot avec matplotlib
 from matplotlib import pyplot
-print(pyplot.plot([1, 2, 3, 6], [1, 4, 9, 36]))
-print(bin(56))
 
-bonsoir
+print(pyplot.plot([1, 2, 3, 6], [1, 4, 9, 36]))
+
