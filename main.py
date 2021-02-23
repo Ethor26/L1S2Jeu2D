@@ -3,7 +3,8 @@
 # Auteurs : Equipe ShirosakiBest = Ethan SUISSA, Lilandra ALBERT-LAVAULT, Pierre REY, Jean-Alexis TADDEI, Ludwig
 # NEUBERTH- EFREI -L1 BN
 # Date : 4 mai 2021 (?)
+# Fichier principal
 # ======================================================
-print("Welcome to the game")  # Fichier principale
+print("Welcome to the game")
 
 
