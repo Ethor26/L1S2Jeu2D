@@ -5,4 +5,7 @@
 # Date : 4 mai 2021 (?)
 # Fichier outils
 # ======================================================
+
 print("Welcome to the game")
+
+

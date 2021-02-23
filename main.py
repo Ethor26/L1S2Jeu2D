@@ -8,3 +8,12 @@
 print("Welcome to the game")
 
 
+# ETAPE 1 : OUVERTURE DE L'APPLICATION
+
+# Récupération du Chemin d'accès du fichier la base de données
+import os
+
+cheminAcces = os.getcwd() + "Score.txt"  # os.getcwd() donne le chemin d'accès jusqu'au projet
+# "Harmonie musicale" de Pycharm, il est complété avec le reste.
+print("main : cheminAcces=" + cheminAcces)
+
