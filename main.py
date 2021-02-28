@@ -5,15 +5,20 @@
 # Date : 4 mai 2021 (?)
 # Fichier principal
 # ======================================================
-print("Welcome to the game")
-
-
-# ETAPE 1 : OUVERTURE DE L'APPLICATION
-
-# Récupération du Chemin d'accès du fichier la base de données
+from wF00 import F00
 import os
 
-cheminAcces = os.getcwd() + "Score.txt"  # os.getcwd() donne le chemin d'accès jusqu'au projet
-# "Harmonie musicale" de Pycharm, il est complété avec le reste.
+# ETAPE 1 : Récupération du Chemin d'accès du fichier la base de données
+cheminAcces = os.getcwd() + "/Scores.txt"  # os.getcwd() donne le chemin d'accès jusqu'au repertoire du projet
 print("main : cheminAcces=" + cheminAcces)
 
+
+# ETAPE 2 : lancement de la fenetre d'ouverture
+def main():
+    print("OUVERTURE DE L'APPLICATION (Fenetre F00)") # pour controle en console
+    app = F00("debut")
+    app.mainloop()
+
+# execution par Run pour exe
+if __name__ == '__main__':
+    main()
