@@ -39,7 +39,6 @@ class F00(Tk):
         # ??? A FAIRE
         # ...........
 
-
         # ...........< B U T T O N S >........................
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B01] : ouvrir menu (F01)
         self.ouvreF01 = Button(self, text="Start", command=self.commandeOuvreF01)
@@ -49,15 +48,13 @@ class F00(Tk):
         self.quitButton = Button(self, text="Quitter", command=self.destroy)
         self.quitButton.place(x=150, y=600)
 
-
     # ==================================================
     # D'autres méthodes :
     # ==================================================
 
-
     # COMMANDE = ouvre F01,  et ferme F00 (retour au menu)
     def commandeOuvreF01(self):
-        self.destroy() # ferme F00
+        self.destroy()  # ferme F00
         # ouvre F01
-        app = F01()     #
+        app = F01()  #
         app.mainloop()
