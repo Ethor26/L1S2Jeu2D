@@ -13,6 +13,7 @@ class F00(Tk):
     # Constructeur de l'objet F01 : ne pas supprimer !!!
     def __init__(self, message):
         Tk.__init__(self)
+        self.configure(background='black')  # backgroud fenêtre
         self.title("F00")  # Le titre de la fenêtre
 
         self.minsize(1200, 700)  # taille de fenêtre
@@ -46,7 +47,7 @@ class F00(Tk):
             "cette armée, mais avec l’interdiction du Conseil de détruire les autres vaisseaux.\n" 
             "En effet, ils sont contrôlés par des pilotes innocents mais manipulés. Ils ignorent\n" 
             "vos objectifs et s’imaginent que vous venez détruire leur empire. Une quête ardue \n" 
-            "commence pour vous…\n" ,font='Arial 30 bold' )
+            "commence pour vous…\n" ,font='Arial 30 bold',bg='black',fg='white' )
         lbl.pack(padx=5, pady=5)
         #self.mainloop()
         # ELEMENT GRAPHIQUE : <Label> = [Libellé T02] : ...??
