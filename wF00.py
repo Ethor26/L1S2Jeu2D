@@ -49,7 +49,7 @@ class F00(Tk):
                                "cette armée, mais avec l’interdiction du Conseil de détruire les autres vaisseaux.\n"
                                "En effet, ils sont contrôlés par des pilotes innocents mais manipulés. Ils ignorent\n"
                                "vos objectifs et s’imaginent que vous venez détruire leur empire. Une quête ardue \n"
-                               "commence pour vous…\n", font='Arial 30 bold', bg='black', fg='white')
+                               "commence pour vous…\n", font='Arial 21 bold', bg='black', fg='white', height=21, width=78)
         lbl.pack(padx=5, pady=5)
         # .pack sert à placer le texte
         # ELEMENT GRAPHIQUE : <Label> = [Libellé T02] : ...??
