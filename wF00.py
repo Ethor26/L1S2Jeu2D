@@ -32,7 +32,6 @@ class F00(Tk):
         # ...........< L A B E L S > .........................
         # ELEMENT GRAPHIQUE : <Label> = [Libellé T01] : ...??
         # ??? A FAIRE
-        #self=Tk()
         lbl=Label(self,text="Il y a bien longtemps, une galaxie lointaine était dirigée par un Conseil\n"
             "de sages qui s’efforçaient à ce que tous le monde vive une vie paisible.\n"
             "Malheureusement, ils virent bientôt apparaître une armée menée par un\n"
@@ -49,7 +48,6 @@ class F00(Tk):
             "vos objectifs et s’imaginent que vous venez détruire leur empire. Une quête ardue \n" 
             "commence pour vous…\n" ,font='Arial 30 bold',bg='black',fg='white' )
         lbl.pack(padx=5, pady=5)
-        #self.mainloop()
         # ELEMENT GRAPHIQUE : <Label> = [Libellé T02] : ...??
         # ??? A FAIRE
 
