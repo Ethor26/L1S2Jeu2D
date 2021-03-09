@@ -13,7 +13,7 @@ from math import *
 def ComClav2(event2):
     """ Gestion de l'événement Appui sur une touche du clavier """
     global PosX, PosY
-    touche = event2.keysym #Un événement (event) est la survenue d’une action (clavier, souris) dont votre application a besoin d’être informée
+    touche = event2.keysym  # Un événement (event) est la survenue d’une action (clavier, souris) dont votre application a besoin d’être informée
     print(touche)
     VarX = 4
     angle = ValeurAngle()
@@ -29,23 +29,27 @@ def ComClav2(event2):
     Canevas.coords(Pion, PosX - 10, PosY - 10, PosX + 10, PosY + 10)
     # on dessine le pion à sa nouvelle position
 
+
 # =============================================================================
 # FONCTION OUTIL: Calcul de la commande programmable. Auteur : Ethan SUISSA - En cours
 def CalcProg(angle, VarX):
-    v0 = 10**2
+    v0 = 10 ** 2
     g = 9.81
-    Eqmouv = (-1/2) * ((g*VarX**2)/(v0 * cos(angle))**2) + tan(angle)*VarX
-    return(Eqmouv)
+    Eqmouv = (-1 / 2) * ((g * VarX ** 2) / (v0 * cos(angle)) ** 2) + tan(angle) * VarX
+    return (Eqmouv)
+
 
 def ValeurAngle():
     # codage à faire
     angle = math.radians(45)
     return angle
 
+
 def PosInit():
     PosX = 230
     PosY = 150
     return (PosX, PosY)
+
 
 # Création de la fenêtre principale
 Mafenetre = Tk()
@@ -62,7 +66,7 @@ Largeur = 480
 Hauteur = 320
 Canevas = Canvas(Mafenetre, width=Largeur, height=Hauteur, bg='white')
 Pion = Canevas.create_oval(PosX - 10, PosY - 10, PosX + 10, PosY + 10, width=2, outline='black', fill='red')
-Canevas.focus_set()
+Canevas.focus_set()  # crée un cadre autour du canvas et permet l'activation de bind
 Canevas.bind('<Key>', ComClav2)
 Canevas.pack(padx=5, pady=5)
 

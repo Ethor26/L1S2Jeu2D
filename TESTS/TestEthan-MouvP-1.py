@@ -51,12 +51,13 @@ def CalcProg(angle, VarX):
     v0 = 10 ** 2
     g = 9.81
     Eqmouv = (-1 / 2) * ((g * VarX ** 2) / (v0 * cos(angle)) ** 2) + tan(angle) * VarX
-    return (Eqmouv)
+    return Eqmouv
 
 
 def ValeurAngle():
     # codage à faire : Récupérer angle dans score.txt
-    angle = math.radians(45)
+    angle = math.radians(269)
+    print(angle)
     return angle
 
 
@@ -67,19 +68,31 @@ def PosInit():
 
 
 def ValeurPosX(valInit, VarX):
-    valPosX = valInit + VarX
+    ParametreAngle = ValeurAngle()
+    VraiVarX = VarX
+    if 90 < degrees(ParametreAngle) < 270:
+        VraiVarX = -VraiVarX
+    valPosX = valInit + VraiVarX
     # Verifie que l'on ne sort pas du cadre
     if valPosX > Largeur - Rayon:
         valPosX = valInit - Rayon
+    if valPosX < Rayon:
+        valPosX = valInit + Rayon
     return valPosX
 
 
 def ValeurPosY(valInit, VarX):
     ParametreAngle = ValeurAngle()
-    valPosY = valInit - int(CalcProg(ParametreAngle, VarX))
-
+    DeplProgY = int(CalcProg(ParametreAngle, VarX))
+    if (90 < degrees(ParametreAngle) < 180) or (270 < degrees(ParametreAngle) < 360):
+        DeplProgY = -DeplProgY   # Pour permettre les déplacements à gauche
+    valPosY = valInit - DeplProgY
+    # Rebond en bas
     if valPosY < Rayon:
         valPosY = valInit + Rayon
+    # Rebond en haut
+    if valPosY > Hauteur - Rayon:
+        valPosY = valInit - Rayon
     return valPosY
 
 

@@ -49,7 +49,7 @@ def closeFile(f):
 
 # =============================================================================
 # FONCTION OUTIL: Calcul de la commande programmable. Auteur : Ethan SUISSA - En Cours
-def CalcProg(angle, VarX):
+def CalcProg2(angle, VarX):
     v0 = 10**2
     g = 9.81
     Eqmouv = (-1/2) * ((g*VarX**2)/(v0 * cos(angle))**2) + tan(angle)*VarX
