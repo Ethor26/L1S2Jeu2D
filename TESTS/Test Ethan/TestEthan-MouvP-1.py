@@ -3,7 +3,7 @@ import math
 print("Welcome to testEthan")
 
 from tkinter import *
-from Tools import *
+# from Tools import *
 from math import *
 
 Largeur = 480
@@ -56,7 +56,7 @@ def CalcProg(angle, VarX):
 
 def ValeurAngle():
     # codage à faire : Récupérer angle dans score.txt
-    angle = math.radians(269)
+    angle = math.radians(350)
     print(angle)
     return angle
 

@@ -8,8 +8,7 @@ Hauteur = 320  # Hauteur Ecran Jeu
 Rayon = 10  # rayon de l'objet
 ValeurPas = 4  # Nombre de pas de déplacement
 
-
-AngleEnDegree = 200
+AngleEnDegree = 350
 
 # position initiale du pion
 PosX = 230
@@ -58,17 +57,17 @@ def ValeurAngleParametreEnRadian():
 
 
 # Utilise l'équation de mouvement pour calculer la postion finale en fonction de l'angle
-def CalcProg(AngleDeduitDegree, posXFinal, valH):
-    v0 = 5  # Choix de vitesse à 5
+def CalcProg(AngleDeduitDegree, posXFinal):
+    v0 = 1  # Choix de vitesse à 5
     g = 9.81  # Constante de gravitation
     Angle_Deduit_Radian = math.radians(AngleDeduitDegree)  # convertion en Radian de l'angle deduit
     Eqmouv = (-1 / 2) * ((g * posXFinal ** 2) / (v0 * cos(Angle_Deduit_Radian)) ** 2) + tan(
-        Angle_Deduit_Radian) * posXFinal + valH
+        Angle_Deduit_Radian) * posXFinal
     AdaptEqMouv = int(Eqmouv)
     return AdaptEqMouv
 
-
 def ValeurPosXY(valX_Initial, valY_Initial, NbPas):
+    global valY_Final, valX_Final
     print("ValPosXY :  valXInitial =", valX_Initial)
     print("ValPosXY :  valYInitial =", valY_Initial)
 
@@ -76,37 +75,38 @@ def ValeurPosXY(valX_Initial, valY_Initial, NbPas):
     if 0 < AngleEnDegree < 89:
         print("ValPosXY :  Bloc 1 ")  # pour controle
         valX_Final = valX_Initial + NbPas
-        valY_Final = CalcProg(AngleEnDegree, NbPas, valY_Initial)
+        valY_Final = CalcProg(AngleEnDegree, NbPas)
 
     # Bloc 2
-    if 90 < AngleEnDegree < 179:
-        print("ValPosX :  Bloc 2 : Position x")  # pour controle
+    if 90 < AngleEnDegree < 180:
+        print("ValPosX :  Bloc 2 ")  # pour controle
         Angle_Deduit_Degree = AngleEnDegree - 90
         valY_Final = valY_Initial + NbPas
-        valX_Final = CalcProg(Angle_Deduit_Degree, NbPas, valX_Initial)
+        valX_Final = -CalcProg(Angle_Deduit_Degree, NbPas)
 
     # Bloc 3
-    if 180 < AngleEnDegree < 269:
-        print("ValPosX :  Bloc 3 : Position x")  # pour controle
+    if 180 < AngleEnDegree < 270:
+        print("ValPosX :  Bloc 3 ")  # pour controle
         Angle_Deduit_Degree = AngleEnDegree - 180
         valX_Final = valX_Initial - NbPas
-        valY_Final = - CalcProg(Angle_Deduit_Degree, NbPas, valY_Initial)
+        valY_Final = -CalcProg(Angle_Deduit_Degree, NbPas)
 
     # Bloc 4
     if 270 < AngleEnDegree < 360:
-        print("ValPosX :  Bloc 4 : Position X ")  # pour controle
+        print("ValPosX :  Bloc 4  ")  # pour controle
         Angle_Deduit_Degree = AngleEnDegree - 270
-        valY_Final = int(valY_Initial - NbPas)
-        valX_Final = CalcProg(Angle_Deduit_Degree, NbPas, valX_Initial)
+        valY_Final = valY_Initial - NbPas
+        valX_Final = CalcProg(Angle_Deduit_Degree, NbPas)
 
     print("ValPosXY : ValXFinal avant correction = ", valX_Final)
     print("ValPosXY : ValYFinal avant correction = ", valY_Final)
 
     # Corrige la position X si on sort du cadre
+    # Rebond à droite
     if valX_Final > Largeur - Rayon:
         print("ValPosXY (posX):  Sortie du cadre à droite => Rebond ")
         valX_Final = valX_Initial - Rayon
-
+    # Rebond à gauche
     if valX_Final < Rayon:
         print("ValPosXY (posX):  Sortie du cadre à gauche => Rebond ")
         valX_Final = valX_Initial + Rayon
