@@ -3,7 +3,7 @@ import math
 print("Welcome to testEthan")
 
 from tkinter import *
-from Tools import *
+# from Tools import *
 from math import *
 
 Largeur = 480
@@ -40,63 +40,108 @@ def CommandeClavier2(event2):
     print("posY = ", PosY)  # pour controle
     print("posX = ", PosX)  # pour controle
     print("Pion = ", Pion)  # pour controle
-
     Canevas.coords(Pion, PosX - 10, PosY - 10, PosX + 10, PosY + 10)
     # on dessine le pion à sa nouvelle position
 
 
 # =============================================================================
 # FONCTION OUTIL: Calcul de la commande programmable. Auteur : Ethan SUISSA - En cours
-def CalcProg(angle, VarX):
-    v0 = 10 ** 2
-    g = 9.81
-    Eqmouv = (-1 / 2) * ((g * VarX ** 2) / (v0 * cos(angle)) ** 2) + tan(angle) * VarX
-    return Eqmouv
-
-
 def ValeurAngle():
     # codage à faire : Récupérer angle dans score.txt
-    angle = math.radians(269)
-    print(angle)
+    angle = math.radians(179)
+    print(angle) # Pour Test
     return angle
 
-
+# Non utilisé
 def PosInit():
     PosX = 230
     PosY = 150
     return (PosX, PosY)
 
 
-def ValeurPosX(valInit, VarX):
+def AdaptAngle(angle):
+    MouvAngle = degrees(angle)
+    if 90 < MouvAngle < 180:
+        MouvAngle -= 90
+    if 180 < MouvAngle < 270:
+        MouvAngle -= 180
+    if 270 < MouvAngle < 360:
+        MouvAngle -= 270
+    return MouvAngle
+
+def CalcProg(angle, VarX):
+    v0 = 5
+    g = 9.81
+    MouvAngle = math.radians(AdaptAngle(angle))
+    Eqmouv = (-1 / 2) * ((g * VarX ** 2) / (v0 * cos(MouvAngle)) ** 2) + tan(MouvAngle) * VarX
+    AdaptEqMouv = int(Eqmouv)
+    return AdaptEqMouv
+
+
+
+def ValeurPosX(valInitX, VarX):
     ParametreAngle = ValeurAngle()
-    VraiVarX = VarX
-    if 90 < degrees(ParametreAngle) < 180:
-        VraiVarX = -VraiVarX
-    valPosX = valInit + VraiVarX
+    TVarX, TVarY, Angle = RenvRepere(VarX, ParametreAngle)
+    valPosX = valInitX + TVarX
     # Test Axes
 
     # Verifie que l'on ne sort pas du cadre
     if valPosX > Largeur - Rayon:
-        valPosX = valInit - Rayon
+        valPosX = valInitX - Rayon
     if valPosX < Rayon:
-        valPosX = valInit + Rayon
+        valPosX = valInitX + Rayon
     return valPosX
 
 
-def ValeurPosY(valInit, VarX):
+def ValeurPosY(valInitY, VarX):
     ParametreAngle = ValeurAngle()
-    DeplProgY = int(CalcProg(ParametreAngle, VarX))
-    if (90 < degrees(ParametreAngle) < 180) or (270 < degrees(ParametreAngle) < 360):
-        DeplProgY = -DeplProgY   # Pour permettre les déplacements à gauche
-    valPosY = valInit - DeplProgY
+    TVarX, TVarY, Angle = RenvRepere(VarX, ParametreAngle)
+    valPosY = valInitY + TVarY
     # Rebond en bas
     if valPosY < Rayon:
-        valPosY = valInit + Rayon
+        valPosY = valInitY + Rayon
     # Rebond en haut
     if valPosY > Hauteur - Rayon:
-        valPosY = valInit - Rayon
+        valPosY = valInitY - Rayon
     return valPosY
 
+# CONFIGURATION RENVREPERE:
+    # Configuration 1
+def RenvRepere(VarX, angle):
+    VarY = CalcProg(angle, VarX)
+    TempX = VarX # Pour inversion
+    TempY = VarY
+    # Adaptation Angle et repères
+    if 90 < degrees(angle) < 180:
+        VarX = TempY
+        VarY = VarX
+    if 180 < degrees(angle) < 270:
+        VarX = -VarX
+        VarY = -VarY
+    if 270 < degrees(angle) < 360:
+        VarY = -VarY
+    return VarX, VarY, angle
+
+    # Configuration2
+def RenvRepere2(VarX, VarY, angle):
+    TempX = VarX # Pour inversion
+    TempY = VarY
+    MouvAngle = AdaptAngle(angle)
+    # Adaptation Angle et repères
+    if 90 < degrees(angle) < 180:
+        VarX = -VarY
+        VarY = TempX
+    if 180 < degrees(angle) < 270:
+        VarX = -VarX
+        VarY = -VarY
+    if 270 < degrees(angle) < 360:
+        VarY = -VarX
+        VarX = TempY
+    return VarX, VarY, angle
+# Pour Calcul de renversement de repère :
+#     1: y = x, x = -y pour 90<angle<180 : division par 2 de l'angle
+#     2: y = -y, x = -x pour 180<angle<270 : division par 4
+#     3: y = -x, x = y pour 270<angle<360 : division par 8
 
 # Création de la fenêtre principale
 Mafenetre = Tk()

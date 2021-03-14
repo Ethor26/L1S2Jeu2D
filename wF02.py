@@ -73,6 +73,7 @@ class F02(Tk):
         CanevasJeu.pack(side=TOP, padx=5, pady=5)
         CanevasJeu.focus_set()  # crée un cadre autour du canvas et permet l'activation de bind
         CanevasJeu.bind('<Key>', CommandeClavier) # Met en relation les touches du clavier et les commandes.
+        # Utiliser KeyPress-a pour appuyer sur a minuscule
         CanevasJeu.pack(padx=5, pady=5) # Pour placer le Canevas
 
         # ELEMENT GRAPHIQUE : <Personnage Pion> = G01 (Perso qui bouge par les commandes)
