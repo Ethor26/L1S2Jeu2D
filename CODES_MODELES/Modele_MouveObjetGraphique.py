@@ -7,10 +7,10 @@
 from tkinter import *
 
 
-def Clavier(event):
+def Clavier(event2):
     """ Gestion de l'événement Appui sur une touche du clavier """
     global PosX, PosY
-    touche = event.keysym
+    touche = event2.keysym
     print(touche)
     # déplacement vers le haut
     if touche == 'a':

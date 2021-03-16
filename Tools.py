@@ -5,7 +5,7 @@
 # Date : 4 mai 2021 (?)
 # Fichier outils
 # ======================================================
-
+from math import *
 
 # ========================================================================================
 # FONCTION OUTIL: fonction COMPLEMENTAIRE aux précédentes qui retourner la clé d'un dictionnaire avec en entrée
@@ -44,3 +44,18 @@ def lireLaLignechoisie(chemin_acces, noLine):  # Entrée :  Chemin_acces = chemi
 
 def closeFile(f):
     f.close()
+# =============================================================================
+# FONCTION OUTIL: Permet le déplacement par commande programmable. Auteur : Ethan SUISSA - En cours
+
+# =============================================================================
+# FONCTION OUTIL: Calcul de la commande programmable. Auteur : Ethan SUISSA - En Cours
+def CalcProg2(angle, VarX):
+    v0 = 10**2
+    g = 9.81
+    Eqmouv = (-1/2) * ((g*VarX**2)/(v0 * cos(angle))**2) + tan(angle)*VarX
+    return(Eqmouv)
+
+
+
+
+
