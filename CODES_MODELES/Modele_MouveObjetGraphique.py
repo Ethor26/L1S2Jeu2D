@@ -13,16 +13,16 @@ def Clavier(event2):
     touche = event2.keysym
     print(touche)
     # déplacement vers le haut
-    if touche == 'a':
+    if touche == 'z':
         PosY -= 20
     # déplacement vers le bas
-    if touche == 'q':
+    if touche == 's':
         PosY += 20
     # déplacement vers la droite
-    if touche == 'm':
+    if touche == 'd':
         PosX += 20
     # déplacement vers la gauche
-    if touche == 'l':
+    if touche == 'q':
         PosX -= 20
     # on dessine le pion à sa nouvelle position
     Canevas.coords(Pion, PosX - 10, PosY - 10, PosX + 10, PosY + 10)
