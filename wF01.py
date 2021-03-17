@@ -84,5 +84,6 @@ class F01(Tk):
     def commandeOuvreF02(self):
         self.destroy()  # ferme F01
         # ouvre F02
-        app = F02()
+        app = F02()         # implémente l'objet app
+        app.focus_force()   # Force le focus sur la fenetre
         app.mainloop()

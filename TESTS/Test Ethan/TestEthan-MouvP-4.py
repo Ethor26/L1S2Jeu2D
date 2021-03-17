@@ -1,18 +1,17 @@
+# Bibliothèques
 import math
-# import time
-
-
-print("Welcome to TestEthan-MouvP-4")
 from tkinter import *
 from math import *
+# import time
+
+print("Welcome to TestEthan-MouvP-4")
 
 Largeur = 1000  # Largeur Ecran Jeu
-Hauteur = 500 # Hauteur Ecran Jeu
+Hauteur = 500  # Hauteur Ecran Jeu
 Rayon = 10  # rayon de l'objet
 
-t = 0
-AngleEnDegree = 0
-
+AngleEnDegree = 40
+Temps = 0
 # position initiale du pion
 PosX = 230
 PosY = 150
@@ -21,7 +20,8 @@ PosY = 150
 # Version fonction
 def CommandeClavier(event):
     """ Gestion de l'événement Appui sur une touche du clavier """
-    touche = event.keysym  # Un événement (event) est la survenue d’une action (clavier, souris) dont votre application a besoin d’être informée
+    touche = event.keysym  # Un événement (event) est la survenue d’une action (clavier, souris) dont votre application
+    # a besoin d’être informée
 
     # Si touche ? => deplt a droite
     # A CODER
@@ -39,54 +39,55 @@ def CommandeClavier(event):
         deplacement_P()
 
 
-
 # =============================================================================
 # Fonction de déplacement de la touche P
 def deplacement_P():
-    global PosX, PosY,t
-    nbRebond = 0
-    t = t + 0.0001
+    global PosX, PosY, Temps  # Pour qu'elles soient utilisables partout
+    nbRebond = 0  # Initialise le nombre de rebond à 0 (pour programmer l'arrêt à 1 rebond)
 
-    PosX, PosY, siRebond, t = ValeurPosXY(PosX, PosY, t)
-
+    PosX, PosY, siRebond, Temps = ValeurPosXY(PosX, PosY, Temps)  # La fonction retourne les paramètres de position x et
+    # y de l'objet, ainsi que la variable de temps et le nombre de rebonds du déplacement.
+    Temps = Temps + 0.0001
     print("posY = ", PosY)  # pour controle
     print("posX = ", PosX)  # pour controle
     print("Pion = ", Pion)  # pour controle
-    print("t = ", t)
+    print("t = ", Temps)  # pour controle
 
     Canevas.coords(Pion, PosX - 10, PosY - 10, PosX + 10, PosY + 10)
+    # On dessine le persoPion à sa nouvelle position
 
-    if siRebond:
+    if siRebond:  # S'il y a plus de 0 rebond, on augmente le compteur
         nbRebond = nbRebond + 1
-        print("Nombre de rebond = ", nbRebond)
+        print("Nombre de rebond = ", nbRebond)  # Pour control
 
-    idAfter=Mafenetre.after(3,deplacement_P)
+    idAfter = Mafenetre.after(3, deplacement_P)
 
-    if nbRebond > 0 or t > 0.05:
+    if nbRebond > 0 or Temps > 0.05:  # Au bout d'un certain temps ou au dela d'un rebond, le déplacement s'arrête.
         Mafenetre.after_cancel(idAfter)
+
 
 # FONCTION OUTIL: Calcul de la commande programmable. Auteur : Ethan SUISSA - En cours
 def ValeurAngleParametreEnRadian():
     # codage à faire : Récupérer angle dans score.txt
-    print("Angle en degree = ", AngleEnDegree)
+    print("Angle en degree = ", AngleEnDegree)  # Pour contrôle
     angleRadian = math.radians(AngleEnDegree)  # valeur par defaut
     return angleRadian
 
 
 # Utilise l'équation de mouvement pour calculer la postion finale en fonction de l'angle
-def CalcProg(AngleDeduitDegree, t):
-    v0 = 0.9  # Choix de vitesse à 5
-    g = 9.81  # Constante de gravitation
+def CalcProg(AngleDeduitDegree, Temps):
+    v0 = 0.9  # Choix de vitesse à ... en m/s
+    g = 9.81  # Constante de gravitation terrestre en m/s
     Angle_Deduit_Radian = math.radians(AngleDeduitDegree)  # convertion en Radian de l'angle deduit
-    dx = v0 * cos(Angle_Deduit_Radian)
-    if Angle_Deduit_Radian == 0.0:
+    dx = v0 * cos(Angle_Deduit_Radian)  # Calcul du déplacement horizontal du perso
+    if Angle_Deduit_Radian == 0.0:  # Si l'angle est nul, le perso suit un mouvement rectiligne uniforme, pas de chute.
         g = 0
-    dy = -g * t + v0 * sin(Angle_Deduit_Radian)
-    print("Angle radian:", Angle_Deduit_Radian) # Test
+    dy = -g * Temps + v0 * sin(Angle_Deduit_Radian)  # Calcul du déplacement vertical du perso
+    print("Angle radian:", Angle_Deduit_Radian)  # Test
     return dx, dy
 
 
-def ValeurPosXY(valX_Initial, valY_Initial, t):
+def ValeurPosXY(valX_Initial, valY_Initial, Temps):
     global valY_Final, valX_Final, rebond
     print("ValPosXY :  valXInitial =", valX_Initial)
     print("ValPosXY :  valYInitial =", valY_Initial)
@@ -95,7 +96,7 @@ def ValeurPosXY(valX_Initial, valY_Initial, t):
     # Bloc 1
     if 0 <= AngleEnDegree <= 90:
         print("ValPosXY :  Bloc 1 ")  # pour controle
-        Dx, Dy = CalcProg(AngleEnDegree, t)
+        Dx, Dy = CalcProg(AngleEnDegree, Temps)
         valX_Final = valX_Initial + Dx
         valY_Final = valY_Initial - Dy
 
@@ -103,7 +104,7 @@ def ValeurPosXY(valX_Initial, valY_Initial, t):
     if 90 < AngleEnDegree <= 180:
         print("ValPosX :  Bloc 2 ")  # pour controle
         Angle_Deduit_Degree = AngleEnDegree - 90
-        Dx, Dy = CalcProg(Angle_Deduit_Degree, t)
+        Dx, Dy = CalcProg(Angle_Deduit_Degree, Temps)
         valX_Final = valX_Initial - Dy
         valY_Final = valY_Initial - Dx
 
@@ -111,7 +112,7 @@ def ValeurPosXY(valX_Initial, valY_Initial, t):
     if 180 < AngleEnDegree <= 270:
         print("ValPosX :  Bloc 3 ")  # pour controle
         Angle_Deduit_Degree = AngleEnDegree - 180
-        Dx, Dy = CalcProg(Angle_Deduit_Degree, t)
+        Dx, Dy = CalcProg(Angle_Deduit_Degree, Temps)
         valX_Final = valX_Initial - Dx
         valY_Final = valY_Initial + Dy
 
@@ -119,7 +120,7 @@ def ValeurPosXY(valX_Initial, valY_Initial, t):
     if 270 < AngleEnDegree <= 360:
         print("ValPosX :  Bloc 4  ")  # pour controle
         Angle_Deduit_Degree = AngleEnDegree - 270
-        Dx, Dy = CalcProg(Angle_Deduit_Degree, t)
+        Dx, Dy = CalcProg(Angle_Deduit_Degree, Temps)
         valX_Final = valX_Initial + Dy
         valY_Final = valY_Initial + Dx
 
@@ -151,7 +152,7 @@ def ValeurPosXY(valX_Initial, valY_Initial, t):
         valY_Final = valY_Initial - Rayon
         rebond = True
 
-    return valX_Final, valY_Final, rebond, t
+    return valX_Final, valY_Final, rebond, Temps
 
 
 # Création de la fenêtre principale

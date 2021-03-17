@@ -5,17 +5,15 @@
 # Date : 4 mai 2021 (?)
 # Fichier F02 = "JEUX EN ACTION"
 # ======================================================
-# from tkinter import *
 import math
-# from pygame import event
+import os
 from tkinter import *
-# from Tools import *
 from math import *
 import wF01
 
 
-class F02(Tk):
 
+class F02(Tk):
 
     # Constructeur de l'objet F02 : ne pas supprimer !!!
     def __init__(self):
@@ -31,7 +29,13 @@ class F02(Tk):
         # position initiale du perso
         self.PosX = 230
         self.PosY = 150
-
+        # Temps initial
+        self.Temps = 0
+        # 1ere position finale (confondue avec initiale)
+        self.valY_Final = 0
+        self.valX_Final = 0
+        # Pas de rebond de départ
+        # self.rebond = False
         # Creation des elements graphiques
         self.createWidgets()
 
@@ -39,46 +43,69 @@ class F02(Tk):
     def createWidgets(self):
         self.grid()  # Choix du mode d'arrangement
 
-        # Version fonction
-        def CommandeClavier(event2):
-            """ Gestion de l'événement Appui sur une touche du clavier """
-            touche = event2.keysym  # Un événement (event) est la survenue d’une action (clavier, souris) dont votre application a besoin d’être informée
+        # Fonction qui définit l'action lorsque l'on actionne une touche
+        def CommandeClavier(event):
+            touche = event.keysym  # Un événement (event) est la survenue d’une action (clavier, souris) dont votre application a besoin d’être informée
 
             # Si touche ? => deplt a droite
-            # A CODER
+            # A CODER !!!
 
             # Si touche ? => deplt a Gauche
-            # A CODER
+            # A CODER !!!
 
             # Si touche ? => deplt a bas
-            # A CODER
+            # A CODER !!!
 
             # Si touche ? => deplt a Haut
-            # A CODER
+            # A CODER !!!
 
+            # Si touche p => déplacement selon equation de mouvement
             if touche == 'p':
-                self.PosY = self.ValeurPosY(self.PosY, 4)
-                self.PosX = self.ValeurPosX(self.PosX, 4)
+                print("Info:  touche p activée ***")
+                deplacement_P()
+
+        # =============================================================================
+        # Fonction de déplacement de la touche P. Auteur : Ethan SUISSA - Terminé
+        def deplacement_P():
+            nbRebond = 0
+            self.Temps += 0.0001
+
+            self.PosX, self.PosY, self.siRebond, Temps = self.ValeurPosXY(self.PosX, self.PosY, self.Temps)
 
             print("posY = ", self.PosY)  # pour controle
             print("posX = ", self.PosX)  # pour controle
             print("Pion = ", PersoPion)  # pour controle
+            print("Temps = ", Temps)    # pour controle
 
+            # Positionnne le personnage
             CanevasJeu.coords(PersoPion, self.PosX - 10, self.PosY - 10, self.PosX + 10, self.PosY + 10)
-            # on dessine le pion à sa nouvelle position
+
+            # S'il y a un rebond sur le côté
+            if self.siRebond:
+                nbRebond = nbRebond + 1
+                print("Nombre de rebond = ", nbRebond)
+
+            # On déclenche le déplacement toute les 3 ms
+            idAfter = self.after(1, deplacement_P)
+
+            # On arrête le déplacement s'il y a un rebond ou si le facteur temps est supérieur à 0.05
+            if nbRebond > 0 or self.Temps > 0.05:  # 0.07 pour courbe complète
+                self.after_cancel(idAfter)
+                self.Temps=0
+                nbRebond=0
 
         # ...........< C A N V A S >........................
         # ELEMENT GRAPHIQUE : <Canvas> = G01 (fond noir ou se deroule le jeu)
+
         CanevasJeu = Canvas(self, width=self.Largeur, height=self.Hauteur, bg='black')
         CanevasJeu.pack(side=TOP, padx=5, pady=5)
         CanevasJeu.focus_set()  # crée un cadre autour du canvas et permet l'activation de bind
-        CanevasJeu.bind('<Key>', CommandeClavier) # Met en relation les touches du clavier et les commandes.
-        # Utiliser KeyPress-a pour appuyer sur a minuscule
-        CanevasJeu.pack(padx=5, pady=5) # Pour placer le Canevas
+        CanevasJeu.bind('<Key>', CommandeClavier)  # Met en relation les touches du clavier et les commandes.
+        CanevasJeu.pack(padx=5, pady=5)  # Pour placer le Canevas
 
         # ELEMENT GRAPHIQUE : <Personnage Pion> = G01 (Perso qui bouge par les commandes)
-        PersoPion = CanevasJeu.create_oval(self.PosX - 10, self.PosY - 10, self.PosX + 10, self.PosY + 10, width=2, outline='black', fill='red')
-        # A COMPLETER !!!
+        PersoPion = CanevasJeu.create_oval(self.PosX - 10, self.PosY - 10, self.PosX + 10, self.PosY + 10, width=2,
+                                          outline='black', fill='red')
 
         # ...........< B U T T O N S >........................
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B07] : Retour au menu (Retour F01)
@@ -86,50 +113,106 @@ class F02(Tk):
         self.B07_retourMenu.place(x=10, y=600)
 
         # ELEMENT GRAPHIQUE : <Button> = [A preciser] : Un bouton pour quitter l'application
-        self.quitButton = Button(self, text="Quitter",command=self.destroy)
+        self.quitButton = Button(self, text="Quitter", command=self.destroy)
         self.quitButton.place(x=150, y=600)
-
 
         # =============================================================================
 
-    # ==================================================
-    # D'autres méthodes :
-    # ==================================================
 
-    # >>>>> A COMPLETER !!!
-    # >>>>> A COMPLETER !!!
-    # >>>>> A COMPLETER !!!
-
-    def ValeurAngle(self):
-        # codage à faire : Récupérer angle dans score.txt
-        angle = math.radians(45)
-        return angle
 
     # FONCTION OUTIL: Calcul de la commande programmable. Auteur : Ethan SUISSA - En cours
-    def CalcProg(self, angle, VarX):
-        v0 = 10 ** 2
-        g = 9.81
-        Eqmouv = (-1 / 2) * ((g * VarX ** 2) / (v0 * cos(angle)) ** 2) + tan(angle) * VarX
-        return (Eqmouv)
+    def ValeurAngleParametreEnRadian(self):
+        AngleEnDegree = 360          # codage à faire : Récupérer angle dans score.txt
+                                    # Angles à tester : 26, 45, 60, 120, 210, 300, extremes (89, 179, 269, 359)
 
-    def ValeurPosX(self, valInit, VarX):
-        valPosX = valInit + VarX
-        # Verifie que l'on ne sort pas du cadre à droite ou à gauche
-        if valPosX > self.Largeur - self.Rayon or valPosX - self.Rayon < 0:
-            valPosX = valInit - self.Rayon
-        return valPosX
+        print("Angle en degree = ", AngleEnDegree)  # Pour controle
+        angleRadian = math.radians(AngleEnDegree)  # valeur par defaut
+        return angleRadian
 
-    def ValeurPosY(self,valInit, VarX):
-        ParametreAngle = self.ValeurAngle()
-        valPosY = valInit - int(self.CalcProg(ParametreAngle, VarX))
+    # FONCTION OUTIL : Utilise l'équation de mouvement pour calculer la postion finale en fonction de l'angle
+    # Auteur : Ethan SUISSA - En cours
+    def CalcProg(self, AngleDeduitDegree, Temps):
+        v0 = 0.7  # Choix de vitesse à 5
+        g = 9.81  # Constante de gravitation
+        Angle_Deduit_Radian = math.radians(AngleDeduitDegree)  # convertion en Radian de l'angle deduit
+        dx = v0 * cos(Angle_Deduit_Radian)
+        if Angle_Deduit_Radian == 0.0:
+            g = 0
+        dy = -g * Temps + v0 * sin(Angle_Deduit_Radian)
+        print("Angle radian:", Angle_Deduit_Radian)  # Test
+        print("dx = :", dx, "dy = :", dy)  # Test
+        return dx, dy
 
-        if valPosY < self.Rayon:
-            valPosY = valInit + self.Rayon
-        return valPosY
+    # FONCTION OUTIL : Renvoie les valeurs de X et Y selon l'équation de mouvement et selon l'angle paramétré
+    # Auteur : Ethan SUISSA - En cours
+    def ValeurPosXY(self, valX_Initial, valY_Initial, Temps):
+        print("ValPosXY :  valXInitial =", valX_Initial)
+        print("ValPosXY :  valYInitial =", valY_Initial)
+        rebond = False
+        AngleEnDegree = degrees(self.ValeurAngleParametreEnRadian())
+        # Bloc 1
+        if 0 <= AngleEnDegree <= 90:
+            print("ValPosXY :  Bloc 1 ")  # pour controle
+            Dx, Dy = self.CalcProg(AngleEnDegree, Temps)
+            self.valX_Final = valX_Initial + Dx
+            self.valY_Final = valY_Initial - Dy
 
+        # Bloc 2
+        if 90 < AngleEnDegree <= 180:
+            print("ValPosX :  Bloc 2 ")  # pour controle
+            Angle_Deduit_Degree = AngleEnDegree - 90
+            Dx, Dy = self.CalcProg(Angle_Deduit_Degree, Temps)
+            self.valX_Final = valX_Initial - Dy
+            self.valY_Final = valY_Initial - Dx
 
+        # Bloc 3
+        if 180 < AngleEnDegree <= 270:
+            print("ValPosX :  Bloc 3 ")  # pour controle
+            Angle_Deduit_Degree = AngleEnDegree - 180
+            Dx, Dy = self.CalcProg(Angle_Deduit_Degree, Temps)
+            self.valX_Final = valX_Initial - Dx
+            self.valY_Final = valY_Initial + Dy
+
+        # Bloc 4
+        if 270 < AngleEnDegree <= 360:
+            print("ValPosX :  Bloc 4  ")  # pour controle
+            Angle_Deduit_Degree = AngleEnDegree - 270
+            Dx, Dy = self.CalcProg(Angle_Deduit_Degree, Temps)
+            self.valX_Final = valX_Initial + Dy
+            self.valY_Final = valY_Initial + Dx
+
+        print("ValPosXY : ValXFinal avant correction = ", self.valX_Final)
+        print("ValPosXY : ValYFinal avant correction = ", self.valY_Final)
+
+        # Corrige la position X si on sort du cadre
+        # Rebond à droite
+        if self.valX_Final > self.Largeur - self.Rayon:
+            print("ValPosXY (posX):  Sortie du cadre à droite => Rebond ")
+            self.valX_Final = valX_Initial - self.Rayon
+            rebond = True
+
+        # Rebond à gauche
+        if self.valX_Final < self.Rayon:
+            print("ValPosXY (posX):  Sortie du cadre à gauche => Rebond ")
+            self.valX_Final = valX_Initial + self.Rayon
+            rebond = True
+
+        # Rebond en bas
+        if self.valY_Final < self.Rayon:
+            print("ValPosXY (posY):  Sortie en bas ==> Rebond")
+            self.valY_Final = valY_Initial + self.Rayon
+            rebond = True
+
+        # Rebond en haut
+        if self.valY_Final > self.Hauteur - self.Rayon:
+            print("ValPosXY (posY):  Sortie en haut ==> Rebond")
+            self.valY_Final = valY_Initial - self.Rayon
+            rebond = True
+
+        return self.valX_Final, self.valY_Final, rebond, Temps
 
     # COMMANDE = ouvre F01,  (retour au menu)
+    # Auteur : Ethan SUISSA - En cours
     def commandeOuvreF01(self):
         # Ferme la fenetre
         self.destroy()  # ferme F02
