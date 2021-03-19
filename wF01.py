@@ -9,6 +9,7 @@
 from tkinter import *
 
 from wF02 import F02
+from wF03 import F03
 
 
 class F01(Tk):
@@ -53,6 +54,9 @@ class F01(Tk):
         self.ouvreF02 = Button(self, text="jouer", command=self.commandeOuvreF02)
         self.ouvreF02.place(x=10, y=600)
 
+        self.ouvreF02 = Button(self, text="Configuration Commandes", command=self.commandeOuvreF03)
+        self.ouvreF02.place(x=10, y=400)
+
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B03] : ...??
         # ??? A FAIRE
 
@@ -84,5 +88,12 @@ class F01(Tk):
     def commandeOuvreF02(self):
         self.destroy()  # ferme F01
         # ouvre F02
-        app = F02()
+        app = F02()         # implémente l'objet app
+        app.focus_force()   # Force le focus sur la fenetre
+        app.mainloop()
+
+    def commandeOuvreF03(self):
+        self.destroy()  # ferme F01
+        # ouvre F02
+        app = F03()         # implémente l'objet app
         app.mainloop()

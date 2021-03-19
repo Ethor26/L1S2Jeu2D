@@ -81,7 +81,7 @@ def ValeurPosXY(valX_Initial, valY_Initial, NbPas):
     if 90 < AngleEnDegree < 180:
         print("ValPosX :  Bloc 2 ")  # pour controle
         Angle_Deduit_Degree = AngleEnDegree - 90
-        valY_Final = valY_Initial + NbPas
+        valY_Final = valX_Initial + NbPas
         valX_Final = -CalcProg(Angle_Deduit_Degree, NbPas)
 
     # Bloc 3
