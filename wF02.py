@@ -11,6 +11,7 @@ from tkinter import *
 from math import *
 import wF01
 
+
 class F02(Tk):
 
     # Constructeur de l'objet F02 : ne pas supprimer !!!
@@ -43,7 +44,8 @@ class F02(Tk):
 
         # Fonction qui définit l'action lorsque l'on actionne une touche
         def CommandeClavier(event):
-            touche = event.keysym  # Un événement (event) est la survenue d’une action (clavier, souris) dont votre application a besoin d’être informée
+            touche = event.keysym  # Un événement (event) est la survenue d’une action (clavier, souris) dont votre
+            # application a besoin d’être informée
 
             # Si touche ? => deplt a droite
             # A CODER !!!
@@ -121,7 +123,7 @@ class F02(Tk):
         # A FAIRE QUAND BASE PRETE
 
         # Etape 2 : Conversion et envoi pour calcul commande programmable
-        AngleEnDegree = 45   # Temporaire pour utiliser la commande programmable
+        AngleEnDegree = 45  # Temporaire pour utiliser la commande programmable
         # Angles à tester : 26, 45, 60, 120, 210, 300, extremes (89, 179, 269, 359)
         print("Angle en degree = ", AngleEnDegree)  # Pour controle
         angleRadian = math.radians(AngleEnDegree)  # Conversion en radians pour calculs
@@ -130,13 +132,15 @@ class F02(Tk):
     # FONCTION OUTIL : Utilise l'équation de mouvement pour calculer la postion finale en fonction de l'angle
     # Auteur : Ethan SUISSA - En cours
     def CalcProg(self, AngleDeduitDegree, Temps):
-        v0 = 0.7  # Choix de vitesse à 5
-        g = 9.81  # Constante de gravitation
+        v0 = 0.7  # Choix de vitesse intiale : modélise celle avec laquelle on lance un objet.
+        g = 9.81  # Constante de gravitation influencant la chute.
         Angle_Deduit_Radian = math.radians(AngleDeduitDegree)  # convertion en Radian de l'angle deduit
-        dx = v0 * cos(Angle_Deduit_Radian)
-        if Angle_Deduit_Radian == 0.0:
+        dx = v0 * cos(Angle_Deduit_Radian)   #  modélise le déplacement horizontale avec les équations de mouvements :
+        # utilisation de la dérivée de la position horizontale dx (vitesse).
+        if Angle_Deduit_Radian == 0.0:  # Pour obtenir un déplacement horizontal d'un objet à la hauteur 0(pas de chute)
             g = 0
-        dy = -g * Temps + v0 * sin(Angle_Deduit_Radian)
+        dy = -g * Temps + v0 * sin(Angle_Deduit_Radian) #   modélise le déplacement verticale avec les équations de
+        # mouvements : utilisation de la dérivée de la position horizontale dy (vitesse).
         print("Angle radian:", Angle_Deduit_Radian)  # Test
         print("dx = :", dx, "dy = :", dy)  # Test
         return dx, dy
