@@ -6,12 +6,10 @@
 # Fichier F02 = "JEUX EN ACTION"
 # ======================================================
 import math
-import os
+# import os
 from tkinter import *
 from math import *
 import wF01
-
-
 
 class F02(Tk):
 
@@ -75,7 +73,7 @@ class F02(Tk):
             print("posY = ", self.PosY)  # pour controle
             print("posX = ", self.PosX)  # pour controle
             print("Pion = ", PersoPion)  # pour controle
-            print("Temps = ", Temps)    # pour controle
+            print("Temps = ", Temps)  # pour controle
 
             # Positionnne le personnage
             CanevasJeu.coords(PersoPion, self.PosX - 10, self.PosY - 10, self.PosX + 10, self.PosY + 10)
@@ -91,8 +89,8 @@ class F02(Tk):
             # On arrête le déplacement s'il y a un rebond ou si le facteur temps est supérieur à 0.05
             if nbRebond > 0 or self.Temps > 0.05:  # 0.07 pour courbe complète
                 self.after_cancel(idAfter)
-                self.Temps=0
-                nbRebond=0
+                self.Temps = 0
+                nbRebond = 0
 
         # ...........< C A N V A S >........................
         # ELEMENT GRAPHIQUE : <Canvas> = G01 (fond noir ou se deroule le jeu)
@@ -105,7 +103,7 @@ class F02(Tk):
 
         # ELEMENT GRAPHIQUE : <Personnage Pion> = G01 (Perso qui bouge par les commandes)
         PersoPion = CanevasJeu.create_oval(self.PosX - 10, self.PosY - 10, self.PosX + 10, self.PosY + 10, width=2,
-                                          outline='black', fill='red')
+                                           outline='black', fill='red')
 
         # ...........< B U T T O N S >........................
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B07] : Retour au menu (Retour F01)
@@ -118,15 +116,15 @@ class F02(Tk):
 
         # =============================================================================
 
-
-
-    # FONCTION OUTIL: Calcul de la commande programmable. Auteur : Ethan SUISSA - En cours
     def ValeurAngleParametreEnRadian(self):
-        AngleEnDegree = 360          # codage à faire : Récupérer angle dans score.txt
-                                    # Angles à tester : 26, 45, 60, 120, 210, 300, extremes (89, 179, 269, 359)
+        # Etape 1 : Récupération angle du fichier Score.txt.
+        # A FAIRE QUAND BASE PRETE
 
+        # Etape 2 : Conversion et envoi pour calcul commande programmable
+        AngleEnDegree = 45   # Temporaire pour utiliser la commande programmable
+        # Angles à tester : 26, 45, 60, 120, 210, 300, extremes (89, 179, 269, 359)
         print("Angle en degree = ", AngleEnDegree)  # Pour controle
-        angleRadian = math.radians(AngleEnDegree)  # valeur par defaut
+        angleRadian = math.radians(AngleEnDegree)  # Conversion en radians pour calculs
         return angleRadian
 
     # FONCTION OUTIL : Utilise l'équation de mouvement pour calculer la postion finale en fonction de l'angle
