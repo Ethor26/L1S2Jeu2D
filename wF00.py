@@ -8,7 +8,6 @@
 from tkinter import *
 from wF01 import F01
 
-
 class F00(Tk):
     # Constructeur de l'objet F01 : ne pas supprimer !!!
     def __init__(self, message):
