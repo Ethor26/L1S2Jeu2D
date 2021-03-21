@@ -9,6 +9,8 @@ import math
 # import os
 from tkinter import *
 from math import *
+from PIL import Image
+from PIL.ImageTk import PhotoImage
 import wF01
 
 
@@ -68,7 +70,7 @@ class F02(Tk):
         # Fonction de déplacement de la touche P. Auteur : Ethan SUISSA - Terminé
         def deplacement_P():
             nbRebond = 0
-            self.Temps += 0.0001
+            self.Temps += 0.00015
 
             self.PosX, self.PosY, self.siRebond, Temps = self.ValeurPosXY(self.PosX, self.PosY, self.Temps)
 
@@ -78,7 +80,7 @@ class F02(Tk):
             print("Temps = ", Temps)  # pour controle
 
             # Positionnne le personnage
-            CanevasJeu.coords(PersoPion, self.PosX - 10, self.PosY - 10, self.PosX + 10, self.PosY + 10)
+            self.CanevasJeu.coords(PersoPion, self.PosX - 10, self.PosY - 10, self.PosX + 10, self.PosY + 10)
 
             # S'il y a un rebond sur le côté
             if self.siRebond:
@@ -89,22 +91,53 @@ class F02(Tk):
             idAfter = self.after(1, deplacement_P)
 
             # On arrête le déplacement s'il y a un rebond ou si le facteur temps est supérieur à 0.05
-            if nbRebond > 0 or self.Temps > 0.05:  # 0.07 pour courbe complète
+            if nbRebond > 0 or self.Temps > 0.06:  # 0.07 pour courbe complète
                 self.after_cancel(idAfter)
                 self.Temps = 0
                 nbRebond = 0
 
         # ...........< C A N V A S >........................
         # ELEMENT GRAPHIQUE : <Canvas> = G01 (fond noir ou se deroule le jeu)
+        self.CanevasJeu = Canvas(self, width=self.Largeur, height=self.Hauteur, bg='black')
+        self.CanevasJeu.pack(side=TOP, padx=5, pady=5)
 
-        CanevasJeu = Canvas(self, width=self.Largeur, height=self.Hauteur, bg='black')
-        CanevasJeu.pack(side=TOP, padx=5, pady=5)
-        CanevasJeu.focus_set()  # crée un cadre autour du canvas et permet l'activation de bind
-        CanevasJeu.bind('<Key>', CommandeClavier)  # Met en relation les touches du clavier et les commandes.
-        CanevasJeu.pack(padx=5, pady=5)  # Pour placer le Canevas
+        # Fond d'ecran
+        self.imageFond = Image.open("D:\\ethan\OneDrive - Efrei\L1-S2\L1S2-PROGRAMMATION\PycharmProjects\L1S2-ProjTransv-Jeu2D\IMAGES\\fondSpatial-1.jpeg")
+        # Slash ont été ajoutés à coté de D: et Juste avant le nom de l'image.
+        self.imgfondEcran = PhotoImage(self.imageFond)
+        self.objImgFondEcran = self.CanevasJeu.create_image(self.Largeur // 2, self.Hauteur // 2, image=self.imgfondEcran)
+
+        # Vaisseau pointe Bas
+        self.imageV1 = Image.open("D:\\ethan\OneDrive - Efrei\L1-S2\L1S2-PROGRAMMATION\PycharmProjects\L1S2-ProjTransv-Jeu2D\IMAGES\\image-DestoyerImperial-3 Bas.png")
+        self.imageV1 = self.imageV1.resize((150, 180), Image.ANTIALIAS)  # The (
+        self.imgV1 = PhotoImage(self.imageV1)
+        self.objImgV1 = self.CanevasJeu.create_image(self.Largeur // 2, self.Hauteur, image=self.imgV1)
+
+        # Vaisseau pointe Haut
+        self.imageV2 = Image.open("D:\\ethan\OneDrive - Efrei\L1-S2\L1S2-PROGRAMMATION\PycharmProjects\L1S2-ProjTransv-Jeu2D\IMAGES\\image-DestoyerImperial-3 Haut.png")
+        self.imageV2 = self.imageV2.resize((150, 180), Image.ANTIALIAS)  # The (
+        self.imgV2 = PhotoImage(self.imageV2)
+        self.objImgV2 = self.CanevasJeu.create_image(self.Largeur//2, 0, image=self.imgV2)
+
+        # Vaisseau pointe Droite
+        self.imageV3 = Image.open("D:\\ethan\OneDrive - Efrei\L1-S2\L1S2-PROGRAMMATION\PycharmProjects\L1S2-ProjTransv-Jeu2D\IMAGES\\image-DestoyerImperial-3 Droite.png")
+        self.imageV3 = self.imageV3.resize((150, 180), Image.ANTIALIAS)  # The (
+        self.imgV3 = PhotoImage(self.imageV3)
+        self.objImgV3 = self.CanevasJeu.create_image(self.Largeur, self.Hauteur // 2, image=self.imgV3)
+
+        # Vaisseau pointe Gauche
+        self.imageV4 = Image.open("D:\\ethan\OneDrive - Efrei\L1-S2\L1S2-PROGRAMMATION\PycharmProjects\L1S2-ProjTransv-Jeu2D\IMAGES\\image-DestoyerImperial-3 Gauche.png")
+        self.imageV4 = self.imageV4.resize((150, 180), Image.ANTIALIAS)  # The (
+        self.imgV4 = PhotoImage(self.imageV4)
+        self.objImgV4 = self.CanevasJeu.create_image(0, self.Hauteur // 2, image=self.imgV4)
+
+        self.CanevasJeu.focus_set()  # crée un cadre autour du canvas et permet l'activation de bind
+        self.CanevasJeu.bind('<Key>', CommandeClavier)  # Met en relation les touches du clavier et les commandes.
+        self.CanevasJeu.pack(padx=5, pady=5)  # Pour placer le Canevas
+        self.CanevasJeu.tag_lower(self.objImgFondEcran)  # arriere plan
 
         # ELEMENT GRAPHIQUE : <Personnage Pion> = G01 (Perso qui bouge par les commandes)
-        PersoPion = CanevasJeu.create_oval(self.PosX - 10, self.PosY - 10, self.PosX + 10, self.PosY + 10, width=2,
+        PersoPion = self.CanevasJeu.create_oval(self.PosX - 10, self.PosY - 10, self.PosX + 10, self.PosY + 10, width=2,
                                            outline='black', fill='red')
 
         # ...........< B U T T O N S >........................
@@ -123,7 +156,7 @@ class F02(Tk):
         # A FAIRE QUAND BASE PRETE
 
         # Etape 2 : Conversion et envoi pour calcul commande programmable
-        AngleEnDegree = 45  # Temporaire pour utiliser la commande programmable
+        AngleEnDegree = 50  # Temporaire pour utiliser la commande programmable
         # Angles à tester : 26, 45, 60, 120, 210, 300, extremes (89, 179, 269, 359)
         print("Angle en degree = ", AngleEnDegree)  # Pour controle
         angleRadian = math.radians(AngleEnDegree)  # Conversion en radians pour calculs

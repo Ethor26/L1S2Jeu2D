@@ -77,7 +77,21 @@ class F01(Tk):
         # ...........< L I S T B O X ' S > .......................
         # ELEMENT GRAPHIQUE : <ListBox> = [Listes L01] : Entrée du pseudo
         # ??? A FAIRE
+        # (Tkinter)LISTBOX : Liste des ID des joueurs de la base de données (déclaration & position)
+        AffID = Listbox(self)
+        AffID.place(x=400, y=26, width=100, height=500)
 
+        # (Tkinter)LISTBOX : Liste des noms des joueurs de la base de données (déclaration & position)
+        AffNom = Listbox(self)
+        AffNom.place(x=500, y=26, width=100, height=500)
+
+        # (Tkinter)LISTBOX : Liste des score des joueurs de la base de données (déclaration & position)
+        AffScore = Listbox(self)
+        AffScore.place(x=600, y=26, width=100, height=500)
+
+        # (Tkinter)LISTBOX : Liste des Angles des joueurs de la base de données (déclaration & position)
+        AffAngle = Listbox(self)
+        AffAngle.place(x=700, y=26, width=100, height=500)
     # ==================================================
     # D'autres méthodes :
     # ==================================================

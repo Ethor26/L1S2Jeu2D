@@ -1,11 +1,12 @@
 import math
+# import os
 
-from pygame import event
+# from pygame import event
 
 print("Welcome to testEthan")
 
 from tkinter import *
-from Tools import *
+# from Tools import *
 from math import *
 
 
@@ -54,6 +55,7 @@ def PosInit():
 # Création de la fenêtre principale
 Mafenetre = Tk()
 Mafenetre.title('Pion')
+
 
 # position initiale du pion
 PosX = 230

@@ -15,9 +15,10 @@ print("main : cheminAcces=" + cheminAcces)
 
 # ETAPE 2 : lancement de la fenetre d'ouverture
 def main():
-    print("OUVERTURE DE L'APPLICATION (Fenetre F00)") # pour controle en console
+    print("OUVERTURE DE L'APPLICATION (Fenetre F00)")  # pour controle en console
     app = F00("debut")
     app.mainloop()
+
 
 # execution par Run pour exe
 if __name__ == '__main__':

@@ -13,6 +13,10 @@ lblEntrek = Label(wChoixTransformation, text="k=") # Nom de la fenêtre en rouge
 # de fenêtre qu'on veut
 lblEntrek.place(x=430, y=50)
 
+# (Tkinter)LISTBOX : Liste des titres des partitions de la base de données (déclaration & position )
+lp = Listbox(wFenetrePrincipale)
+lp.place(x=26, y=26, width=350, height=500)
+
 # (TKINTER) ENTRY : Ligne de saisie de k
 entrek = Entry(wChoixTransformation)
 entrek.place(x=450, y=50, width=26)
