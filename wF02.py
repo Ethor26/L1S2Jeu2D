@@ -158,11 +158,11 @@ class F02(Tk):
         # ...........< B U T T O N S >........................
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B07] : Retour au menu (Retour F01)
         self.B07_retourMenu = Button(self, text="Retour Menu", command=self.commandeOuvreF01)
-        self.B07_retourMenu.place(x=90, y=700)
+        self.B07_retourMenu.place(x=190, y=700)
 
         # ELEMENT GRAPHIQUE : <Button> = [A preciser] : Un bouton pour quitter l'application
         self.quitButton = Button(self, text="Quitter", command=self.destroy)
-        self.quitButton.place(x=200, y=700)
+        self.quitButton.place(x=300, y=700)
 
     # ==================================================
     # AUTRES FONCTIONS::::::::
