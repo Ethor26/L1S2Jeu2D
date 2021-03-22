@@ -53,19 +53,24 @@ class F02(Tk):
         def CommandeClavier(event):
             touche = event.keysym  # Un événement (event) est la survenue d’une action (clavier, souris) dont votre
             # application a besoin d’être informée
-
+            dir = 10
             # Si touche ? => deplt a droite
             # A CODER !!!
+            if touche == 'd':
 
+                PosX = ValeurPosX(PosX, dir)
             # Si touche ? => deplt a Gauche
             # A CODER !!!
-
+            if touche == 'q':
+                PosX = ValeurPosX(PosX, -dir)
             # Si touche ? => deplt a bas
             # A CODER !!!
-
+            if touche == 's':
+                PosY = ValeurPosY(PosY, -dir)
             # Si touche ? => deplt a Haut
             # A CODER !!!
-
+            if touche == 'z':
+                PosY = ValeurPosY(PosY, dir)
             # Si touche p => déplacement selon equation de mouvement
             if touche == 'p':
                 print("Info:  touche p activée ***")
