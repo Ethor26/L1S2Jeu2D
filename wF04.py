@@ -23,6 +23,12 @@ class F04(Tk):
     def createWidgets(self):
         self.grid()  # Choix du mode d'arrangement des elements
 
+    # ==================================================
+    # FONCTIONS WIDGETS::::::::
+
+    # ==================================================
+    # ELEMENTS GRAPHIQUES::::::::
+
         # Création des widgets (boutons, labels, etc...)
         # ...........
         # ...........
@@ -43,8 +49,7 @@ class F04(Tk):
         self.quitButton.place(x=150, y=600)
 
     # ==================================================
-    # D'autres méthodes :
-    # ==================================================
+    # AUTRES FONCTIONS::::::::
 
     # COMMANDE = Rejouer
     # >>>>> ??? 1 Faire !!!!

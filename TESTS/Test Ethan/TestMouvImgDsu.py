@@ -55,7 +55,7 @@ class Application(tk.Frame):
         self.cnv.pack()
 
         self.image = Image.open(
-            "D:\ethan\OneDrive - Efrei\L1-S2\L1S2-PROGRAMMATION\PycharmProjects\L1S2-ProjTransv-Jeu2D\IMAGES\\faucon millenium 3.png")
+            "/IMAGES/ImagesF02/faucon millenium-3.png")
         self.image = self.image.resize((30, 45), Image.ANTIALIAS)  # The (
         self.logo = PhotoImage(self.image)
         # self.logo = PhotoImage(file="IMAGES/fauconMillenium.png")

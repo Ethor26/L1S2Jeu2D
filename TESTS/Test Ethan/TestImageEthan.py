@@ -24,8 +24,7 @@ class Interface(Tk.Frame):
 
 
 Interface(
-    "D:\ethan\OneDrive - Efrei\L1-S2\L1S2-PROGRAMMATION\PycharmProjects\L1S2-ProjTransv-Jeu2D\IMAGES\\ImageFondEtoile"
-    ".jpg")  # Double slash pour la fin
+    "/IMAGES/ImagesF02/ImageFondEtoile.jpg")  # Double slash pour la fin
 
 # image2 = Image.open("D:\Pictures\god0a.jpg")
 # #image2.show()

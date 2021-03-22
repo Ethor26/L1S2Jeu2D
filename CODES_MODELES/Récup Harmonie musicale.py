@@ -2,6 +2,7 @@
 # fonctions
 
 # PARTIE GRAPHIQUE :
+import os
 from tkinter import *
 from tkinter.filedialog import askopenfile
 
