@@ -2,6 +2,7 @@
 # fonctions
 
 # PARTIE GRAPHIQUE :
+import os
 from tkinter import *
 from tkinter.filedialog import askopenfile
 
@@ -12,6 +13,10 @@ wSaisieNouvellePartition = Tk()
 lblEntrek = Label(wChoixTransformation, text="k=") # Nom de la fenêtre en rouge à déclarer comme au dessus (avec le nom
 # de fenêtre qu'on veut
 lblEntrek.place(x=430, y=50)
+
+# (Tkinter)LISTBOX : Liste des titres des partitions de la base de données (déclaration & position )
+lp = Listbox(wFenetrePrincipale)
+lp.place(x=26, y=26, width=350, height=500)
 
 # (TKINTER) ENTRY : Ligne de saisie de k
 entrek = Entry(wChoixTransformation)
