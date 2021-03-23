@@ -25,8 +25,23 @@ class F01(Tk):
     def createWidgets(self):
         self.grid()  # Choix du mode d'arrangement
 
-        # Création des widgets (boutons, labels, etc...)
+    # ==================================================
+    # FONCTIONS WIDGET::::::::
 
+        # Création des widgets (boutons, labels, etc...)
+        # FONCTION Récupération Nom et enregistrement dans score.txt
+        def RecupName():
+            "Enregistrer le ,nom"
+            Name = EntreeNom.get()
+            print("Nom :", Name)
+            if Name != "":
+                Test = Button(self, text="Configuration Commandes", command=self.commandeOuvreF03)
+                Test.place(x=10, y=250) # Bouton pour tester le verrouillage
+            # self.destroy()
+
+
+    # ==================================================
+    # ELEMENTS GRAPHIQUES::::::::
 
         # ...........< L A B E L S > .........................
         # ELEMENT GRAPHIQUE : <Label> = [Libellé T04] : ...??
@@ -45,14 +60,30 @@ class F01(Tk):
         # ??? A FAIRE
 
 
+        # Création d'un widget Label (texte 'Nom')
+        Label1 = Label(self, text='Quel est ton nom jeune protecteur de la Galaxie? ', font=("Arial", 20))
+        # Label1.pack(padx=1, pady=1)
+        Label1.place(x=10, y=50)
+
+
         # ...........< E N T R Y ' S > .......................
         # ELEMENT GRAPHIQUE : <Entry> = [Libellé E01] : Entrée du pseudo
         # ??? A FAIRE
-
+        # Création d'un widget Entry (champ de saisie)
+        Nom = StringVar()
+        EntreeNom = Entry(self, textvariable=Nom, bg='bisque', fg='red', font=("Arial", 20), )
+        EntreeNom.focus_set()  # : nécessaire ?
+        # EntreeNom.pack(padx=50, pady=50) : Manque de précision
+        EntreeNom.place(x=10, y=100)
         # ...........< B U T T O N S >........................
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B02] : jouer
         self.ouvreF02 = Button(self, text="jouer", command=self.commandeOuvreF02)
         self.ouvreF02.place(x=10, y=600)
+
+        # Création d'un widget Button (bouton Valider)
+        self.BoutonValidNom = Button(self, text='Valider', font=("Arial", 15), command=RecupName)
+        # self.BoutonValidNom.pack(padx=95, pady=95)
+        self.BoutonValidNom.place(x=10, y=150)
 
         self.ouvreF02 = Button(self, text="Configuration Commandes", command=self.commandeOuvreF03)
         self.ouvreF02.place(x=10, y=400)
@@ -77,12 +108,24 @@ class F01(Tk):
         # ...........< L I S T B O X ' S > .......................
         # ELEMENT GRAPHIQUE : <ListBox> = [Listes L01] : Entrée du pseudo
         # ??? A FAIRE
+        # (Tkinter)LISTBOX : Liste des ID des joueurs de la base de données (déclaration & position)
+        AffID = Listbox(self)
+        AffID.place(x=400, y=26, width=100, height=500)
+
+        # (Tkinter)LISTBOX : Liste des noms des joueurs de la base de données (déclaration & position)
+        AffNom = Listbox(self)
+        AffNom.place(x=500, y=26, width=100, height=500)
+
+        # (Tkinter)LISTBOX : Liste des score des joueurs de la base de données (déclaration & position)
+        AffScore = Listbox(self)
+        AffScore.place(x=600, y=26, width=100, height=500)
+
+        # (Tkinter)LISTBOX : Liste des Angles des joueurs de la base de données (déclaration & position)
+        AffAngle = Listbox(self)
+        AffAngle.place(x=700, y=26, width=100, height=500)
 
     # ==================================================
-    # D'autres méthodes :
-    # ==================================================
-
-    # ??? A comleter en fonction des besoins
+    # ELEMENTS GRAPHIQUES::::::::
 
     # COMMANDE : ouvre F02 (Jouer)
     def commandeOuvreF02(self):

@@ -22,6 +22,8 @@ class F03(Tk):
     def createWidgets(self):
         self.grid()  # Choix du mode d'arrangement des elements
 
+        # ==================================================
+        # FONCTIONS WIDGET ::::::::
         def EnregistrAngle():  # Fonction doit être mise avant sinon erreur
             TextAngleEnDegree = entreAngle.get()
             # Etape 1 : Ajustement de l'angle pour un résultat convenable.
@@ -49,11 +51,13 @@ class F03(Tk):
                 AngleEnDegree = AngleEnDegree % 360
             if AngleEnDegree < 0:
                 AngleEnDegree += 360  # Angle ne change pas mais on le replace sur l'intervalle [0; 360]
-            self.messageUtilisateurAngle.set(msg)
+            self.messageUtilisateurAngle.set(msg) # Pour mise à jour texte écran
             print(str(self.messageUtilisateurAngle.get()))  # Pour Controle
+
             return AngleEnDegree
 
-
+        # ==================================================
+        # ELEMENTS GRAPHIQUES ::::::::
         # Création des widgets (boutons, labels, etc...)
         # ...........< T E X T E S > .......................
         # ELEMENT GRAPHIQUE : <Texte> = [à definir] annoncant la saisie de l'angle # A REPOSITIONNER !!!
@@ -87,13 +91,12 @@ class F03(Tk):
         self.quitButton = Button(self, text="Quitter", command=self.destroy)
         self.quitButton.place(x=150, y=600)
 
-        # ==================================================
+        # ELEMENT GRAPHIQUE : <Label> = Message
+        self.LblMessage = Label(self, textvariable=self.messageUtilisateurAngle)
+        self.LblMessage.place(x=150, y=250)
 
-    # D'autres méthodes :
     # ==================================================
-
-    # COMMANDE = Enregistre l'angle dans le fichier score
-    # >>>>> ??? 1 Faire !!!!
+    # AUTRES FONCTIONS DE LA CLASSE ::::::::
 
     # COMMANDE = ouvre F01,  (retour au menu)
     def commandeOuvreF01(self):
