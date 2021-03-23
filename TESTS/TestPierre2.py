@@ -3,7 +3,7 @@ from tkinter import *
 def F00():
     self= Tk()
     self.title("F00")
-    photo = PhotoImage(file="image5.png")
+    photo = PhotoImage(file="../IMAGES/Image F00/image5.png")
     canvas = Canvas(self, width=1200, height=700)
     canvas.create_image(0, 0, anchor=NW, image=photo)
     canvas.pack()
