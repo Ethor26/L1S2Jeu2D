@@ -53,24 +53,26 @@ class F02(Tk):
         def CommandeClavier(event):
             touche = event.keysym  # Un événement (event) est la survenue d’une action (clavier, souris) dont votre
             # application a besoin d’être informée
+
             dir = 10
+
             # Si touche ? => deplt a droite
             # A CODER !!!
-            if touche == 'd':
+           #if touche == 'd':
 
-                PosX = ValeurPosX(PosX, dir)
+                #self.PosX = self.ValeurPosX(self.PosX, dir)
             # Si touche ? => deplt a Gauche
             # A CODER !!!
-            if touche == 'q':
-                PosX = ValeurPosX(PosX, -dir)
+           # if touche == 'q':
+                #self.PosX = self.ValeurPosX(self.PosX, -dir)
             # Si touche ? => deplt a bas
             # A CODER !!!
-            if touche == 's':
-                PosY = ValeurPosY(PosY, -dir)
+            #if touche == 's':
+                #self.PosY = self.ValeurPosY(self.PosY, -dir)
             # Si touche ? => deplt a Haut
             # A CODER !!!
-            if touche == 'z':
-                PosY = ValeurPosY(PosY, dir)
+            #if touche == 'z':
+               # self.PosY = self.ValeurPosY(self.PosY, dir)"""
             # Si touche p => déplacement selon equation de mouvement
             if touche == 'p':
                 print("Info:  touche p activée ***")
@@ -270,6 +272,19 @@ class F02(Tk):
             rebond = True
 
         return self.valX_Final, self.valY_Final, rebond, Temps
+
+    def ValeurPosX(self, valInit, VarX):
+        valPosX = valInit + VarX
+        if valPosX > self.Largeur - self.Rayon or valPosX - self.Rayon < 0:
+            valPosX = valInit - self.Rayon
+        return valPosX
+
+    def ValeurPosY(self,valInit, VarX):
+        valPosY = valInit - VarX
+        if valPosY < self.Rayon:
+            valPosY = valInit + self.Rayon
+        return valPosY
+
 
     # ========================
     # COMMANDE = ouvre F01,  (retour au menu)
