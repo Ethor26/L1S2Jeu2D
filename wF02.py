@@ -74,6 +74,7 @@ class F02(Tk):
             #if touche == 'z':
                # self.PosY = self.ValeurPosY(self.PosY, dir)"""
             # Si touche p => déplacement selon equation de mouvement
+
             if touche == 'p':
                 print("Info:  touche p activée ***")
                 deplacement_P()

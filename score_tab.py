@@ -19,14 +19,12 @@ def ajout_score(f, id, user, angle, score):
     with open(f, 'a') as file:
         file.write('\n')
         file.write(id)
-        file.write(' ')
+        file.write(';')
         file.write(user)
-        file.write(' ')
+        file.write(';')
         file.write(angle)
-        file.write(' ')
+        file.write(';')
         file.write(score)
-    return f
-
 
 def score_comparaison(score_tab, best_score):
     if score_tab[4] < best_score:

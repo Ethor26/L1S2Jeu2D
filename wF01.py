@@ -128,6 +128,17 @@ class F01(Tk):
     # ELEMENTS GRAPHIQUES::::::::
 
     # COMMANDE : ouvre F02 (Jouer)
+    def ajout_score(self, id, user, angle, score):
+        with open("score.txt", 'a') as file:
+            file.write('\n')
+            file.write(id)
+            file.write(';')
+            file.write(user)
+            file.write(';')
+            file.write(angle)
+            file.write(';')
+            file.write(score)
+
     def commandeOuvreF02(self):
         self.destroy()  # ferme F01
         # ouvre F02
