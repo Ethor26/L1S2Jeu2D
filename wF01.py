@@ -30,13 +30,19 @@ class F01(Tk):
 
         # Création des widgets (boutons, labels, etc...)
         # FONCTION Récupération Nom et enregistrement dans score.txt
-        def RecupName():
+        def RecupNameDever():
             "Enregistrer le ,nom"
             Name = EntreeNom.get()
             print("Nom :", Name)
             if Name != "":
+                # ELEMENT GRAPHIQUE : <Button> = [Bouton B0?] : Configuration commande
                 Test = Button(self, text="Configuration Commandes", command=self.commandeOuvreF03)
                 Test.place(x=10, y=250) # Bouton pour tester le verrouillage
+
+                # ELEMENT GRAPHIQUE : <Button> = [Bouton B02] : jouer
+                self.ouvreF02 = Button(self, text="jouer", command=self.commandeOuvreF02)
+                self.ouvreF02.place(x=10, y=600)
+
             # self.destroy()
 
 
@@ -61,7 +67,7 @@ class F01(Tk):
 
 
         # Création d'un widget Label (texte 'Nom')
-        Label1 = Label(self, text='Quel est ton nom jeune protecteur de la Galaxie? ', font=("Arial", 20))
+        Label1 = Label(self, text='Quel est ton nom ', font=("Arial", 20)) # ajouter: "jeune protecteur de la Galaxie?"
         # Label1.pack(padx=1, pady=1)
         Label1.place(x=10, y=50)
 
@@ -76,17 +82,12 @@ class F01(Tk):
         # EntreeNom.pack(padx=50, pady=50) : Manque de précision
         EntreeNom.place(x=10, y=100)
         # ...........< B U T T O N S >........................
-        # ELEMENT GRAPHIQUE : <Button> = [Bouton B02] : jouer
-        self.ouvreF02 = Button(self, text="jouer", command=self.commandeOuvreF02)
-        self.ouvreF02.place(x=10, y=600)
+        # Boutons "configuration commande" et "valider" en haut
 
         # Création d'un widget Button (bouton Valider)
-        self.BoutonValidNom = Button(self, text='Valider', font=("Arial", 15), command=RecupName)
+        self.BoutonValidNom = Button(self, text='Valider', font=("Arial", 15), command=RecupNameDever)
         # self.BoutonValidNom.pack(padx=95, pady=95)
         self.BoutonValidNom.place(x=10, y=150)
-
-        self.ouvreF02 = Button(self, text="Configuration Commandes", command=self.commandeOuvreF03)
-        self.ouvreF02.place(x=10, y=400)
 
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B03] : ...??
         # ??? A FAIRE
