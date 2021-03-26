@@ -57,21 +57,22 @@ class F02(Tk):
             dir = 10
 
             # Si touche ? => deplt a droite
-            if self.touche == 'd':
-            #if self.touche == 'z':
-                self.PosX = self.ValeurPosX(self.PosX, dir)
-        # Si touche ? => deplt a Gauche
             # A CODER !!!
-           # if touche == 'q':
-                #self.PosX = self.ValeurPosX(self.PosX, -dir)
+            if self.touche == 'd':
+
+                self.PosX = self.ValeurPosX(self.PosX, dir)
+            # Si touche ? => deplt a Gauche
+            # A CODER !!!
+            if self.touche == 'q':
+                self.PosX = self.ValeurPosX(self.PosX, -dir)
             # Si touche ? => deplt a bas
             # A CODER !!!
-            #if touche == 's':
-                #self.PosY = self.ValeurPosY(self.PosY, -dir)
+            if self.touche == 's':
+                self.PosY = self.ValeurPosY(self.PosY, -dir)
             # Si touche ? => deplt a Haut
             # A CODER !!!
-            #if touche == 'z':
-               # self.PosY = self.ValeurPosY(self.PosY, dir)"""
+            if self.touche == 'z':
+                self.PosY = self.ValeurPosY(self.PosY, dir)
             # Si touche p => déplacement selon equation de mouvement
 
             if self.touche == 'p':
