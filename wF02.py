@@ -28,7 +28,7 @@ class F02(Tk):
         self.Hauteur = 680  # Hauteur de la zone de jeu
         self.Rayon = 10  # rayon de l'objet Personnage
 
-        # position initiale du perso
+        # position initiale du perso, respectivement X et Y
         self.PosX = 600
         self.PosY = 400
         # Temps initial
@@ -59,19 +59,22 @@ class F02(Tk):
             # Si touche ? => deplt a droite
             # A CODER !!!
             if self.touche == 'd':
-
+                print("Info:  touche d activée ***")
                 self.PosX = self.ValeurPosX(self.PosX, dir)
             # Si touche ? => deplt a Gauche
             # A CODER !!!
             if self.touche == 'q':
+                print("Info:  touche q activée ***")
                 self.PosX = self.ValeurPosX(self.PosX, -dir)
             # Si touche ? => deplt a bas
             # A CODER !!!
             if self.touche == 's':
+                print("Info:  touche s activée ***")
                 self.PosY = self.ValeurPosY(self.PosY, -dir)
             # Si touche ? => deplt a Haut
             # A CODER !!!
             if self.touche == 'z':
+                print("Info:  touche z activée ***")
                 self.PosY = self.ValeurPosY(self.PosY, dir)
             # Si touche p => déplacement selon equation de mouvement
 
@@ -83,7 +86,8 @@ class F02(Tk):
         # FONCTION de déplacement de la touche P. Auteur : Ethan SUISSA - Terminé
         def deplacement_P():
             nbRebond = 0
-            self.Temps += 0.00015
+            self.Temps += 0.00015 # Augmentation d'une variable de temps pour calcul Position Y (de commande
+            # programmable)et
 
             self.PosX, self.PosY, self.siRebond, Temps = self.ValeurPosXY(self.PosX, self.PosY, self.Temps)
 
@@ -182,10 +186,10 @@ class F02(Tk):
         # A FAIRE QUAND BASE PRETE
 
         # Etape 2 : Conversion et envoi pour calcul commande programmable
-        AngleEnDegree = 50  # Temporaire pour utiliser la commande programmable
+        AngleEnDegree = 210  # Temporaire pour utiliser la commande programmable
         # Angles à tester : 26, 45, 60, 120, 210, 300, extremes (89, 179, 269, 359)
         print("Angle en degree = ", AngleEnDegree)  # Pour controle
-        angleRadian = math.radians(AngleEnDegree)  # Conversion en radians pour calculs
+        angleRadian = math.radians(AngleEnDegree)  # Conversion en radians pour calculs de com programmable
         return angleRadian
 
     # ========================
@@ -201,6 +205,9 @@ class F02(Tk):
             g = 0
         dy = -g * Temps + v0 * sin(Angle_Deduit_Radian)  # modélise le déplacement verticale avec les équations de
         # mouvements : utilisation de la dérivée de la position horizontale dy (vitesse).
+        # PRINCIPE GENERAL: dx et dy représentent les vitesses x et y de l'objet, c'est à dire son déplacement à un
+        # temps donné, la fonction additionne donc à chaque étape de temps (elle est utilisée à chaque fois que le temps
+        # augmente) la distance parcourue à la position.
         print("Angle radian:", Angle_Deduit_Radian)  # Test
         print("dx = :", dx, "dy = :", dy)  # Test
         return dx, dy
@@ -209,40 +216,45 @@ class F02(Tk):
     # FONCTION OUTIL : Renvoie les valeurs de X et Y selon l'équation de mouvement et selon l'angle paramétré
     # Auteur : Ethan SUISSA - Terminé
     def ValeurPosXY(self, valX_Initial, valY_Initial, Temps):
-        print("ValPosXY :  valXInitial =", valX_Initial)
-        print("ValPosXY :  valYInitial =", valY_Initial)
+        print("ValPosXY :  valXInitial =", valX_Initial) # Pour controle
+        print("ValPosXY :  valYInitial =", valY_Initial) # Pour controle
         rebond = False
-        AngleEnDegree = degrees(self.ValeurAngleParametreEnRadian())
-        # Bloc 1
+        AngleEnDegree = degrees(self.ValeurAngleParametreEnRadian()) # Convertie l'angle retourné en radian en degrés
+    # Ajustement de l'angle pour le quart de repère dans lequel on se trouve :
+        # Bloc 1 = quart haut-droite
         if 0 <= AngleEnDegree <= 90:
             print("ValPosXY :  Bloc 1 ")  # pour controle
-            Dx, Dy = self.CalcProg(AngleEnDegree, Temps)
+            Dx, Dy = self.CalcProg(AngleEnDegree, Temps) # Retourne les déplacement de x et y
             self.valX_Final = valX_Initial + Dx
-            self.valY_Final = valY_Initial - Dy
+            self.valY_Final = valY_Initial - Dy # Déplacement dans le sens du repère de l'écran : vers la droite pour X
+            # avec l'addition et vers le haut pour Y avec la soustraction
 
-        # Bloc 2
+        # Bloc 2 = quart haut-gauche
         if 90 < AngleEnDegree <= 180:
             print("ValPosX :  Bloc 2 ")  # pour controle
             Angle_Deduit_Degree = AngleEnDegree - 90
             Dx, Dy = self.CalcProg(Angle_Deduit_Degree, Temps)
-            self.valX_Final = valX_Initial - Dy
+            self.valX_Final = valX_Initial - Dy # Soustraction au lieu d'addition car déplacement horizontal vers la
+            # gauche, inversion X et Y pour changement de repère.
             self.valY_Final = valY_Initial - Dx
 
-        # Bloc 3
+        # Bloc 3 = quart bas-gauche
         if 180 < AngleEnDegree <= 270:
             print("ValPosX :  Bloc 3 ")  # pour controle
             Angle_Deduit_Degree = AngleEnDegree - 180
             Dx, Dy = self.CalcProg(Angle_Deduit_Degree, Temps)
             self.valX_Final = valX_Initial - Dx
-            self.valY_Final = valY_Initial + Dy
+            self.valY_Final = valY_Initial + Dy  # Addition au lieu de soustraction car déplacement vertical vers le bas,
+            # inversion X et Y pour changement de repère.
 
-        # Bloc 4
+        # Bloc 4 = quart bas-droite
         if 270 < AngleEnDegree <= 360:
             print("ValPosX :  Bloc 4  ")  # pour controle
             Angle_Deduit_Degree = AngleEnDegree - 270
             Dx, Dy = self.CalcProg(Angle_Deduit_Degree, Temps)
             self.valX_Final = valX_Initial + Dy
-            self.valY_Final = valY_Initial + Dx
+            self.valY_Final = valY_Initial + Dx # Addition au lieu de soustraction car déplacement vertical vers le bas
+            # inversion X et Y pour changement de repère.
 
         print("ValPosXY : ValXFinal avant correction = ", self.valX_Final)
         print("ValPosXY : ValYFinal avant correction = ", self.valY_Final)
