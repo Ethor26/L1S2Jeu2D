@@ -1,4 +1,6 @@
 #f = nom du fichier
+from wF00 import *
+
 def open_score_file(f):
     with open(f, 'r') as filin:
         score = filin.readlines()
@@ -19,7 +21,7 @@ def ajout_score(f, id, user, angle, score):
         file.write(';')
         file.write(score)
 
-def score_comparaison(score_tab, best_score):
+def score_comparaison(score_player, best_score):
     if score_player < best_score:
         #nouveau label"vous ferez mieux la prochaine fois", ("Vous etes à" 'best_score-scoreplayer' du meilleur score)
     if score_player > best_score:
@@ -27,3 +29,19 @@ def score_comparaison(score_tab, best_score):
 
         # Il faut convertir les int en str avant d'écrire dans le fichier
         # f= nom du fichier
+
+
+def ajout_nom_F000(name):
+    with open("scores.txt", 'r') as file:
+        score = file.readlines()
+        nb_line = len(score)
+        f = open("scores.txt", 'a')
+        f.write('\n')
+        nb_line = nb_line - 1
+        id = str(nb_line)
+        f.write(id)
+        f.write(';')
+        f.write(name)
+        f.write(";")
+
+
