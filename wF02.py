@@ -51,17 +51,16 @@ class F02(Tk):
         # =============================================================================
         # FONCTION qui crée un déplacment lorsque l'on actionne une touche
         def CommandeClavier(event):
-            touche = event.keysym  # Un événement (event) est la survenue d’une action (clavier, souris) dont votre
+            self.touche = event.keysym  # Un événement (event) est la survenue d’une action (clavier, souris) dont votre
             # application a besoin d’être informée
 
             dir = 10
 
             # Si touche ? => deplt a droite
-            # A CODER !!!
-           #if touche == 'd':
-
-                #self.PosX = self.ValeurPosX(self.PosX, dir)
-            # Si touche ? => deplt a Gauche
+            if self.touche == 'd':
+            #if self.touche == 'z':
+                self.PosX = self.ValeurPosX(self.PosX, dir)
+        # Si touche ? => deplt a Gauche
             # A CODER !!!
            # if touche == 'q':
                 #self.PosX = self.ValeurPosX(self.PosX, -dir)
@@ -75,7 +74,7 @@ class F02(Tk):
                # self.PosY = self.ValeurPosY(self.PosY, dir)"""
             # Si touche p => déplacement selon equation de mouvement
 
-            if touche == 'p':
+            if self.touche == 'p':
                 print("Info:  touche p activée ***")
                 deplacement_P()
 
