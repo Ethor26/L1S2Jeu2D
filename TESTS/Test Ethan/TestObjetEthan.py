@@ -12,11 +12,15 @@ class ProgCommandParam():
         # déplacement programmable
         if touche == 'p':
             for i in range(5): # Pour déplacement progressif
-                PosY += int(CalcProg(angle, VarX))
+                # PosY += int(CalcProg(angle, VarX))
                 PosX += 4
 
         # on dessine le pion à sa nouvelle position
         Canvas.coords(Pion, PosX - 10, PosY - 10, PosX + 10, PosY + 10)
 
+from random import *
 
+print(randint(1, 1000))
+Liste = [100, 200, 300, 400, 500]
+print(Liste[randint(0, 4)])
 
