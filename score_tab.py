@@ -1,13 +1,20 @@
 #f = nom du fichier
 from wF00 import *
 
-def open_score_file(f):
-    with open(f, 'r') as filin:
+def open_score_file():
+    with open("scores.txt", 'r') as filin:
         score = filin.readlines()
         nb_line = len(score)
+        tab = nb_line * [0]
+        for i in range(len(tab)):
+            tab[i] = nb_line * [0]
         for i in range(nb_line):
             score[i] = score[i].rstrip('\n')
-    return score
+            for j in range(nb_line):
+                spell = score[j]
+                spel = spell.split(";")
+                tab[j]= spel
+    return tab
 
 
 def ajout_score(f, id, user, angle, score):
