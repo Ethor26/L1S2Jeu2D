@@ -65,7 +65,7 @@ class F00(Tk):
                                          "En effet, ils sont contrôlés par des pilotes innocents mais manipulés. Ils "
                                          "ignorent "
                                          "vos objectifs et s’imaginent que vous venez détruire leur empire.\n " 
-                                         "Une quête ardue commence alors pour vous…\n", font='Gabriola 18 italic', fill='white')
+                                         "Une quête ardue commence alors pour vous…\n", font='Gabriola 17 italic', fill='white')
         self.CanvasPres.create_text(600, 50,
                                     text="Un heros Contre Galacticov.", font='Gabriola 32 italic', fill='cyan')
 
