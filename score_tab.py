@@ -45,3 +45,15 @@ def ajout_nom_F000(name):
         f.write(";")
 
 
+def ajout_angle_F02(angle):
+    with open("scores.txt", "a") as file:
+        ang = str(angle)
+        file.write(ang)
+        file.write(";")
+
+
+def ajout_score_F0(score):          #fenetre de jeu
+    with open("scores.txt", "a") as f:
+        sco = str(score)
+        f.write(sco)
+
