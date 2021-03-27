@@ -7,6 +7,7 @@
 # ======================================================
 from tkinter import *
 import wF01
+from score_tab import ajout_angle_F02
 
 
 class F03(Tk):
@@ -32,6 +33,7 @@ class F03(Tk):
 
             # Etape 2 : Envoi de l'angle dans score.txt
             # A FAIRE QUAND BASE PRETE
+            ajout_angle_F02(AngleEnDegree)
             AddAngleInBase(AngleEnDegree)
 
         def AddAngleInBase(AngleEnDegree):
@@ -42,16 +44,16 @@ class F03(Tk):
             AngleEnDegree = 0
             msg = "..."
             if TextAngleEnDegree != "":
-                try:
+                try: # Essai la tranformation en int en vérifiant les erreurs avant (pour éviter un plantage total).
                     AngleEnDegree = int(TextAngleEnDegree)
                 except ValueError:
-                    msg = ">> Angle doit etre un entier "  # Message d'information pour l'utilisateur
+                    msg = ">> Angle doit etre un entier "  # Message informant l'utilisateur, s'affiche à l'ecran
                     print(msg)  # Pour contrôle en console
             if AngleEnDegree >= 360 or AngleEnDegree <= -360:
-                AngleEnDegree = AngleEnDegree % 360
+                AngleEnDegree = AngleEnDegree % 360 # Création d'un modulo pour ajuster les angles trop grand.
             if AngleEnDegree < 0:
                 AngleEnDegree += 360  # Angle ne change pas mais on le replace sur l'intervalle [0; 360]
-            self.messageUtilisateurAngle.set(msg) # Pour mise à jour texte écran
+            self.messageUtilisateurAngle.set(msg)  # Pour mise à jour texte écran
             print(str(self.messageUtilisateurAngle.get()))  # Pour Controle
 
             return AngleEnDegree

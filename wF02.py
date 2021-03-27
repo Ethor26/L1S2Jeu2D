@@ -85,10 +85,10 @@ class F02(Tk):
         # =============================================================================
         # FONCTION de déplacement de la touche P. Auteur : Ethan SUISSA - Terminé
         def deplacement_P():
-            nbRebond = 0
+            nbRebond = 0 # Initialisation du nombre de rebond sur les côtés à chaque mouvement
             self.Temps += 0.00015 # Augmentation d'une variable de temps pour calcul Position Y (de commande
-            # programmable)et
-
+            # programmable) et permet de définir la limite du mouvement.
+            # Récupération des nouvelles position
             self.PosX, self.PosY, self.siRebond, Temps = self.ValeurPosXY(self.PosX, self.PosY, self.Temps)
 
             print("posY = ", self.PosY)  # pour controle
@@ -96,15 +96,15 @@ class F02(Tk):
             print("Pion = ", self.PersoImgVaisseau)  # pour controle
             print("Temps = ", Temps)  # pour controle
 
-            # Positionnne le personnage
+            # Repositionnne le personnage
             self.CanevasJeu.coords(self.ImgPerso, self.PosX, self.PosY)
 
-            # S'il y a un rebond sur le côté
+            # S'il y a un rebond sur un côté, augmente la variable du nombre de rebond
             if self.siRebond:
                 nbRebond = nbRebond + 1
                 print("Nombre de rebond = ", nbRebond)
 
-            # On déclenche le déplacement toute les 3 ms
+            # On déclenche le déplacement toute les 1 ms, réactualisation de la fenêtre
             idAfter = self.after(1, deplacement_P)
 
             # On arrête le déplacement s'il y a un rebond ou si le facteur temps est supérieur à 0.05
@@ -126,9 +126,10 @@ class F02(Tk):
         self.imageFond = Image.open(os.getcwd() + "/IMAGES/ImagesF02/fondSpatial-1.jpeg")
         # Slash doivent être ajoutés à coté de D: et juste avant le nom de l'image pour le chemin absolue, sinon on peut
         # importer une partie du chemin (celle où est wF02) avec la fonction os.getcwd().
-        self.imgfondEcran = PhotoImage(self.imageFond)
+        self.imgfondEcran = PhotoImage(self.imageFond)  # importe la photo du fond dans le fichier
         self.objImgFondEcran = self.CanevasJeu.create_image(self.Largeur // 2, self.Hauteur // 2,
-                                                            image=self.imgfondEcran)
+                                                            image=self.imgfondEcran) # Implémentation de l'image dans le
+        # Canevas du jeu
 
         self.CanevasJeu.focus_set()  # crée un cadre autour du canvas et permet l'activation de bind
         self.CanevasJeu.bind('<Key>', CommandeClavier)  # Met en relation les touches du clavier et les commandes.
@@ -139,11 +140,12 @@ class F02(Tk):
 
         # Vaisseau pointe Bas
         self.imageV1 = Image.open(os.getcwd() + "/IMAGES/ImagesF02/image-DestoyerImperial-3 Bas.png")
-        self.imageV1 = self.imageV1.resize((150, 180), Image.ANTIALIAS)  # Antialias = ?
-        self.imgV1 = PhotoImage(self.imageV1)
+        self.imageV1 = self.imageV1.resize((150, 180), Image.ANTIALIAS)  # resize permet de mettre les photos au bon
+        # format pour les inclure dans le canevas. Antialias = inconnu, permet à resize de fonctionner
+        self.imgV1 = PhotoImage(self.imageV1) # Même principe que fond d'écran
         self.objImgV1 = self.CanevasJeu.create_image(self.Largeur // 2, self.Hauteur, image=self.imgV1)
 
-        # Vaisseau pointe Haut
+        # Vaisseau pointe Haut : Même principe que pointe bas, valable pour toutes les pointes de vaisseaux
         self.imageV2 = Image.open(os.getcwd() + "/IMAGES/ImagesF02/image-DestoyerImperial-3 Haut.png")
         self.imageV2 = self.imageV2.resize((150, 180), Image.ANTIALIAS)
         self.imgV2 = PhotoImage(self.imageV2)
@@ -165,7 +167,8 @@ class F02(Tk):
         self.PersoImgVaisseau = Image.open(os.getcwd() + "/IMAGES/ImagesF02/faucon millenium-3.png")
         self.PersoImgVaisseau = self.PersoImgVaisseau.resize((30, 45), Image.ANTIALIAS)
         self.logo = PhotoImage(self.PersoImgVaisseau)
-        self.ImgPerso = self.CanevasJeu.create_image(self.PosX, self.PosY, image=self.logo)
+        self.ImgPerso = self.CanevasJeu.create_image(self.PosX, self.PosY, image=self.logo) # Placement à PosX et PosY
+        # pour le déplacement de l'image comme personnage.
 
         # ...........< B U T T O N S >........................
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B07] : Retour au menu (Retour F01)
@@ -218,7 +221,7 @@ class F02(Tk):
     def ValeurPosXY(self, valX_Initial, valY_Initial, Temps):
         print("ValPosXY :  valXInitial =", valX_Initial) # Pour controle
         print("ValPosXY :  valYInitial =", valY_Initial) # Pour controle
-        rebond = False
+        rebond = False # On considère qu'il n'y a pas de rebond au début.
         AngleEnDegree = degrees(self.ValeurAngleParametreEnRadian()) # Convertie l'angle retourné en radian en degrés
     # Ajustement de l'angle pour le quart de repère dans lequel on se trouve :
         # Bloc 1 = quart haut-droite
@@ -232,10 +235,11 @@ class F02(Tk):
         # Bloc 2 = quart haut-gauche
         if 90 < AngleEnDegree <= 180:
             print("ValPosX :  Bloc 2 ")  # pour controle
-            Angle_Deduit_Degree = AngleEnDegree - 90
+            Angle_Deduit_Degree = AngleEnDegree - 90 # Ajustement de l'angle pour celui des calculs de la trajectoire
+            # dans le bloc 2.
             Dx, Dy = self.CalcProg(Angle_Deduit_Degree, Temps)
-            self.valX_Final = valX_Initial - Dy # Soustraction au lieu d'addition car déplacement horizontal vers la
-            # gauche, inversion X et Y pour changement de repère.
+            self.valX_Final = valX_Initial - Dy # Soustraction au lieu d'addition pour X car déplacement horizontal vers
+            # la gauche, inversion X et Y pour changement de repère.
             self.valY_Final = valY_Initial - Dx
 
         # Bloc 3 = quart bas-gauche
@@ -243,8 +247,10 @@ class F02(Tk):
             print("ValPosX :  Bloc 3 ")  # pour controle
             Angle_Deduit_Degree = AngleEnDegree - 180
             Dx, Dy = self.CalcProg(Angle_Deduit_Degree, Temps)
-            self.valX_Final = valX_Initial - Dx
-            self.valY_Final = valY_Initial + Dy  # Addition au lieu de soustraction car déplacement vertical vers le bas,
+            self.valX_Final = valX_Initial - Dx # Addition au lieu de soustraction pour X car déplacement horizontal
+            # vers la gauche.
+            self.valY_Final = valY_Initial + Dy  # Addition au lieu de soustraction pour Y car déplacement vertical
+            # vers le bas.
             # inversion X et Y pour changement de repère.
 
         # Bloc 4 = quart bas-droite
@@ -253,8 +259,8 @@ class F02(Tk):
             Angle_Deduit_Degree = AngleEnDegree - 270
             Dx, Dy = self.CalcProg(Angle_Deduit_Degree, Temps)
             self.valX_Final = valX_Initial + Dy
-            self.valY_Final = valY_Initial + Dx # Addition au lieu de soustraction car déplacement vertical vers le bas
-            # inversion X et Y pour changement de repère.
+            self.valY_Final = valY_Initial + Dx # Addition au lieu de soustraction pour Y car déplacement vertical vers
+            # le bas inversion X et Y pour changement de repère.
 
         print("ValPosXY : ValXFinal avant correction = ", self.valX_Final)
         print("ValPosXY : ValYFinal avant correction = ", self.valY_Final)
@@ -263,8 +269,8 @@ class F02(Tk):
             # Rebond à droite
         if self.valX_Final > self.Largeur - self.Rayon:
             print("ValPosXY (posX):  Sortie du cadre à droite => Rebond ")
-            self.valX_Final = valX_Initial - self.Rayon
-            rebond = True
+            self.valX_Final = valX_Initial - self.Rayon # Réajustement de la position X à celle juste avant
+            rebond = True  # Marque le rebond pour ne pas rebondir indéfiniment (voir fonction "deplacement_P).
 
             # Rebond à gauche
         if self.valX_Final < self.Rayon:
@@ -285,6 +291,9 @@ class F02(Tk):
             rebond = True
 
         return self.valX_Final, self.valY_Final, rebond, Temps
+    # ========================
+    # FONCTION OUTIL : Renvoie les valeurs de X et Y (pour commandes figées )selon l'équation de mouvement et selon
+    # l'angle paramétré. Auteur : Lilandra ALBERT-LAVAUX - En cours
 
     def ValeurPosX(self, valInit, VarX):
         valPosX = valInit + VarX

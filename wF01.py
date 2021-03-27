@@ -8,6 +8,7 @@
 # ======================================================
 from tkinter import *
 
+from score_tab import ajout_nom_F000
 from wF02 import F02
 from wF03 import F03
 
@@ -34,16 +35,22 @@ class F01(Tk):
             "Enregistrer le ,nom"
             Name = EntreeNom.get()
             print("Nom :", Name)
-            if Name != "":
-                # ELEMENT GRAPHIQUE : <Button> = [Bouton B0?] : Configuration commande
+            msg = "..."
+            if Name != "": # Si la fenêtre d'entrée du nom n'est pas vide :
+                # Ajout du nom dans la base
+                ajout_nom_F000(Name) # A configurer pour pas à faire à chaque fois
+
+                # Déverouillage des boutons
+                    # ELEMENT GRAPHIQUE : <Button> = [Bouton B0?] : Configuration commande
                 Test = Button(self, text="Configuration Commandes", command=self.commandeOuvreF03)
                 Test.place(x=10, y=250) # Bouton pour tester le verrouillage
 
-                # ELEMENT GRAPHIQUE : <Button> = [Bouton B02] : jouer
+                    # ELEMENT GRAPHIQUE : <Button> = [Bouton B02] : jouer
                 self.ouvreF02 = Button(self, text="jouer", command=self.commandeOuvreF02)
                 self.ouvreF02.place(x=10, y=600)
-
-            # self.destroy()
+            else:
+                msg = "Pas de nom, pas de jeu !"
+            self.messageUtilisateurNom.set(msg)  # Pour mise à jour texte écran
 
 
     # ==================================================
@@ -77,10 +84,20 @@ class F01(Tk):
         # ??? A FAIRE
         # Création d'un widget Entry (champ de saisie)
         Nom = StringVar()
+
         EntreeNom = Entry(self, textvariable=Nom, bg='bisque', fg='red', font=("Arial", 20), )
         EntreeNom.focus_set()  # : nécessaire ?
         # EntreeNom.pack(padx=50, pady=50) : Manque de précision
         EntreeNom.place(x=10, y=100)
+
+    # Message après vérifiaction de l'entrée du nom
+        self.messageUtilisateurNom = StringVar()  # Variable de message d'erreur de saisie type stringvar() pour
+        # maj Label pertinent.
+        self.messageUtilisateurNom.set("...")
+        # Placement du message
+            # ELEMENT GRAPHIQUE : <Label> = Message
+        self.LblMessage = Label(self, textvariable=self.messageUtilisateurNom)
+        self.LblMessage.place(x=150, y=250)
         # ...........< B U T T O N S >........................
         # Boutons "configuration commande" et "valider" en haut
 
@@ -129,17 +146,6 @@ class F01(Tk):
     # ELEMENTS GRAPHIQUES::::::::
 
     # COMMANDE : ouvre F02 (Jouer)
-    def ajout_score(self, id, user, angle, score):
-        with open("score.txt", 'a') as file:
-            file.write('\n')
-            file.write(id)
-            file.write(';')
-            file.write(user)
-            file.write(';')
-            file.write(angle)
-            file.write(';')
-            file.write(score)
-
     def commandeOuvreF02(self):
         self.destroy()  # ferme F01
         # ouvre F02
