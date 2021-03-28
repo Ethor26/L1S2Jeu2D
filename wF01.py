@@ -35,7 +35,7 @@ class F01(Tk):
             "Enregistrer le ,nom"
             Name = EntreeNom.get()
             print("Nom :", Name)
-            msg = "..."
+            msg = "En Avant !"
             if Name != "": # Si la fenêtre d'entrée du nom n'est pas vide :
                 # Ajout du nom dans la base
                 ajout_nom_F000(Name) # A configurer pour pas à faire à chaque fois
@@ -97,7 +97,8 @@ class F01(Tk):
         # Placement du message
             # ELEMENT GRAPHIQUE : <Label> = Message
         self.LblMessage = Label(self, textvariable=self.messageUtilisateurNom)
-        self.LblMessage.place(x=150, y=250)
+        self.LblMessage.place(x=100, y=150)
+
         # ...........< B U T T O N S >........................
         # Boutons "configuration commande" et "valider" en haut
 
