@@ -13,6 +13,7 @@ from math import *
 from PIL import Image
 from PIL.ImageTk import PhotoImage
 import wF01
+import wF04
 
 
 class F02(Tk):
@@ -179,6 +180,10 @@ class F02(Tk):
         self.quitButton = Button(self, text="Quitter", command=self.destroy)
         self.quitButton.place(x=300, y=700)
 
+        # ELEMENT GRAPHIQUE : <Button> = [Bouton B0?] : Fin de la partie et ouvre F04, temporaire ?
+        self.B07_retourMenu = Button(self, text="Fin de partie", command=self.commandeOuvreF04)
+        self.B07_retourMenu.place(x=400, y=700)
+
     # ==================================================
     # AUTRES FONCTIONS::::::::
 
@@ -310,7 +315,7 @@ class F02(Tk):
 
     # ========================
     # COMMANDE = ouvre F01,  (retour au menu)
-    # Auteur : Ethan SUISSA - En cours
+    # Auteur : Ethan SUISSA - En Cours
     def commandeOuvreF01(self):
         # Ferme la fenetre
         self.destroy()  # ferme F02
@@ -321,3 +326,18 @@ class F02(Tk):
         # ouvre F01
         app = wF01.F01()
         app.mainloop()
+
+    # ========================
+    # COMMANDE = ouvre F01,  (retour au menu)
+    # Auteur : Ethan SUISSA - En Cours
+    def commandeOuvreF04(self):
+        # Ferme la fenetre
+        self.destroy()  # ferme F02
+
+        # Enregistre l'état du jeux et le score dans le fichier scores.txt:
+        # >>>>>> ??A FAIRE
+
+        # ouvre F01
+        app = wF04.F04()
+        app.mainloop()
+
