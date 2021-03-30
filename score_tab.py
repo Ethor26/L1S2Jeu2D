@@ -87,7 +87,7 @@ def score_comparaison1():
     if temp_pers > best_score:
         best_score = temp_pers
     return best_score
-print(score_comparaison1())
+# print(score_comparaison1())
 
 # Versions Ethan
 

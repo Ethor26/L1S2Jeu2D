@@ -86,7 +86,7 @@ class F02(Tk):
         # =============================================================================
         # FONCTION de déplacement de la touche P. Auteur : Ethan SUISSA - Terminé
         def deplacement_P():
-            nbRebond = 0 # Initialisation du nombre de rebond sur les côtés à chaque mouvement
+            nbRebond = 0   # Initialisation du nombre de rebond sur les côtés à chaque mouvement
             self.Temps += 0.00015 # Augmentation d'une variable de temps pour calcul Position Y (de commande
             # programmable) et permet de définir la limite du mouvement.
             # Récupération des nouvelles position
@@ -328,7 +328,7 @@ class F02(Tk):
         app.mainloop()
 
     # ========================
-    # COMMANDE = ouvre F01,  (retour au menu)
+    # COMMANDE = ouvre F04,  Fenêtre de résultat de la partie
     # Auteur : Ethan SUISSA - En Cours
     def commandeOuvreF04(self):
         # Ferme la fenetre
