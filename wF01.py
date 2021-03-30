@@ -45,9 +45,7 @@ class F01(Tk):
                 Test = Button(self, text="Configuration Commandes", command=self.commandeOuvreF03)
                 Test.place(x=10, y=250) # Bouton pour tester le verrouillage
 
-                    # ELEMENT GRAPHIQUE : <Button> = [Bouton B02] : jouer
-                self.ouvreF02 = Button(self, text="jouer", command=self.commandeOuvreF02)
-                self.ouvreF02.place(x=10, y=600)
+                # Bouton "Jouer" à placer
             else:
                 msg = "Pas de nom, pas de jeu !"
             self.messageUtilisateurNom.set(msg)  # Pour mise à jour texte écran
@@ -109,7 +107,9 @@ class F01(Tk):
 
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B03] : ...??
         # ??? A FAIRE
-
+        # ELEMENT GRAPHIQUE : <Button> = [Bouton B02] : jouer
+        self.ouvreF02 = Button(self, text="jouer", command=self.commandeOuvreF02)
+        self.ouvreF02.place(x=10, y=600)
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B04] : ...??
         # ??? A FAIRE
 

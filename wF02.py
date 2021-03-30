@@ -34,6 +34,7 @@ class F02(Tk):
         self.PosY = 400
         # Temps initial
         self.Temps = 0
+        self.TempsD = 0
         # 1ere position finale (confondue avec initiale)
         self.valY_Final = 0
         self.valX_Final = 0
@@ -55,13 +56,13 @@ class F02(Tk):
             self.touche = event.keysym  # Un événement (event) est la survenue d’une action (clavier, souris) dont votre
             # application a besoin d’être informée
 
-            dir = 10
+            dir = 1
 
             # Si touche ? => deplt a droite
             # A CODER !!!
             if self.touche == 'd':
                 print("Info:  touche d activée ***")
-                self.PosX = self.ValeurPosX(self.PosX, dir)
+                deplacement_D(dir)
             # Si touche ? => deplt a Gauche
             # A CODER !!!
             if self.touche == 'q':
@@ -112,6 +113,37 @@ class F02(Tk):
             if nbRebond > 0 or self.Temps > 0.06:  # 0.07 pour courbe complète
                 self.after_cancel(idAfter)
                 self.Temps = 0
+                nbRebond = 0
+
+        # =============================================================================
+        # FONCTION de déplacement de la touche P. Auteur : Ethan SUISSA - Terminé
+        def deplacement_D(dir):
+            nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
+            self.TempsD += 0.00015  # Augmentation d'une variable de temps pour calcul Position Y (de commande
+            # programmable) et permet de définir la limite du mouvement.
+            # Récupération des nouvelles position
+            self.PosX, self.siRebond = self.ValeurPosX(self.PosX, dir)
+
+            print("posY = ", self.PosY)  # pour controle
+            print("posX = ", self.PosX)  # pour controle
+            print("Pion = ", self.PersoImgVaisseau)  # pour controle
+            print("Temps = ", self.TempsD)  # pour controle
+
+            # Repositionnne le personnage
+            self.CanevasJeu.coords(self.ImgPerso, self.PosX, self.PosY)
+
+            # S'il y a un rebond sur un côté, augmente la variable du nombre de rebond
+            if self.siRebond:
+                nbRebond = nbRebond + 1
+                print("Nombre de rebond = ", nbRebond)
+
+            # On déclenche le déplacement toute les 1 ms, réactualisation de la fenêtre
+            idAfter = self.after(20, deplacement_D(dir))
+
+            # On arrête le déplacement s'il y a un rebond ou si le facteur temps est supérieur à 0.05
+            if nbRebond > 0 or self.TempsD > 0.0002:  # 0.07 pour courbe complète
+                self.after_cancel(idAfter)
+                self.TempsD = 0
                 nbRebond = 0
 
         # ==================================================
@@ -232,7 +264,7 @@ class F02(Tk):
         # Bloc 1 = quart haut-droite
         if 0 <= AngleEnDegree <= 90:
             print("ValPosXY :  Bloc 1 ")  # pour controle
-            Dx, Dy = self.CalcProg(AngleEnDegree, Temps) # Retourne les déplacement de x et y
+            Dx, Dy = self.CalcProg(AngleEnDegree, Temps)  # Retourne les déplacement de x et y
             self.valX_Final = valX_Initial + Dx
             self.valY_Final = valY_Initial - Dy # Déplacement dans le sens du repère de l'écran : vers la droite pour X
             # avec l'addition et vers le haut pour Y avec la soustraction
@@ -302,9 +334,17 @@ class F02(Tk):
 
     def ValeurPosX(self, valInit, VarX):
         valPosX = valInit + VarX
-        if valPosX > self.Largeur - self.Rayon or valPosX - self.Rayon < 0:
+        rebond = False
+        # Rebond droite
+        if valPosX > self.Largeur - self.Rayon:
             valPosX = valInit - self.Rayon
-        return valPosX
+            rebond = True
+        # Rebond Gauche
+        if self.valX_Final < self.Rayon:
+            print("ValPosXY (posX):  Sortie du cadre à gauche => Rebond ")
+            self.valX_Final = valInit + self.Rayon
+            rebond = True
+        return valPosX, rebond
 
     def ValeurPosY(self,valInit, VarX):
         valPosY = valInit - VarX
