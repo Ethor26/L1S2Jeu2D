@@ -141,7 +141,7 @@ class F02(Tk):
             idAfter = self.after(20, deplacement_D(dir))
 
             # On arrête le déplacement s'il y a un rebond ou si le facteur temps est supérieur à 0.05
-            if nbRebond > 0 or self.TempsD > 0.0002:  # 0.07 pour courbe complète
+            if nbRebond > 0 or self.TempsD > 0.002:  # 0.07 pour courbe complète
                 self.after_cancel(idAfter)
                 self.TempsD = 0
                 nbRebond = 0
@@ -333,18 +333,18 @@ class F02(Tk):
     # l'angle paramétré. Auteur : Lilandra ALBERT-LAVAUX - En cours
 
     def ValeurPosX(self, valInit, VarX):
-        valPosX = valInit + VarX
+        self.valX_Final = valInit + VarX
         rebond = False
         # Rebond droite
-        if valPosX > self.Largeur - self.Rayon:
-            valPosX = valInit - self.Rayon
+        if self.valX_Final > self.Largeur - self.Rayon:
+            self.valX_Final = valInit - self.Rayon
             rebond = True
         # Rebond Gauche
         if self.valX_Final < self.Rayon:
             print("ValPosXY (posX):  Sortie du cadre à gauche => Rebond ")
             self.valX_Final = valInit + self.Rayon
             rebond = True
-        return valPosX, rebond
+        return self.valX_Final, rebond
 
     def ValeurPosY(self,valInit, VarX):
         valPosY = valInit - VarX
