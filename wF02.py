@@ -16,6 +16,9 @@ import wF01
 import wF04
 
 
+# from score_tab import open_score_file2
+
+
 class F02(Tk):
 
     # Constructeur de l'objet F02 : ne pas supprimer !!!
@@ -27,19 +30,27 @@ class F02(Tk):
         # Une méthode séparée pour construire le contenu de la fenêtre
         self.Largeur = 1200  # Largeur de la zone de jeu
         self.Hauteur = 680  # Hauteur de la zone de jeu
-        self.Rayon = 10  # rayon de l'objet Personnage
+
+        # Dimension de l'image du vaisseaux
+        self.Perso_Hauteur = 45
+        self.Perso_Largeur = 30
 
         # position initiale du perso, respectivement X et Y
         self.PosX = 600
         self.PosY = 400
-        # Temps initial
+
+        # Temps initiaux
         self.Temps = 0
-        self.TempsD = 0
+        self.cpTemps = 0
+        self.LimiteTpsDepl = 5
+
         # 1ere position finale (confondue avec initiale)
         self.valY_Final = 0
         self.valX_Final = 0
-        # Pas de rebond de départ
-        # self.rebond = False
+
+        # Nombre de Pas de déplacement
+        self.NbPas = 20
+
         # Creation des elements graphiques
         self.createWidgets()
 
@@ -47,8 +58,8 @@ class F02(Tk):
     def createWidgets(self):
         self.grid()  # Choix du mode d'arrangement
 
-    # ==================================================
-    # FONCTIONS WIDGET ::::::::
+        # ==================================================
+        # FONCTIONS WIDGET ::::::::
 
         # =============================================================================
         # FONCTION qui crée un déplacment lorsque l'on actionne une touche
@@ -56,28 +67,28 @@ class F02(Tk):
             self.touche = event.keysym  # Un événement (event) est la survenue d’une action (clavier, souris) dont votre
             # application a besoin d’être informée
 
-            dir = 1
-
-            # Si touche ? => deplt a droite
-            # A CODER !!!
+            # Si touche d => deplt a droite
             if self.touche == 'd':
                 print("Info:  touche d activée ***")
-                deplacement_D(dir)
+                deplacement_D()
+
             # Si touche ? => deplt a Gauche
             # A CODER !!!
             if self.touche == 'q':
                 print("Info:  touche q activée ***")
-                self.PosX = self.ValeurPosX(self.PosX, -dir)
+                self.PosX = self.ValeurPosX(self.PosX, -self.NbPas)
+
             # Si touche ? => deplt a bas
             # A CODER !!!
             if self.touche == 's':
                 print("Info:  touche s activée ***")
-                self.PosY = self.ValeurPosY(self.PosY, -dir)
+                self.PosY = self.ValeurPosY(self.PosY, -self.NbPas)
+
             # Si touche ? => deplt a Haut
             # A CODER !!!
             if self.touche == 'z':
                 print("Info:  touche z activée ***")
-                self.PosY = self.ValeurPosY(self.PosY, dir)
+                self.PosY = self.ValeurPosY(self.PosY, self.NbPas)
             # Si touche p => déplacement selon equation de mouvement
 
             if self.touche == 'p':
@@ -87,11 +98,11 @@ class F02(Tk):
         # =============================================================================
         # FONCTION de déplacement de la touche P. Auteur : Ethan SUISSA - Terminé
         def deplacement_P():
-            nbRebond = 0   # Initialisation du nombre de rebond sur les côtés à chaque mouvement
-            self.Temps += 0.00015 # Augmentation d'une variable de temps pour calcul Position Y (de commande
+            nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
+            self.Temps += 0.00015  # Augmentation d'une variable de temps pour calcul Position Y (de commande
             # programmable) et permet de définir la limite du mouvement.
             # Récupération des nouvelles position
-            self.PosX, self.PosY, self.siRebond, Temps = self.ValeurPosXY(self.PosX, self.PosY, self.Temps)
+            self.PosX, self.PosY, self.siRebond, Temps = self.ValeurPosXY_P(self.PosX, self.PosY, self.Temps)
 
             print("posY = ", self.PosY)  # pour controle
             print("posX = ", self.PosX)  # pour controle
@@ -116,18 +127,15 @@ class F02(Tk):
                 nbRebond = 0
 
         # =============================================================================
-        # FONCTION de déplacement de la touche P. Auteur : Ethan SUISSA - Terminé
-        def deplacement_D(dir):
+        # FONCTION de déplacement de la touche D. Auteur : Ethan SUISSA - Terminé
+        def deplacement_D():  # ATTENTION : Pas de paramètres !
             nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
-            self.TempsD += 0.00015  # Augmentation d'une variable de temps pour calcul Position Y (de commande
-            # programmable) et permet de définir la limite du mouvement.
-            # Récupération des nouvelles position
-            self.PosX, self.siRebond = self.ValeurPosX(self.PosX, dir)
 
-            print("posY = ", self.PosY)  # pour controle
-            print("posX = ", self.PosX)  # pour controle
-            print("Pion = ", self.PersoImgVaisseau)  # pour controle
-            print("Temps = ", self.TempsD)  # pour controle
+            # Récupération de la nouvelle position de X et renvoie siRebond=true si on touche le bord
+            self.PosX, self.siRebond = self.ValeurPosX(self.PosX, self.NbPas)
+
+            print("Deplacement Droite : posY = ", self.PosY)  # pour controle
+            print("Deplacement Droite : posX = ", self.PosX)  # pour controle
 
             # Repositionnne le personnage
             self.CanevasJeu.coords(self.ImgPerso, self.PosX, self.PosY)
@@ -137,14 +145,15 @@ class F02(Tk):
                 nbRebond = nbRebond + 1
                 print("Nombre de rebond = ", nbRebond)
 
-            # On déclenche le déplacement toute les 1 ms, réactualisation de la fenêtre
-            idAfter = self.after(20, deplacement_D(dir))
+            # On déclenche le déplacement toute les 20 ms, réactualisation de la fenêtre
+            idAfter = self.after(20, deplacement_D)
 
-            # On arrête le déplacement s'il y a un rebond ou si le facteur temps est supérieur à 0.05
-            if nbRebond > 0 or self.TempsD > 0.002:  # 0.07 pour courbe complète
+            # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
+            self.cpTemps += 1
+
+            if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
                 self.after_cancel(idAfter)
-                self.TempsD = 0
-                nbRebond = 0
+                self.cpTemps = 0
 
         # ==================================================
         # ELEMENTS GRAPHIQUES::::::::
@@ -161,7 +170,7 @@ class F02(Tk):
         # importer une partie du chemin (celle où est wF02) avec la fonction os.getcwd().
         self.imgfondEcran = PhotoImage(self.imageFond)  # importe la photo du fond dans le fichier
         self.objImgFondEcran = self.CanevasJeu.create_image(self.Largeur // 2, self.Hauteur // 2,
-                                                            image=self.imgfondEcran) # Implémentation de l'image dans le
+                                                            image=self.imgfondEcran)  # Implémentation de l'image dans le
         # Canevas du jeu
 
         self.CanevasJeu.focus_set()  # crée un cadre autour du canvas et permet l'activation de bind
@@ -175,7 +184,7 @@ class F02(Tk):
         self.imageV1 = Image.open(os.getcwd() + "/IMAGES/ImagesF02/image-DestoyerImperial-3 Bas.png")
         self.imageV1 = self.imageV1.resize((150, 180), Image.ANTIALIAS)  # resize permet de mettre les photos au bon
         # format pour les inclure dans le canevas. Antialias = inconnu, permet à resize de fonctionner
-        self.imgV1 = PhotoImage(self.imageV1) # Même principe que fond d'écran
+        self.imgV1 = PhotoImage(self.imageV1)  # Même principe que fond d'écran
         self.objImgV1 = self.CanevasJeu.create_image(self.Largeur // 2, self.Hauteur, image=self.imgV1)
 
         # Vaisseau pointe Haut : Même principe que pointe bas, valable pour toutes les pointes de vaisseaux
@@ -198,9 +207,9 @@ class F02(Tk):
 
         # Image Personnage : faucon millenium
         self.PersoImgVaisseau = Image.open(os.getcwd() + "/IMAGES/ImagesF02/faucon millenium-3.png")
-        self.PersoImgVaisseau = self.PersoImgVaisseau.resize((30, 45), Image.ANTIALIAS)
+        self.PersoImgVaisseau = self.PersoImgVaisseau.resize((self.Perso_Largeur, self.Perso_Hauteur), Image.ANTIALIAS)
         self.logo = PhotoImage(self.PersoImgVaisseau)
-        self.ImgPerso = self.CanevasJeu.create_image(self.PosX, self.PosY, image=self.logo) # Placement à PosX et PosY
+        self.ImgPerso = self.CanevasJeu.create_image(self.PosX, self.PosY, image=self.logo)  # Placement à PosX et PosY
         # pour le déplacement de l'image comme personnage.
 
         # ...........< B U T T O N S >........................
@@ -216,17 +225,15 @@ class F02(Tk):
         self.B07_retourMenu = Button(self, text="Fin de partie", command=self.commandeOuvreF04)
         self.B07_retourMenu.place(x=400, y=700)
 
-    # ==================================================
-    # AUTRES FONCTIONS::::::::
-
     # ========================
-    # FONCTION Récupérant l'angle du fichier score.txt et le retournant en radian. Auteur : Ethan SUISSA - Terminé
+    # FONCTION OUTILS : Récupérant l'angle du fichier score.txt et le retournant en radian. Auteur : Ethan SUISSA - Terminé
     def ValeurAngleParametreEnRadian(self):
         # Etape 1 : Récupération angle du fichier Score.txt.
-        # A FAIRE QUAND BASE PRETE
+        # tab, nbLignes = open_score_file2()
+        # VAngleEnDegree = tab[nbLignes-1, 3]  : bientôt
+        AngleEnDegree = 269  # Temporaire pour utiliser la commande programmable
 
         # Etape 2 : Conversion et envoi pour calcul commande programmable
-        AngleEnDegree = 210  # Temporaire pour utiliser la commande programmable
         # Angles à tester : 26, 45, 60, 120, 210, 300, extremes (89, 179, 269, 359)
         print("Angle en degree = ", AngleEnDegree)  # Pour controle
         angleRadian = math.radians(AngleEnDegree)  # Conversion en radians pour calculs de com programmable
@@ -253,29 +260,30 @@ class F02(Tk):
         return dx, dy
 
     # ========================
-    # FONCTION OUTIL : Renvoie les valeurs de X et Y selon l'équation de mouvement et selon l'angle paramétré
+    # FONCTION OUTIL : Utilisé pour la touche programmable exclusivement.
+    # Renvoie les valeurs de X et Y selon l'équation de mouvement et selon l'angle paramétré
     # Auteur : Ethan SUISSA - Terminé
-    def ValeurPosXY(self, valX_Initial, valY_Initial, Temps):
-        print("ValPosXY :  valXInitial =", valX_Initial) # Pour controle
-        print("ValPosXY :  valYInitial =", valY_Initial) # Pour controle
-        rebond = False # On considère qu'il n'y a pas de rebond au début.
-        AngleEnDegree = degrees(self.ValeurAngleParametreEnRadian()) # Convertie l'angle retourné en radian en degrés
-    # Ajustement de l'angle pour le quart de repère dans lequel on se trouve :
+    def ValeurPosXY_P(self, valX_Initial, valY_Initial, Temps):
+        print("ValPosXY :  valXInitial =", valX_Initial)  # Pour controle
+        print("ValPosXY :  valYInitial =", valY_Initial)  # Pour controle
+        AngleEnDegree = degrees(self.ValeurAngleParametreEnRadian())  # Convertie l'angle retourné en radian en degrés
+
+        # Ajustement de l'angle pour le quart de repère dans lequel on se trouve :
         # Bloc 1 = quart haut-droite
         if 0 <= AngleEnDegree <= 90:
             print("ValPosXY :  Bloc 1 ")  # pour controle
             Dx, Dy = self.CalcProg(AngleEnDegree, Temps)  # Retourne les déplacement de x et y
             self.valX_Final = valX_Initial + Dx
-            self.valY_Final = valY_Initial - Dy # Déplacement dans le sens du repère de l'écran : vers la droite pour X
+            self.valY_Final = valY_Initial - Dy  # Déplacement dans le sens du repère de l'écran : vers la droite pour X
             # avec l'addition et vers le haut pour Y avec la soustraction
 
         # Bloc 2 = quart haut-gauche
         if 90 < AngleEnDegree <= 180:
             print("ValPosX :  Bloc 2 ")  # pour controle
-            Angle_Deduit_Degree = AngleEnDegree - 90 # Ajustement de l'angle pour celui des calculs de la trajectoire
+            Angle_Deduit_Degree = AngleEnDegree - 90  # Ajustement de l'angle pour celui des calculs de la trajectoire
             # dans le bloc 2.
             Dx, Dy = self.CalcProg(Angle_Deduit_Degree, Temps)
-            self.valX_Final = valX_Initial - Dy # Soustraction au lieu d'addition pour X car déplacement horizontal vers
+            self.valX_Final = valX_Initial - Dy  # Soustraction au lieu d'addition pour X car déplacement horizontal vers
             # la gauche, inversion X et Y pour changement de repère.
             self.valY_Final = valY_Initial - Dx
 
@@ -284,7 +292,7 @@ class F02(Tk):
             print("ValPosX :  Bloc 3 ")  # pour controle
             Angle_Deduit_Degree = AngleEnDegree - 180
             Dx, Dy = self.CalcProg(Angle_Deduit_Degree, Temps)
-            self.valX_Final = valX_Initial - Dx # Addition au lieu de soustraction pour X car déplacement horizontal
+            self.valX_Final = valX_Initial - Dx  # Addition au lieu de soustraction pour X car déplacement horizontal
             # vers la gauche.
             self.valY_Final = valY_Initial + Dy  # Addition au lieu de soustraction pour Y car déplacement vertical
             # vers le bas.
@@ -296,62 +304,68 @@ class F02(Tk):
             Angle_Deduit_Degree = AngleEnDegree - 270
             Dx, Dy = self.CalcProg(Angle_Deduit_Degree, Temps)
             self.valX_Final = valX_Initial + Dy
-            self.valY_Final = valY_Initial + Dx # Addition au lieu de soustraction pour Y car déplacement vertical vers
+            self.valY_Final = valY_Initial + Dx  # Addition au lieu de soustraction pour Y car déplacement vertical vers
             # le bas inversion X et Y pour changement de repère.
 
         print("ValPosXY : ValXFinal avant correction = ", self.valX_Final)
         print("ValPosXY : ValYFinal avant correction = ", self.valY_Final)
 
         # Correction de la position X si on sort du cadre
-            # Rebond à droite
-        if self.valX_Final > self.Largeur - self.Rayon:
+        # Rebond à gauche ou à droite
+        rebondL = self.RebondLargeur(valX_Initial)
+        rebondH = self.RebondHauteur(valY_Initial)
+        if rebondL or rebondH:
+            rebond = True
+        else:
+            rebond = False
+        return self.valX_Final, self.valY_Final, rebond, Temps
+
+    # ========================
+    # FONCTION OUTIL : Vérifient si il y a eu un rebond, si oui, envoient une confirmation avec un booléen. La première
+    # gère ceux à gauche ou à droite, et la 2e ceux en haut ou en bas. Auteur : Ethan SUISSA - Terminé
+
+    def RebondLargeur(self, valX_Initial):
+        rebond = False  # On considère qu'il n'y a pas de rebond au début.
+        # Rebond à droite
+        if self.valX_Final > self.Largeur - self.Perso_Largeur + 20:  # -20 ou -20 Pour précision du rebond
             print("ValPosXY (posX):  Sortie du cadre à droite => Rebond ")
-            self.valX_Final = valX_Initial - self.Rayon # Réajustement de la position X à celle juste avant
+            self.valX_Final = valX_Initial - self.Perso_Largeur + 20  # Réajustement de la position X à celle juste avant
             rebond = True  # Marque le rebond pour ne pas rebondir indéfiniment (voir fonction "deplacement_P).
 
             # Rebond à gauche
-        if self.valX_Final < self.Rayon:
+        if self.valX_Final < self.Perso_Largeur - 20:
             print("ValPosXY (posX):  Sortie du cadre à gauche => Rebond ")
-            self.valX_Final = valX_Initial + self.Rayon
+            self.valX_Final = valX_Initial + self.Perso_Largeur - 20
             rebond = True
+        return rebond
 
-            # Rebond en bas
-        if self.valY_Final < self.Rayon:
+    def RebondHauteur(self, valY_Initial):
+        rebond = False  # On considère qu'il n'y a pas de rebond au début.
+        # Rebond en bas
+        if self.valY_Final < self.Perso_Hauteur - 30:  # -30 ou +30 Pour précision du rebond
             print("ValPosXY (posY):  Sortie en bas ==> Rebond")
-            self.valY_Final = valY_Initial + self.Rayon
+            self.valY_Final = valY_Initial + self.Perso_Hauteur - 30
             rebond = True
-
             # Rebond en haut
-        if self.valY_Final > self.Hauteur - self.Rayon:
+        if self.valY_Final > self.Hauteur - self.Perso_Hauteur + 30:
             print("ValPosXY (posY):  Sortie en haut ==> Rebond")
-            self.valY_Final = valY_Initial - self.Rayon
+            self.valY_Final = valY_Initial - self.Perso_Hauteur + 30
             rebond = True
+        return rebond
 
-        return self.valX_Final, self.valY_Final, rebond, Temps
     # ========================
-    # FONCTION OUTIL : Renvoie les valeurs de X et Y (pour commandes figées )selon l'équation de mouvement et selon
-    # l'angle paramétré. Auteur : Lilandra ALBERT-LAVAUX - En cours
+    # FONCTION OUTIL : Renvoie les valeurs de X et Y pour commandes figées. Auteur : Lilandra ALBERT-LAVAUX - En cours
 
     def ValeurPosX(self, valInit, VarX):
         self.valX_Final = valInit + VarX
-        rebond = False
-        # Rebond droite
-        if self.valX_Final > self.Largeur - self.Rayon:
-            self.valX_Final = valInit - self.Rayon
-            rebond = True
-        # Rebond Gauche
-        if self.valX_Final < self.Rayon:
-            print("ValPosXY (posX):  Sortie du cadre à gauche => Rebond ")
-            self.valX_Final = valInit + self.Rayon
-            rebond = True
+        rebond = self.RebondLargeur(valInit)
         return self.valX_Final, rebond
 
-    def ValeurPosY(self,valInit, VarX):
+    def ValeurPosY(self, valInit, VarX):
         valPosY = valInit - VarX
-        if valPosY < self.Rayon:
-            valPosY = valInit + self.Rayon
+        if valPosY < self.Perso_Hauteur:
+            valPosY = valInit + self.Perso_Hauteur
         return valPosY
-
 
     # ========================
     # COMMANDE = ouvre F01,  (retour au menu)
@@ -380,4 +394,3 @@ class F02(Tk):
         # ouvre F01
         app = wF04.F04()
         app.mainloop()
-
