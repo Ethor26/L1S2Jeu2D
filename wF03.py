@@ -7,7 +7,7 @@
 # ======================================================
 from tkinter import *
 import wF01
-from score_tab import ajout_angle_F02
+from Tools import *
 
 
 class F03(Tk):
@@ -32,12 +32,7 @@ class F03(Tk):
             print("Angle en degree = ", AngleEnDegree)  # Pour controle
 
             # Etape 2 : Envoi de l'angle dans score.txt
-            # A FAIRE QUAND BASE PRETE
             ajout_angle_F02(AngleEnDegree)
-            AddAngleInBase(AngleEnDegree)
-
-        def AddAngleInBase(AngleEnDegree):
-            print("Au boulot")
 
         def TrtAngle(TextAngleEnDegree):
             # Récupération angle de la zone de Saisie ou pose de 0
@@ -55,7 +50,6 @@ class F03(Tk):
                 AngleEnDegree += 360  # Angle ne change pas mais on le replace sur l'intervalle [0; 360]
             self.messageUtilisateurAngle.set(msg)  # Pour mise à jour texte écran
             print(str(self.messageUtilisateurAngle.get()))  # Pour Controle
-
             return AngleEnDegree
 
         # ==================================================

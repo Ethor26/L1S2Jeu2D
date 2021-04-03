@@ -14,9 +14,7 @@ from PIL import Image
 from PIL.ImageTk import PhotoImage
 import wF01
 import wF04
-
-
-# from score_tab import open_score_file2
+from Tools import *
 
 
 class F02(Tk):
@@ -44,10 +42,14 @@ class F02(Tk):
         self.cpTemps = 0
         self.LimiteTpsDepl = 5
 
+        # Score Initial
+        self.Score = 0
+
         # 1ere position finale (confondue avec initiale)
         self.valY_Final = 0
         self.valX_Final = 0
 
+        self.Score = 1
         # Nombre de Pas de déplacement
         self.NbPas = 20
 
@@ -222,22 +224,30 @@ class F02(Tk):
         self.quitButton.place(x=300, y=700)
 
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B0?] : Fin de la partie et ouvre F04, temporaire ?
-        self.B07_retourMenu = Button(self, text="Fin de partie", command=self.commandeOuvreF04)
+        self.B07_retourMenu = Button(self, text="Fin de partie", command=self.Fin_Partie)
         self.B07_retourMenu.place(x=400, y=700)
+
 
     # ========================
     # FONCTION OUTILS : Récupérant l'angle du fichier score.txt et le retournant en radian. Auteur : Ethan SUISSA - Terminé
     def ValeurAngleParametreEnRadian(self):
         # Etape 1 : Récupération angle du fichier Score.txt.
-        # tab, nbLignes = open_score_file2()
-        # VAngleEnDegree = tab[nbLignes-1, 3]  : bientôt
-        AngleEnDegree = 269  # Temporaire pour utiliser la commande programmable
+        tab, nbLignes = open_score_file2()
+        VAngleEnDegree = int(tab[nbLignes-1][2])
 
         # Etape 2 : Conversion et envoi pour calcul commande programmable
         # Angles à tester : 26, 45, 60, 120, 210, 300, extremes (89, 179, 269, 359)
-        print("Angle en degree = ", AngleEnDegree)  # Pour controle
-        angleRadian = math.radians(AngleEnDegree)  # Conversion en radians pour calculs de com programmable
-        return angleRadian
+            # Angle Temporaire
+        # AngleEnDegree = 269
+        # print("Angle en degree = ", AngleEnDegree)  # Pour controle
+        # angleRadian = math.radians(AngleEnDegree)  # Conversion en radians pour calculs de com programmable
+        # return angleRadian
+            # Vrai Angle
+        print("Angle en degree = ", VAngleEnDegree)
+        VangleRadian = math.radians(VAngleEnDegree)
+
+
+        return VangleRadian
 
     # ========================
     # FONCTION OUTIL : Utilise l'équation de mouvement pour calculer la postion finale en fonction de l'angle
@@ -394,3 +404,11 @@ class F02(Tk):
         # ouvre F01
         app = wF04.F04()
         app.mainloop()
+
+# ========================
+    # FONCTION : Fonction de fin de partie, appelée si partie finie pour récupérer le meilleur score et ouvrir F04
+    def Fin_Partie(self):
+        self.Score = 1  # A récupérer
+        BestScore = score_comparaison2(Score)
+        ajout_score_F0(BestScore)  # A écrire sur ligne précise
+        self.commandeOuvreF04()

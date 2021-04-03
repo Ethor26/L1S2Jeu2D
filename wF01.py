@@ -8,7 +8,7 @@
 # ======================================================
 from tkinter import *
 
-from score_tab import ajout_nom_F000
+from Tools import *
 from wF02 import F02
 from wF03 import F03
 
@@ -37,13 +37,25 @@ class F01(Tk):
             print("Nom :", Name)
             msg = "En Avant !"
             if Name != "": # Si la fenêtre d'entrée du nom n'est pas vide :
-                # Ajout du nom dans la base
-                ajout_nom_F000(Name) # A configurer pour pas à faire à chaque fois
+                # On vérifie si le joueur existe dans la base de donnée
+                tab, NbLignes = open_score_file2()
+                JoueurExist = False
+                for i in range(NbLignes-1):
+                    if tab[i][1] == Name:
+                        JoueurExist = True
+                        print("A coder")
+
+                # Si le joueur n'existe pas, on initialise son profil
+                if not JoueurExist:
+                    # Ajout du nom dans la base
+                    ajout_nom_F000(Name)   # A configurer pour pas à faire à chaque fois
+                    ajout_angle_F02(0)
+                    ajout_score_F0(0)    # Angle et meilleur score sont à 0 car nouveau profil
 
                 # Déverouillage des boutons
                     # ELEMENT GRAPHIQUE : <Button> = [Bouton B0?] : Configuration commande
-                Test = Button(self, text="Configuration Commandes", command=self.commandeOuvreF03)
-                Test.place(x=10, y=250) # Bouton pour tester le verrouillage
+                BoutConfCom = Button(self, text="Configuration Commandes", command=self.commandeOuvreF03)
+                BoutConfCom.place(x=10, y=250) # Bouton pour tester le verrouillage
 
                 # Bouton "Jouer" à placer
             else:

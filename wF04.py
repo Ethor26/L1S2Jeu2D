@@ -8,6 +8,8 @@
 from tkinter import *
 
 import wF01
+from Tools import *
+# from wF02 import F02
 
 
 class F04(Tk):
@@ -25,6 +27,7 @@ class F04(Tk):
 
     # ==================================================
     # FONCTIONS WIDGETS::::::::
+        self.VictoireJeu()
 
     # ==================================================
     # ELEMENTS GRAPHIQUES::::::::
@@ -53,7 +56,15 @@ class F04(Tk):
 
     # COMMANDE = Rejouer
     # >>>>> ??? 1 Faire !!!!
-
+    # ===============================
+    # FONCTIONS statuant si le meilleur score est dépassé (en cours).
+    def VictoireJeu(self):
+        Score = 1  # A récupérer en évitant circular import, ou utiliser BDD
+        tab, nbLignes = open_score_file2()
+        if Score > tab[nbLignes - 1][3]:
+            print("Meilleur score dépassé")
+        else:
+            print("Meilleur score non atteint")
     # COMMANDE = ouvre F01,  (retour au menu)
     def commandeOuvreF01(self):
         # Ferme la fenetre
