@@ -5,7 +5,8 @@
 # Date : 4 mai 2021 (?)
 # Fichier outils
 # ======================================================
-from math import *
+# from math import *
+
 
 # ========================================================================================
 # FONCTION OUTIL: fonction COMPLEMENTAIRE aux précédentes qui retourner la clé d'un dictionnaire avec en entrée
@@ -16,12 +17,11 @@ def find_key(Dict, Val):
             return key
 
 
-
 # ===================================================================================
 # FONCTION OUTIL: Renvoie la ligne choisie du fichier indiqué dans une chaine de caractère (équivalent de read_file_line
 # avec le chemin d'accès en entrée) Auteur : Ethan SUISSA - Terminé
 # Sortie : Chaine de caractère qui contient la ligne récupérée
-#-----------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------
 def lireLaLignechoisie(chemin_acces, noLine):  # Entrée :  Chemin_acces = chemin d'acces du fichier, # noline = Numero
     # de la ligne
     line = ""
@@ -39,11 +39,13 @@ def lireLaLignechoisie(chemin_acces, noLine):  # Entrée :  Chemin_acces = chemi
         print("Chemin ", chemin_acces, " n'existe pas")  # pour controle
     return line
 
+
 # =============================================================================
 # FONCTION OUTIL : Fermer un fichier
 
 def closeFile(f):
     f.close()
+
 
 # =============================================================================
 # FONCTION OUTIL : Ecriture dans la base de donnée. Auteur : Jean-Alexis TADDEI- en cours
@@ -75,13 +77,14 @@ def ajout_nom_F000(name):
 def ajout_angle_F02(angle):
     with open("scores.txt", "a") as file:
         ang = str(angle)
-        file.write(ang+";")
+        file.write(ang + ";")
 
 
 def ajout_score_F0(score):  # fenetre de jeu
     with open("scores.txt", "a") as f:
         sco = str(score)
         f.write(sco)
+
 
 # =============================================================================
 # FONCTION OUTIL : Lecture de la base de donnée. Auteur : Jean-Alexis TADDEI- en cours
@@ -95,6 +98,7 @@ def open_score_file2():
             spell = score[i]
             spel = spell.split(";")
             tab.append(spel)
+        filin.close()
     print(tab)
     return tab, nb_line
 
@@ -107,13 +111,53 @@ def score_comparaison2(Score):
     # on regarde dans le txt quel est le meilleur score on doit utiliser la fonction open_score_file afin d'utiliser
     # le tableau avec le score
     tab, nb_ligne = open_score_file2()
-    best_score = int(tab[nb_ligne-1][3])
+    best_score = int(tab[nb_ligne - 1][3])
     if Score >= best_score:
         best_score = Score
     return best_score
 
-Score = 1
-print(score_comparaison2(Score))
+
+#Score = 1
+# print(score_comparaison2(Score))
 
 
+# =============================================================================
+# FONCTION OUTIL : Modifier Ligne Auteur : Ethan SUISSA- en cours
+def modifierLigne(cheminAccesFichier, pId, pNom, pAngle, pScore):
+    global line
+    IdRecherche = pId + ";"
 
+    ligneAecrire = pId + ";" + pNom + ";" + pAngle + ";" + pScore
+    LigneTrouve = False
+    fichier = open(cheminAccesFichier, "a")  # ouverture du fichier à modifier
+    for line in fichier:  # boucle sur les lignes du fichier original
+        if IdRecherche in line:
+            print("modifierLigne : Id trouvé = ", pId)
+            print("Line = ", line)
+            line = ligneAecrire
+            LigneTrouve = True
+
+    if LigneTrouve == True:
+        fichier.write(line)
+    fichier.close()
+
+
+def ModifPrecisFichier(NumLigne, NumElt, Modif):
+
+    tab, nbLignes = open_score_file2()
+    tab[NumLigne][NumElt] = str(Modif)
+    StrLigne = ""
+    for i in range(3):
+        StrLigne += tab[NumLigne][i] + ";"
+    StrLigne += tab[NumLigne][3] #Ligne à appliquer à la place de l'ancienne
+    print("Nouvelle ligne", StrLigne)
+
+        # Test Code Récup
+    fichier = open("scores.txt")
+    for line in fichier:
+        if line.startswith('foo'):
+            newline = line.replace('foo', 'bar')
+            print(newline)
+            # how to write this newline back to the file
+
+ModifPrecisFichier(3, 2, 1)

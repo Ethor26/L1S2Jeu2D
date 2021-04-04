@@ -7,21 +7,22 @@
 # ======================================================
 import os
 from tkinter import *
-from wF01 import F01
 from PIL import Image
 from PIL.ImageTk import PhotoImage
+
+from wF01 import F01
+
 
 class F00(Tk):
     # Constructeur de l'objet F01 : ne pas supprimer, sert pour mettre les paramètres et fonctions propres à l'objet.
     def __init__(self, message):
         Tk.__init__(self)
-        # self.configure(background='black')  # backgroud fenêtre
+        print("*** F00 ***") # Pour controle en console
         self.title("F00")  # Le titre de la fenêtre
-
         self.minsize(1200, 700)  # taille de fenêtre
-
         self.Largeur = 1200  # Largeur de la zone de jeu
         self.Hauteur = 700  # Hauteur de la zone de jeu
+
         # Une méthode séparée pour construire le contenu de la fenêtre
         self.createWidgets()
 
@@ -30,8 +31,6 @@ class F00(Tk):
     # Méthode de création des widgets
     def createWidgets(self):
         self.grid()  # Choix du mode d'arrangement
-
-        # Création des widgets :
 
         # ...........< L A B E L S > .........................
         # ELEMENT GRAPHIQUE : <Label> = [Libellé T01] : ...??
@@ -86,8 +85,7 @@ class F00(Tk):
         self.quitButton.place(x=300, y=650)
 
     # ==================================================
-    # D'autres méthodes :
-    # ==================================================
+    # Autres Fonctions :
 
     # COMMANDE = ouvre F01,  et ferme F00 (retour au menu)
     def commandeOuvreF01(self):

@@ -5,15 +5,15 @@
 # Date : 4 mai 2021 (?)
 # Fichier F03 = "CONFIGURATION DES COMMANDES"
 # ======================================================
-from tkinter import *
+# from tkinter import *
 import wF01
 from Tools import *
 
 
-class F03(Tk):
+class F03(wF01.Tk):
     # Constructeur de l'objet F03 : ne pas supprimer !!!
     def __init__(self):  # NomJoueur a ajouter en paramètre ?
-        Tk.__init__(self)
+        wF01.Tk.__init__(self)
         self.title("F03")  # Le titre de la fenêtre
         self.minsize(1200, 700)  # taille de fenêtre
         # Une méthode séparée pour construire le contenu de la fenêtre
@@ -55,40 +55,39 @@ class F03(Tk):
         # ==================================================
         # ELEMENTS GRAPHIQUES ::::::::
         # Création des widgets (boutons, labels, etc...)
+
         # ...........< T E X T E S > .......................
         # ELEMENT GRAPHIQUE : <Texte> = [à definir] annoncant la saisie de l'angle # A REPOSITIONNER !!!
-        lblEntreAngle = Label(self, text="Angle=")  # Nom de la fenêtre en rouge à déclarer comme au dessus (avec le nom
+        lblEntreAngle = wF01.Label(self, text="Angle=")  # Nom de la fenêtre en rouge à déclarer comme au dessus (avec le nom
         # de fenêtre qu'on veut
         lblEntreAngle.place(x=150, y=200)
 
         # ...........< E N T R Y ' S > .......................
-        # ELEMENT GRAPHIQUE : <Entry> = [à definir] pour saisir l'angle # A REPOSITIONNER !!!
-
-        entreAngle = Entry(self)  # Ajouter self pour mettre dans constructeur ?
+        # ELEMENT GRAPHIQUE : <Entry> = [à definir] pour saisir l'angle
+        entreAngle = wF01.Entry(self)  # Ajouter self pour mettre dans constructeur ?
         entreAngle.place(x=200, y=200, width=70)  # A placer à coté du bouton "Appliquer", écart de 50 entre les x
-        # Variable(s)
-        self.messageUtilisateurAngle = StringVar()  # Variable de message d'erreur de saisie type stringvar() pour
-        # maj Label
-        self.messageUtilisateurAngle.set("...")
-        # pertinent.
+
+        # Variable(s) : Message Utlisateur
+        self.messageUtilisateurAngle = wF01.StringVar()  # Variable de message d'erreur de saisie type stringvar() pour
+        self.messageUtilisateurAngle.set("...") # maj Label pertinent
+
 
         # ...........< B U T T O N S >........................
 
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B09] : "Appliquer (Enregistrer) l'angle"
-        # >>>>> ??? a faire
-        self.AppliqAngle = Button(self, text="Appliquer l'angle", command=EnregistrAngle)
+        self.AppliqAngle = wF01.Button(self, text="Appliquer l'angle", command=EnregistrAngle)
         self.AppliqAngle.place(x=250, y=200)
 
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B07 bis] : Retour au menu (Retour F01)
-        self.B07_retourMenu = Button(self, text="Retour Menu", command=self.commandeOuvreF01)
+        self.B07_retourMenu = wF01.Button(self, text="Retour Menu", command=self.commandeOuvreF01)
         self.B07_retourMenu.place(x=10, y=600)
 
         # ELEMENT GRAPHIQUE : <Button> = [A preciser] : Un bouton pour quitter l'application
-        self.quitButton = Button(self, text="Quitter", command=self.destroy)
+        self.quitButton = wF01.Button(self, text="Quitter", command=self.destroy)
         self.quitButton.place(x=150, y=600)
 
         # ELEMENT GRAPHIQUE : <Label> = Message
-        self.LblMessage = Label(self, textvariable=self.messageUtilisateurAngle)
+        self.LblMessage = wF01.Label(self, textvariable=self.messageUtilisateurAngle)
         self.LblMessage.place(x=150, y=250)
 
     # ==================================================

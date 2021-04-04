@@ -9,6 +9,8 @@
 from tkinter import *
 
 from Tools import *
+#from wF02 import F02
+#from wF03 import F03
 from wF02 import F02
 from wF03 import F03
 
@@ -18,6 +20,7 @@ class F01(Tk):
     # Constructeur de l'objet F01 : ne pas supprimer !!!
     def __init__(self):
         Tk.__init__(self)
+        print("*** F01 ***") # Pour controle en console
         self.title("F01")  # Le titre de la fenêtre
         self.minsize(1200, 700)  # taille de fenêtre
         self.createWidgets() # Une méthode séparée pour construire le contenu de la fenêtre
@@ -26,10 +29,6 @@ class F01(Tk):
     def createWidgets(self):
         self.grid()  # Choix du mode d'arrangement
 
-    # ==================================================
-    # FONCTIONS WIDGET::::::::
-
-        # Création des widgets (boutons, labels, etc...)
         # FONCTION Récupération Nom et enregistrement dans score.txt
         def RecupNameDever():
             "Enregistrer le ,nom"
@@ -44,6 +43,7 @@ class F01(Tk):
                     if tab[i][1] == Name:
                         JoueurExist = True
                         print("A coder")
+                        break
 
                 # Si le joueur n'existe pas, on initialise son profil
                 if not JoueurExist:
@@ -91,21 +91,17 @@ class F01(Tk):
 
         # ...........< E N T R Y ' S > .......................
         # ELEMENT GRAPHIQUE : <Entry> = [Libellé E01] : Entrée du pseudo
-        # ??? A FAIRE
         # Création d'un widget Entry (champ de saisie)
         Nom = StringVar()
-
         EntreeNom = Entry(self, textvariable=Nom, bg='bisque', fg='red', font=("Arial", 20), )
         EntreeNom.focus_set()  # : nécessaire ?
-        # EntreeNom.pack(padx=50, pady=50) : Manque de précision
         EntreeNom.place(x=10, y=100)
 
-    # Message après vérifiaction de l'entrée du nom
+        # Message après vérifiaction de l'entrée du nom
         self.messageUtilisateurNom = StringVar()  # Variable de message d'erreur de saisie type stringvar() pour
-        # maj Label pertinent.
-        self.messageUtilisateurNom.set("...")
-        # Placement du message
-            # ELEMENT GRAPHIQUE : <Label> = Message
+        self.messageUtilisateurNom.set("...")  # maj Label pertinent.
+
+        # ELEMENT GRAPHIQUE : <Label> = Message
         self.LblMessage = Label(self, textvariable=self.messageUtilisateurNom)
         self.LblMessage.place(x=100, y=150)
 
@@ -114,14 +110,15 @@ class F01(Tk):
 
         # Création d'un widget Button (bouton Valider)
         self.BoutonValidNom = Button(self, text='Valider', font=("Arial", 15), command=RecupNameDever)
-        # self.BoutonValidNom.pack(padx=95, pady=95)
         self.BoutonValidNom.place(x=10, y=150)
 
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B03] : ...??
         # ??? A FAIRE
+
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B02] : jouer
         self.ouvreF02 = Button(self, text="jouer", command=self.commandeOuvreF02)
         self.ouvreF02.place(x=10, y=600)
+
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B04] : ...??
         # ??? A FAIRE
 
@@ -132,13 +129,11 @@ class F01(Tk):
         # ??? A FAIRE
 
         # ELEMENT GRAPHIQUE : <Button> = [A preciser] : Un bouton pour quitter l'application
-        self.quitButton = Button(self, text="Quitter",command=self.destroy)
+        self.quitButton = Button(self, text="Quitter", command=self.destroy)
         self.quitButton.place(x=150, y=600)
 
 
         # ...........< L I S T B O X ' S > .......................
-        # ELEMENT GRAPHIQUE : <ListBox> = [Listes L01] : Entrée du pseudo
-        # ??? A FAIRE
         # (Tkinter)LISTBOX : Liste des ID des joueurs de la base de données (déclaration & position)
         AffID = Listbox(self)
         AffID.place(x=400, y=26, width=100, height=500)

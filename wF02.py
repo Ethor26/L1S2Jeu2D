@@ -9,16 +9,14 @@ import math
 # import os
 import os
 from tkinter import *
-from math import *
 from PIL import Image
 from PIL.ImageTk import PhotoImage
-import wF01
-import wF04
 from Tools import *
+import wF01 # Modification de l'import pour éviter les "circular import", en général rajoute des "wF01.Tk"
+from wF04 import F04
 
 
 class F02(Tk):
-
     # Constructeur de l'objet F02 : ne pas supprimer !!!
     def __init__(self):
         Tk.__init__(self)
@@ -180,8 +178,8 @@ class F02(Tk):
         self.CanevasJeu.pack(padx=5, pady=5)  # Pour placer le Canevas
         self.CanevasJeu.tag_lower(self.objImgFondEcran)  # arriere plan, tag_raise pour premier plan
 
-        # ELEMENT GRAPHIQUE : <PointesVaisseaux> = G01 : Eléments graphiques du fond
 
+        # ELEMENT GRAPHIQUE : <PointesVaisseaux> = G01 : Eléments graphiques du fond
         # Vaisseau pointe Bas
         self.imageV1 = Image.open(os.getcwd() + "/IMAGES/ImagesF02/image-DestoyerImperial-3 Bas.png")
         self.imageV1 = self.imageV1.resize((150, 180), Image.ANTIALIAS)  # resize permet de mettre les photos au bon
@@ -396,19 +394,18 @@ class F02(Tk):
     # Auteur : Ethan SUISSA - En Cours
     def commandeOuvreF04(self):
         # Ferme la fenetre
-        self.destroy()  # ferme F02
+        F02.destroy(self)  # ferme F02, format donne même résultat
+        # ouvre F01
+        app = F04(self.Score)
+        app.mainloop()
 
         # Enregistre l'état du jeux et le score dans le fichier scores.txt:
         # >>>>>> ??A FAIRE
 
-        # ouvre F01
-        app = wF04.F04()
-        app.mainloop()
-
 # ========================
     # FONCTION : Fonction de fin de partie, appelée si partie finie pour récupérer le meilleur score et ouvrir F04
     def Fin_Partie(self):
-        self.Score = 1  # A récupérer
-        BestScore = score_comparaison2(Score)
+        self.Score = -1  # A récupérer
+        BestScore = score_comparaison2(self.Score)
         ajout_score_F0(BestScore)  # A écrire sur ligne précise
         self.commandeOuvreF04()
