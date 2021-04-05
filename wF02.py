@@ -5,7 +5,7 @@
 # Date : 4 mai 2021 (?)
 # Fichier F02 = "JEUX EN ACTION"
 # ======================================================
-import math
+from math import *
 # import os
 import os
 from tkinter import *
@@ -18,10 +18,12 @@ from wF04 import F04
 
 class F02(Tk):
     # Constructeur de l'objet F02 : ne pas supprimer !!!
-    def __init__(self):
+    def __init__(self, IDJoueur):
         Tk.__init__(self)
         self.title("F02")  # Le titre de la fenêtre
         self.minsize(1200, 700)  # taille de fenêtre
+
+        self.IdJoueur = IDJoueur
 
         # Une méthode séparée pour construire le contenu de la fenêtre
         self.Largeur = 1200  # Largeur de la zone de jeu
@@ -242,7 +244,7 @@ class F02(Tk):
         # return angleRadian
             # Vrai Angle
         print("Angle en degree = ", VAngleEnDegree)
-        VangleRadian = math.radians(VAngleEnDegree)
+        VangleRadian = radians(VAngleEnDegree)
 
 
         return VangleRadian
@@ -253,7 +255,8 @@ class F02(Tk):
     def CalcProg(self, AngleDeduitDegree, Temps):
         v0 = 0.7  # Choix de vitesse intiale : modélise celle avec laquelle on lance un objet.
         g = 9.81  # Constante de gravitation influencant la chute.
-        Angle_Deduit_Radian = math.radians(AngleDeduitDegree)  # convertion en Radian de l'angle deduit
+        Angle_Deduit_Radian = radians(AngleDeduitDegree)  # convertion en Radian de l'angle deduit, utiliser
+        # math.radians si "import math"
         dx = v0 * cos(Angle_Deduit_Radian)  # modélise le déplacement horizontale avec les équations de mouvements :
         # utilisation de la dérivée de la position horizontale dx (vitesse).
         if Angle_Deduit_Radian == 0.0:  # Pour obtenir un déplacement horizontal d'un objet à la hauteur 0(pas de chute)
@@ -405,7 +408,9 @@ class F02(Tk):
 # ========================
     # FONCTION : Fonction de fin de partie, appelée si partie finie pour récupérer le meilleur score et ouvrir F04
     def Fin_Partie(self):
-        self.Score = -1  # A récupérer
-        BestScore = score_comparaison2(self.Score)
-        ajout_score_F0(BestScore)  # A écrire sur ligne précise
+        self.Score = 3216  # A récupérer
+        BestScore = score_comparaison2(self.Score, self.IdJoueur) # Ligne trouvée avec l'ID dans la fonction
+        ModifPrecisFichier(self.IdJoueur+2, 3, BestScore)  # self.IdJoueur +2 car c'est le numéro de ligne
+        # correspondant, le meilleur score est à l'emplacement t[i][3] du tableau d'"open_score_file",
+        # BestScore est ce qu'on écrit.
         self.commandeOuvreF04()

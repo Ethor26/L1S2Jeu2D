@@ -12,12 +12,14 @@ from Tools import *
 
 class F03(wF01.Tk):
     # Constructeur de l'objet F03 : ne pas supprimer !!!
-    def __init__(self):  # NomJoueur a ajouter en paramètre ?
+    def __init__(self, IDJoueur):  # NomJoueur a ajouter en paramètre ?
         wF01.Tk.__init__(self)
         self.title("F03")  # Le titre de la fenêtre
         self.minsize(1200, 700)  # taille de fenêtre
         # Une méthode séparée pour construire le contenu de la fenêtre
         self.createWidgets()
+
+        self.IdJoueur = IDJoueur
 
     # Méthode de création des widgets
     def createWidgets(self):
@@ -32,7 +34,8 @@ class F03(wF01.Tk):
             print("Angle en degree = ", AngleEnDegree)  # Pour controle
 
             # Etape 2 : Envoi de l'angle dans score.txt
-            ajout_angle_F02(AngleEnDegree)
+            ModifPrecisFichier(self.IdJoueur+2, 2, AngleEnDegree) # Explication de l'appel : voir l'appel identique
+            # dans F02
 
         def TrtAngle(TextAngleEnDegree):
             # Récupération angle de la zone de Saisie ou pose de 0

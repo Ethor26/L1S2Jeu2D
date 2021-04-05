@@ -107,17 +107,17 @@ def open_score_file2():
 
 # =============================================================================
 # FONCTION OUTIL : Comparaison Score. Auteur : Jean-Alexis TADDEI- en cours
-def score_comparaison2(Score):
+def score_comparaison2(Score, IdJoueur):
     # on regarde dans le txt quel est le meilleur score on doit utiliser la fonction open_score_file afin d'utiliser
     # le tableau avec le score
     tab, nb_ligne = open_score_file2()
-    best_score = int(tab[nb_ligne - 1][3])
+    best_score = int(tab[IdJoueur + 2][3])
     if Score >= best_score:
         best_score = Score
     return best_score
 
 
-#Score = 1
+# Score = 1
 # print(score_comparaison2(Score))
 
 
@@ -142,22 +142,33 @@ def modifierLigne(cheminAccesFichier, pId, pNom, pAngle, pScore):
     fichier.close()
 
 
+# =============================================================================
+# FONCTION OUTIL : Modifie précisément un élément de la ligne de la base de donnée. Auteur : Ethan SUISSA- terminé
+import fileinput
+
+
 def ModifPrecisFichier(NumLigne, NumElt, Modif):
+    tab, nbLignes = open_score_file2() # Lecture de la base de donnée
 
-    tab, nbLignes = open_score_file2()
-    tab[NumLigne][NumElt] = str(Modif)
-    StrLigne = ""
+    # Enregistrement de la ligne à modifier
+    OldLigne = ""
     for i in range(3):
-        StrLigne += tab[NumLigne][i] + ";"
-    StrLigne += tab[NumLigne][3] #Ligne à appliquer à la place de l'ancienne
-    print("Nouvelle ligne", StrLigne)
+        OldLigne += tab[NumLigne][i] + ";" # Addition de chaque élément du tableau pour reformer la ligne
+    OldLigne += tab[NumLigne][3]
+    print("Ancienne ligne", OldLigne) # Pour control
 
-        # Test Code Récup
-    fichier = open("scores.txt")
-    for line in fichier:
-        if line.startswith('foo'):
-            newline = line.replace('foo', 'bar')
-            print(newline)
-            # how to write this newline back to the file
+    # Enregistrement de la ligne à appliquer à la place d'OldLine
+    tab[NumLigne][NumElt] = str(Modif) # Modification de l'élément demandé
+    NewLigne = ""
+    for i in range(3):
+        NewLigne += tab[NumLigne][i] + ";" # Même addition que précedemment
+    NewLigne += tab[NumLigne][3]  # Ligne à appliquer à la place de l'ancienne
+    print("Nouvelle ligne", NewLigne)
 
-ModifPrecisFichier(3, 2, 1)
+    with fileinput.input("scores.txt", inplace=True) as f: # Configure le fichier pour cette modification (trouvé sur
+        # internet).
+        for line in f:
+            new_line = line.replace(OldLigne, NewLigne)  # Modification de la ligne en remplacant l'ancienne par la
+            # nouvelle
+            print(new_line, end='') # n'affiche rien mais enlève les blancs intermédiaires
+    # Test : ModifPrecisFichier(3, 2, 1)

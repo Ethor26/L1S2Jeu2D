@@ -25,6 +25,7 @@ class F01(Tk):
         self.minsize(1200, 700)  # taille de fenêtre
         self.createWidgets() # Une méthode séparée pour construire le contenu de la fenêtre
 
+        self.IdJoueur = 0
     # Méthode/fonction de création des widgets
     def createWidgets(self):
         self.grid()  # Choix du mode d'arrangement
@@ -39,10 +40,10 @@ class F01(Tk):
                 # On vérifie si le joueur existe dans la base de donnée
                 tab, NbLignes = open_score_file2()
                 JoueurExist = False
-                for i in range(NbLignes-1):
+                for i in range(NbLignes):
                     if tab[i][1] == Name:
                         JoueurExist = True
-                        print("A coder")
+                        self.IdJoueur = i - 2 # L'id du joueur est toujours égal à la valeur du numéro de ligne - 2
                         break
 
                 # Si le joueur n'existe pas, on initialise son profil
@@ -51,6 +52,7 @@ class F01(Tk):
                     ajout_nom_F000(Name)   # A configurer pour pas à faire à chaque fois
                     ajout_angle_F02(0)
                     ajout_score_F0(0)    # Angle et meilleur score sont à 0 car nouveau profil
+                    self.IdJoueur = NbLignes-2 # -1 l'ID est à la ligne NbLignes-1, on ajoute aussi le décalage de -2.
 
                 # Déverouillage des boutons
                     # ELEMENT GRAPHIQUE : <Button> = [Bouton B0?] : Configuration commande
@@ -157,12 +159,12 @@ class F01(Tk):
     def commandeOuvreF02(self):
         self.destroy()  # ferme F01
         # ouvre F02
-        app = F02()         # implémente l'objet app
+        app = F02(self.IdJoueur)         # implémente l'objet app
         app.focus_force()   # Force le focus sur la fenetre
         app.mainloop()
 
     def commandeOuvreF03(self):
         self.destroy()  # ferme F01
         # ouvre F02
-        app = F03()         # implémente l'objet app
+        app = F03(self.IdJoueur)         # implémente l'objet app
         app.mainloop()
