@@ -87,7 +87,7 @@ def ajout_score_F0(score):  # fenetre de jeu
 
 
 # =============================================================================
-# FONCTION OUTIL : Lecture de la base de donnée. Auteur : Jean-Alexis TADDEI- en cours
+# FONCTION OUTIL : Lecture de la base de donnée. Auteur : Jean-Alexis TADDEI- Terminée
 def open_score_file2():
     with open("scores.txt", 'r') as filin:
         score = filin.readlines()
@@ -102,11 +102,8 @@ def open_score_file2():
     print(tab)
     return tab, nb_line
 
-
-# print(open_score_file2())
-
 # =============================================================================
-# FONCTION OUTIL : Comparaison Score. Auteur : Jean-Alexis TADDEI- en cours
+# FONCTION OUTIL : Comparaison Score. Auteur : Jean-Alexis TADDEI- Terminée
 def score_comparaison2(Score, IdJoueur):
     # on regarde dans le txt quel est le meilleur score on doit utiliser la fonction open_score_file afin d'utiliser
     # le tableau avec le score
@@ -115,31 +112,8 @@ def score_comparaison2(Score, IdJoueur):
     if Score >= best_score:
         best_score = Score
     return best_score
-
-
-# Score = 1
-# print(score_comparaison2(Score))
-
-
-# =============================================================================
-# FONCTION OUTIL : Modifier Ligne Auteur : Ethan SUISSA- en cours
-def modifierLigne(cheminAccesFichier, pId, pNom, pAngle, pScore):
-    global line
-    IdRecherche = pId + ";"
-
-    ligneAecrire = pId + ";" + pNom + ";" + pAngle + ";" + pScore
-    LigneTrouve = False
-    fichier = open(cheminAccesFichier, "a")  # ouverture du fichier à modifier
-    for line in fichier:  # boucle sur les lignes du fichier original
-        if IdRecherche in line:
-            print("modifierLigne : Id trouvé = ", pId)
-            print("Line = ", line)
-            line = ligneAecrire
-            LigneTrouve = True
-
-    if LigneTrouve == True:
-        fichier.write(line)
-    fichier.close()
+    # Test : Score = 1
+    # print(score_comparaison2(Score))
 
 
 # =============================================================================

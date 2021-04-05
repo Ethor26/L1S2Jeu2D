@@ -233,7 +233,7 @@ class F02(Tk):
     def ValeurAngleParametreEnRadian(self):
         # Etape 1 : Récupération angle du fichier Score.txt.
         tab, nbLignes = open_score_file2()
-        VAngleEnDegree = int(tab[nbLignes-1][2])
+        VAngleEnDegree = int(tab[self.IdJoueur+2][2])
 
         # Etape 2 : Conversion et envoi pour calcul commande programmable
         # Angles à tester : 26, 45, 60, 120, 210, 300, extremes (89, 179, 269, 359)

@@ -66,4 +66,24 @@
 #     if temp_pers > best_score:
 #         best_score = temp_pers
 
+# # =============================================================================
+# # FONCTION OUTIL : Modifier Ligne Auteur : Ethan SUISSA- en cours
+# def modifierLigne(cheminAccesFichier, pId, pNom, pAngle, pScore):
+#     global line
+#     IdRecherche = pId + ";"
+#
+#     ligneAecrire = pId + ";" + pNom + ";" + pAngle + ";" + pScore
+#     LigneTrouve = False
+#     fichier = open(cheminAccesFichier, "a")  # ouverture du fichier à modifier
+#     for line in fichier:  # boucle sur les lignes du fichier original
+#         if IdRecherche in line:
+#             print("modifierLigne : Id trouvé = ", pId)
+#             print("Line = ", line)
+#             line = ligneAecrire
+#             LigneTrouve = True
+#
+#     if LigneTrouve == True:
+#         fichier.write(line)
+#     fichier.close()
+
 
