@@ -6,7 +6,6 @@
 # Fichier F02 = "JEUX EN ACTION"
 # ======================================================
 from math import *
-# import os
 import os
 from tkinter import *
 from PIL import Image
@@ -261,7 +260,6 @@ class F02(Tk):
         self.CanevasJeu.bind('<Key>', CommandeClavier)  # Met en relation les touches du clavier et les commandes.
         self.CanevasJeu.pack(padx=5, pady=5)  # Pour placer le Canevas
         self.CanevasJeu.tag_lower(self.objImgFondEcran)  # arriere plan, tag_raise pour premier plan
-
 
         # ELEMENT GRAPHIQUE : <PointesVaisseaux> = G01 : Eléments graphiques du fond
         # Vaisseau pointe Bas

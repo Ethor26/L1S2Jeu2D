@@ -5,21 +5,27 @@
 # Date : 4 mai 2021 (?)
 # Fichier F03 = "CONFIGURATION DES COMMANDES"
 # ======================================================
-# from tkinter import *
-import wF01
-from Tools import *
+from wF01 import *
+import os
+from tkinter import *
+from PIL import Image
+from PIL.ImageTk import PhotoImage
 
 
-class F03(wF01.Tk):
+
+class F03(Tk):
     # Constructeur de l'objet F03 : ne pas supprimer !!!
     def __init__(self, IDJoueur):  # NomJoueur a ajouter en paramètre ?
-        wF01.Tk.__init__(self)
+        Tk.__init__(self)
         self.title("F03")  # Le titre de la fenêtre
         self.minsize(1200, 700)  # taille de fenêtre
+
+        self.IdJoueur = IDJoueur # Transmission de l'ID du joueur
+        self.Largeur = 1200  # Largeur de la zone de jeu
+        self.Hauteur = 700  # Hauteur de la zone de jeu
+
         # Une méthode séparée pour construire le contenu de la fenêtre
         self.createWidgets()
-
-        self.IdJoueur = IDJoueur
 
     # Méthode de création des widgets
     def createWidgets(self):
@@ -27,71 +33,52 @@ class F03(wF01.Tk):
 
         # ==================================================
         # FONCTIONS WIDGET ::::::::
-        def EnregistrAngle():  # Fonction doit être mise avant sinon erreur
-            TextAngleEnDegree = entreAngle.get()
-            # Etape 1 : Ajustement de l'angle pour un résultat convenable.
-            AngleEnDegree = TrtAngle(TextAngleEnDegree)
-            print("Angle en degree = ", AngleEnDegree)  # Pour controle
 
-            # Etape 2 : Envoi de l'angle dans score.txt
-            ModifPrecisFichier(self.IdJoueur+2, 2, AngleEnDegree) # Explication de l'appel : voir l'appel identique
-            # dans F02
-
-        def TrtAngle(TextAngleEnDegree):
-            # Récupération angle de la zone de Saisie ou pose de 0
-            AngleEnDegree = 0
-            msg = "..."
-            if TextAngleEnDegree != "":
-                try: # Essai la tranformation en int en vérifiant les erreurs avant (pour éviter un plantage total).
-                    AngleEnDegree = int(TextAngleEnDegree)
-                except ValueError:
-                    msg = ">> Angle doit etre un entier "  # Message informant l'utilisateur, s'affiche à l'ecran
-                    print(msg)  # Pour contrôle en console
-            if AngleEnDegree >= 360 or AngleEnDegree <= -360:
-                AngleEnDegree = AngleEnDegree % 360 # Création d'un modulo pour ajuster les angles trop grand.
-            if AngleEnDegree < 0:
-                AngleEnDegree += 360  # Angle ne change pas mais on le replace sur l'intervalle [0; 360]
-            self.messageUtilisateurAngle.set(msg)  # Pour mise à jour texte écran
-            print(str(self.messageUtilisateurAngle.get()))  # Pour Controle
-            return AngleEnDegree
-
-        # ==================================================
         # ELEMENTS GRAPHIQUES ::::::::
         # Création des widgets (boutons, labels, etc...)
+        self.PhotofondInfo = Image.open(os.getcwd() + "/IMAGES/ImageF03/ImageGuerreSatellite.jpg")
+        self.PhotofondInfo = self.PhotofondInfo.resize((self.Largeur, self.Hauteur), Image.ANTIALIAS)  # resize permet
+        # de mettre les photos au bon format pour les inclure dans le canevas. Antialias = inconnu, permet à resize de
+        # fonctionner
+        self.FondF01 = PhotoImage(self.PhotofondInfo)
+        self.CanvasInfo = Canvas(self, width=self.Largeur, height=self.Hauteur)
+        self.ImgFondF01 = self.CanvasInfo.create_image(self.Largeur // 2, self.Hauteur // 2, image=self.FondF01)
+        self.CanvasInfo.pack(padx=5, pady=5)  # .pack sert à placer le texte
+        self.CanvasInfo.tag_lower(self.ImgFondF01)
+
 
         # ...........< T E X T E S > .......................
-        # ELEMENT GRAPHIQUE : <Texte> = [à definir] annoncant la saisie de l'angle # A REPOSITIONNER !!!
-        lblEntreAngle = wF01.Label(self, text="Angle=")  # Nom de la fenêtre en rouge à déclarer comme au dessus (avec le nom
-        # de fenêtre qu'on veut
-        lblEntreAngle.place(x=150, y=200)
+        self.CanvasInfo.create_text(600, 350, text="Bienvenue dans notre jeu ! \nLe but est simple :"
+                                          " esquivez les missiles qui vous arrivent dessus\n"
+                                          "Pour cela, deux options s'offrent à vous :\n"
+                                          "- La première est de se déplacer a l'aide des touches :\n "
+                                            "'z' : pour aller en haut\t"
+                                            "'q' : pour aller a gauche\n"
+                                            "'s' : pour aller en bas\t"
+                                            "'d' : pour aller à droite\n"
+                                          "- La seconde est d'utiliser une commande programmable qui vous fera bondir\n"
+                                          "avec un angle que vous pouvez choisir dans le menu, vous obtiendrez  \n"
+                                          " un déplacement parabolique avec cet angle. '\n'"
+                                          "La touche 'p' : vous permettra d'executer cette commande",
+                           font='Gabriola 23 italic', fill='cyan')
+
+        self.CanvasInfo.create_text(600, 50,
+                                    text="Informations sur le jeu.", font='Gabriola 32 italic', fill='blue')
+        # ==================================================
+
 
         # ...........< E N T R Y ' S > .......................
-        # ELEMENT GRAPHIQUE : <Entry> = [à definir] pour saisir l'angle
-        entreAngle = wF01.Entry(self)  # Ajouter self pour mettre dans constructeur ?
-        entreAngle.place(x=200, y=200, width=70)  # A placer à coté du bouton "Appliquer", écart de 50 entre les x
-
-        # Variable(s) : Message Utlisateur
-        self.messageUtilisateurAngle = wF01.StringVar()  # Variable de message d'erreur de saisie type stringvar() pour
-        self.messageUtilisateurAngle.set("...") # maj Label pertinent
 
 
         # ...........< B U T T O N S >........................
 
-        # ELEMENT GRAPHIQUE : <Button> = [Bouton B09] : "Appliquer (Enregistrer) l'angle"
-        self.AppliqAngle = wF01.Button(self, text="Appliquer l'angle", command=EnregistrAngle)
-        self.AppliqAngle.place(x=250, y=200)
-
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B07 bis] : Retour au menu (Retour F01)
-        self.B07_retourMenu = wF01.Button(self, text="Retour Menu", command=self.commandeOuvreF01)
-        self.B07_retourMenu.place(x=10, y=600)
+        self.RetourMenu = Button(self, text="Retourner au menu", command=self.commandeOuvreF01)
+        self.RetourMenu.place(x=180, y=670)
 
         # ELEMENT GRAPHIQUE : <Button> = [A preciser] : Un bouton pour quitter l'application
-        self.quitButton = wF01.Button(self, text="Quitter", command=self.destroy)
-        self.quitButton.place(x=150, y=600)
-
-        # ELEMENT GRAPHIQUE : <Label> = Message
-        self.LblMessage = wF01.Label(self, textvariable=self.messageUtilisateurAngle)
-        self.LblMessage.place(x=150, y=250)
+        self.quitButton = Button(self, text="Quitter", command=self.destroy)
+        self.quitButton.place(x=330, y=670)
 
     # ==================================================
     # AUTRES FONCTIONS DE LA CLASSE ::::::::
@@ -101,5 +88,5 @@ class F03(wF01.Tk):
         # Ferme la fenetre
         self.destroy()  # ferme F03
         # ouvre F01
-        app = wF01.F01(self.IdJoueur)
+        app = F01(self.IdJoueur)
         app.mainloop()

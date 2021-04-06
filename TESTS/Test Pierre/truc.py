@@ -8,7 +8,7 @@ WIDTH, HEIGHT = 500, 500
 def create_pipes():
     pipes = []
     for x in range(0, WIDTH, 40):
-        y1 = random.randrange(50, HEIGHT - 50)
+        y1 = randrange(50, HEIGHT - 50)
         y0 = y1 + 50
         pipes.append(canvas.create_line(x, 0, x, y1))
         pipes.append(canvas.create_line(x, y0, x, HEIGHT))

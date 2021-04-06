@@ -6,7 +6,8 @@
 # Fichier F00
 # ======================================================
 import os
-from tkinter import *
+from tkinter import * # Attention, TKinter doit être importé pour utiliser image de fond, pas remplacable par import de
+# fichier wF0... De plus, ordre des import important !
 from PIL import Image
 from PIL.ImageTk import PhotoImage
 
