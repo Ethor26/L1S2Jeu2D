@@ -78,19 +78,17 @@ class F02(Tk):
             # A CODER !!!
             if self.touche == 'q':
                 print("Info:  touche q activée ***")
-                self.PosX = self.ValeurPosX(self.PosX, -self.NbPas)
-
+                deplacement_Q()
             # Si touche ? => deplt a bas
             # A CODER !!!
             if self.touche == 's':
                 print("Info:  touche s activée ***")
-                self.PosY = self.ValeurPosY(self.PosY, -self.NbPas)
-
+                deplacement_S()
             # Si touche ? => deplt a Haut
             # A CODER !!!
             if self.touche == 'z':
                 print("Info:  touche z activée ***")
-                self.PosY = self.ValeurPosY(self.PosY, self.NbPas)
+                deplacement_Z()
             # Si touche p => déplacement selon equation de mouvement
 
             if self.touche == 'p':
@@ -149,6 +147,90 @@ class F02(Tk):
 
             # On déclenche le déplacement toute les 20 ms, réactualisation de la fenêtre
             idAfter = self.after(20, deplacement_D)
+
+            # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
+            self.cpTemps += 1
+
+            if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
+                self.after_cancel(idAfter)
+                self.cpTemps = 0
+
+
+        def deplacement_Q():  # ATTENTION : Pas de paramètres !
+            nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
+
+            # Récupération de la nouvelle position de X et renvoie siRebond=true si on touche le bord
+            self.PosX, self.siRebond = self.ValeurPosX(self.PosX, -self.NbPas)
+            print("Deplacement Gauche : posY = ", self.PosY)  # pour controle
+            print("Deplacement Gauche : posX = ", self.PosX)  # pour controle
+
+            # Repositionnne le personnage
+            self.CanevasJeu.coords(self.ImgPerso, self.PosX, self.PosY)
+
+            # S'il y a un rebond sur un côté, augmente la variable du nombre de rebond
+            if self.siRebond:
+                nbRebond = nbRebond + 1
+                print("Nombre de rebond = ", nbRebond)
+
+            # On déclenche le déplacement toute les 20 ms, réactualisation de la fenêtre
+            idAfter = self.after(20, deplacement_Q)
+
+            # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
+            self.cpTemps += 1
+
+            if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
+                self.after_cancel(idAfter)
+                self.cpTemps = 0
+
+
+        def deplacement_Z():  # ATTENTION : Pas de paramètres !
+            nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
+
+            # Récupération de la nouvelle position de X et renvoie siRebond=true si on touche le bord
+            self.PosY, self.siRebond = self.ValeurPosY(self.PosY, -self.NbPas)
+
+            print("Deplacement Haut : posY = ", self.PosY)  # pour controle
+            print("Deplacement Haut : posX = ", self.PosX)  # pour controle
+
+            # Repositionnne le personnage
+            self.CanevasJeu.coords(self.ImgPerso, self.PosX, self.PosY)
+
+            # S'il y a un rebond sur un côté, augmente la variable du nombre de rebond
+            if self.siRebond:
+                nbRebond = nbRebond + 1
+                print("Nombre de rebond = ", nbRebond)
+
+            # On déclenche le déplacement toute les 20 ms, réactualisation de la fenêtre
+            idAfter = self.after(20, deplacement_Z)
+
+            # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
+            self.cpTemps += 1
+
+            if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
+                self.after_cancel(idAfter)
+                self.cpTemps = 0
+
+
+
+        def deplacement_S():  # ATTENTION : Pas de paramètres !
+            nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
+
+            # Récupération de la nouvelle position de X et renvoie siRebond=true si on touche le bord
+            self.PosY, self.siRebond = self.ValeurPosY(self.PosY, self.NbPas)
+
+            print("Deplacement Bas : posY = ", self.PosY)  # pour controle
+            print("Deplacement Bas : posX = ", self.PosX)  # pour controle
+
+            # Repositionnne le personnage
+            self.CanevasJeu.coords(self.ImgPerso, self.PosX, self.PosY)
+
+            # S'il y a un rebond sur un côté, augmente la variable du nombre de rebond
+            if self.siRebond:
+                nbRebond = nbRebond + 1
+                print("Nombre de rebond = ", nbRebond)
+
+            # On déclenche le déplacement toute les 20 ms, réactualisation de la fenêtre
+            idAfter = self.after(20, deplacement_S)
 
             # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
             self.cpTemps += 1
@@ -372,11 +454,10 @@ class F02(Tk):
         rebond = self.RebondLargeur(valInit)
         return self.valX_Final, rebond
 
-    def ValeurPosY(self, valInit, VarX):
-        valPosY = valInit - VarX
-        if valPosY < self.Perso_Hauteur:
-            valPosY = valInit + self.Perso_Hauteur
-        return valPosY
+    def ValeurPosY(self, valInit, VarY):
+        self.valY_Final = valInit + VarY
+        rebond = self.RebondLargeur(valInit)
+        return self.valY_Final, rebond
 
     # ========================
     # COMMANDE = ouvre F01,  (retour au menu)
