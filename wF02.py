@@ -11,7 +11,7 @@ from tkinter import *
 from PIL import Image
 from PIL.ImageTk import PhotoImage
 from Tools import *
-import wF01 # Modification de l'import pour éviter les "circular import", en général rajoute des "wF01.Tk"
+import wF01   # Modification de l'import pour éviter les "circular import", en général rajoute des "wF01.Tk"
 from wF04 import F04
 
 

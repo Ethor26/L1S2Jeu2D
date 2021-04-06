@@ -37,7 +37,7 @@ class F01(Tk):
             "Enregistrer le ,nom"
             Name = EntreeNom.get()
             print("Nom :", Name)
-            msg = "En Avant !"
+            msg = "En Avant " + Name + "!"
             if Name != "": # Si la fenêtre d'entrée du nom n'est pas vide :
                 # On vérifie si le joueur existe dans la base de donnée
                 tab, NbLignes = open_score_file2()
@@ -51,7 +51,7 @@ class F01(Tk):
                 # Si le joueur n'existe pas, on initialise son profil
                 if not JoueurExist:
                     # Ajout du nom dans la base
-                    ajout_nom_F000(Name)   # A configurer pour pas à faire à chaque fois
+                    ajout_nom_F01(Name)   # A configurer pour pas à faire à chaque fois
                     ajout_angle_F02(0)
                     ajout_score_F0(0)    # Angle et meilleur score sont à 0 car nouveau profil
                     self.IdJoueur = NbLignes - 1   # -1 l'ID est à la ligne NbLignes-1, on ajoute aussi le décalage
@@ -102,10 +102,10 @@ class F01(Tk):
         # ...........< L A B E L S  V A R I A B L E S > .........................
 
         # ELEMENT GRAPHIQUE : <Label> = Message vérifiant le nom
-            # Message après vérifiaction de l'entrée du nom
+        # Message après vérifiaction de l'entrée du nom
         self.messageUtilisateurNom = StringVar()  # Variable de message d'erreur de saisie type stringvar() pour
         self.messageUtilisateurNom.set("...")  # maj Label pertinent.
-            # Placement
+        # Placement Message Nom
         self.LblMessage = Label(self, textvariable=self.messageUtilisateurNom)
         self.LblMessage.place(x=100, y=150)
 
@@ -113,6 +113,7 @@ class F01(Tk):
             # Message après vérifiaction de l'entrée de l'angle
         self.messageUtilisateurAngle = StringVar()  # Variable de message d'erreur de saisie type stringvar() pour
         self.messageUtilisateurAngle.set("...")
+
              # Placement
         self.LblMessage = Label(self, textvariable=self.messageUtilisateurAngle)
         self.LblMessage.place(x=200, y=220)
@@ -123,6 +124,10 @@ class F01(Tk):
         # Création d'un widget Button (bouton Valider)
         self.BoutonValidNom = Button(self, text='Valider', font=("Arial", 15), command=RecupNameDever)
         self.BoutonValidNom.place(x=10, y=150)
+
+        # ELEMENT GRAPHIQUE : <Button> = [Bouton B0?] : Configuration commande
+        BoutConfCom = Button(self, text="Informations Jeu", command=self.commandeOuvreF03)
+        BoutConfCom.place(x=10, y=250)  # Bouton pour tester le verrouillage
 
         print("ID =", self.IdJoueur)
         if self.IdJoueur != 0:
@@ -166,9 +171,6 @@ class F01(Tk):
         # ==============
         # FONCTION OUTIL pour déverouiller les commandes si joueur enregistré (id != 0 ou nom entré)
     def DeverouilCommands(self):
-        # ELEMENT GRAPHIQUE : <Button> = [Bouton B0?] : Configuration commande
-        BoutConfCom = Button(self, text="Informations Jeu", command=self.commandeOuvreF03)
-        BoutConfCom.place(x=10, y=250)  # Bouton pour tester le verrouillage
         # Bouton "Jouer" à placer
         self.ouvreF02 = Button(self, text="jouer", command=self.commandeOuvreF02)
         self.ouvreF02.place(x=10, y=600)

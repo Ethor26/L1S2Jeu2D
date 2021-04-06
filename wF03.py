@@ -5,12 +5,11 @@
 # Date : 4 mai 2021 (?)
 # Fichier F03 = "CONFIGURATION DES COMMANDES"
 # ======================================================
-from wF01 import *
+import wF01
 import os
 from tkinter import *
 from PIL import Image
 from PIL.ImageTk import PhotoImage
-
 
 
 class F03(Tk):
@@ -58,17 +57,14 @@ class F03(Tk):
                                             "'d' : pour aller à droite\n"
                                           "- La seconde est d'utiliser une commande programmable qui vous fera bondir\n"
                                           "avec un angle que vous pouvez choisir dans le menu, vous obtiendrez  \n"
-                                          " un déplacement parabolique avec cet angle. '\n'"
-                                          "La touche 'p' : vous permettra d'executer cette commande",
+                                          " un déplacement parabolique avec cet angle.\n"
+                                          "La touche 'p' : vous permettra d'exécuter cette commande",
                            font='Gabriola 23 italic', fill='cyan')
 
         self.CanvasInfo.create_text(600, 50,
                                     text="Informations sur le jeu.", font='Gabriola 32 italic', fill='blue')
-        # ==================================================
-
 
         # ...........< E N T R Y ' S > .......................
-
 
         # ...........< B U T T O N S >........................
 
@@ -88,5 +84,5 @@ class F03(Tk):
         # Ferme la fenetre
         self.destroy()  # ferme F03
         # ouvre F01
-        app = F01(self.IdJoueur)
+        app = wF01.F01(self.IdJoueur)
         app.mainloop()

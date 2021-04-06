@@ -61,7 +61,7 @@ def ajout_score(f, id, user, angle, score):
         file.write(score)
 
 
-def ajout_nom_F000(name):
+def ajout_nom_F01(name):
     with open("scores.txt", 'r') as file:
         score = file.readlines()
         print("fichier =", score)

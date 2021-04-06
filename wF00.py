@@ -59,7 +59,7 @@ class F00(Tk):
                                          "de pouvoir dans une centrale, le Conseil vous recruta avec d’autres héros"
                                          "pour atteindre et détruire cette centrale, en évitant les tirs des "
                                          "vaisseaux\n "
-                                         "délégué par l’empereur. Vous, <Nom à définir>, devrez donc passer à travers "
+                                         "délégué par l’empereur. Vous devrez donc passer à travers "
                                          "cette armée, mais avec l’interdiction du Conseil de détruire les autres "
                                          "vaisseaux.\n "
                                          "En effet, ils sont contrôlés par des pilotes innocents mais manipulés. Ils "
