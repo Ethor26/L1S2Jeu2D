@@ -18,14 +18,14 @@ from wF03 import F03
 class F01(Tk):
 
     # Constructeur de l'objet F01 : ne pas supprimer !!!
-    def __init__(self):
+    def __init__(self, IDJoueur):
         Tk.__init__(self)
         print("*** F01 ***") # Pour controle en console
         self.title("F01")  # Le titre de la fenêtre
         self.minsize(1200, 700)  # taille de fenêtre
-        self.createWidgets() # Une méthode séparée pour construire le contenu de la fenêtre
 
-        self.IdJoueur = 0
+        self.IdJoueur = IDJoueur
+        self.createWidgets() # Une méthode séparée pour construire le contenu de la fenêtre : A PLACER EN BAS
     # Méthode/fonction de création des widgets
     def createWidgets(self):
         self.grid()  # Choix du mode d'arrangement
@@ -43,23 +43,24 @@ class F01(Tk):
                 for i in range(NbLignes):
                     if tab[i][1] == Name:
                         JoueurExist = True
-                        self.IdJoueur = i - 2 # L'id du joueur est toujours égal à la valeur du numéro de ligne - 2
+                        self.IdJoueur = i - 1 # L'id du joueur est toujours égal à la valeur du numéro de ligne - 2 mais
+                        # on rajoute 1 pour le décalage du tableau
                         break
-
                 # Si le joueur n'existe pas, on initialise son profil
                 if not JoueurExist:
                     # Ajout du nom dans la base
                     ajout_nom_F000(Name)   # A configurer pour pas à faire à chaque fois
                     ajout_angle_F02(0)
                     ajout_score_F0(0)    # Angle et meilleur score sont à 0 car nouveau profil
-                    self.IdJoueur = NbLignes-2 # -1 l'ID est à la ligne NbLignes-1, on ajoute aussi le décalage de -2.
-
-                # Déverouillage des boutons
-                    # ELEMENT GRAPHIQUE : <Button> = [Bouton B0?] : Configuration commande
+                    self.IdJoueur = NbLignes - 1   # -1 l'ID est à la ligne NbLignes-1, on ajoute aussi le décalage
+                    # de -2.
+                    # Déverouillage des boutons
+                    #                 # ELEMENT GRAPHIQUE : <Button> = [Bouton B0?] : Configuration commande
                 BoutConfCom = Button(self, text="Configuration Commandes", command=self.commandeOuvreF03)
-                BoutConfCom.place(x=10, y=250) # Bouton pour tester le verrouillage
-
-                # Bouton "Jouer" à placer
+                BoutConfCom.place(x=10, y=250)  # Bouton pour tester le verrouillage
+                                    # Bouton "Jouer" à placer
+                self.ouvreF02 = Button(self, text="jouer", command=self.commandeOuvreF02)
+                self.ouvreF02.place(x=10, y=600)
             else:
                 msg = "Pas de nom, pas de jeu !"
             self.messageUtilisateurNom.set(msg)  # Pour mise à jour texte écran
@@ -114,12 +115,19 @@ class F01(Tk):
         self.BoutonValidNom = Button(self, text='Valider', font=("Arial", 15), command=RecupNameDever)
         self.BoutonValidNom.place(x=10, y=150)
 
+        print("ID =", self.IdJoueur)
+        if self.IdJoueur != 0:
+            # Déverouillage des boutons
+            # ELEMENT GRAPHIQUE : <Button> = [Bouton B0?] : Configuration commande
+            BoutConfCom = Button(self, text="Configuration Commandes", command=self.commandeOuvreF03)
+            BoutConfCom.place(x=10, y=250)  # Bouton pour tester le verrouillage
+
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B03] : ...??
         # ??? A FAIRE
 
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B02] : jouer
-        self.ouvreF02 = Button(self, text="jouer", command=self.commandeOuvreF02)
-        self.ouvreF02.place(x=10, y=600)
+            self.ouvreF02 = Button(self, text="jouer", command=self.commandeOuvreF02)
+            self.ouvreF02.place(x=10, y=600)
 
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B04] : ...??
         # ??? A FAIRE

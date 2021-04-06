@@ -101,5 +101,5 @@ class F03(wF01.Tk):
         # Ferme la fenetre
         self.destroy()  # ferme F03
         # ouvre F01
-        app = wF01.F01()
+        app = wF01.F01(self.IdJoueur)
         app.mainloop()

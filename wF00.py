@@ -91,5 +91,5 @@ class F00(Tk):
     def commandeOuvreF01(self):
         self.destroy()  # ferme F00
         # ouvre F01
-        app = F01()  #
+        app = F01(0) # 0 représente un ID nul, sert pour que F01 puisse transmettre l'ID après
         app.mainloop()

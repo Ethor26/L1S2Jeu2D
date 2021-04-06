@@ -315,7 +315,7 @@ class F02(Tk):
     def ValeurAngleParametreEnRadian(self):
         # Etape 1 : Récupération angle du fichier Score.txt.
         tab, nbLignes = open_score_file2()
-        VAngleEnDegree = int(tab[self.IdJoueur+2][2])
+        VAngleEnDegree = int(tab[self.IdJoueur+1][2]) # self.IdJoueur + 2 = Numéro de ligne, on enlève 1 car tableau.
 
         # Etape 2 : Conversion et envoi pour calcul commande programmable
         # Angles à tester : 26, 45, 60, 120, 210, 300, extremes (89, 179, 269, 359)
@@ -327,8 +327,6 @@ class F02(Tk):
             # Vrai Angle
         print("Angle en degree = ", VAngleEnDegree)
         VangleRadian = radians(VAngleEnDegree)
-
-
         return VangleRadian
 
     # ========================
@@ -470,7 +468,7 @@ class F02(Tk):
         # >>>>>> ??A FAIRE
 
         # ouvre F01
-        app = wF01.F01()
+        app = wF01.F01(self.IdJoueur)
         app.mainloop()
 
     # ========================
@@ -480,7 +478,7 @@ class F02(Tk):
         # Ferme la fenetre
         F02.destroy(self)  # ferme F02, format donne même résultat
         # ouvre F01
-        app = F04(self.Score)
+        app = F04(self.Score, self.IdJoueur)
         app.mainloop()
 
         # Enregistre l'état du jeux et le score dans le fichier scores.txt:

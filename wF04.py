@@ -5,22 +5,22 @@
 # Date : 4 mai 2021 (?)
 # Fichier F04 = "RESULTATS DU JEUX"
 # ======================================================
-#from tkinter import *
-from wF01 import *
+from tkinter import *
+import wF01
 from Tools import *
 
 
 class F04(Tk):
     # Constructeur de l'objet F04 : ne pas supprimer !!!
-    def __init__(self, Score): # Importation du paramètre score de F02
+    def __init__(self, Score, IdJoueur): # Importation du paramètre score de F02
         Tk.__init__(self)
         self.title("F04")  # Le titre de la fenêtre
         self.minsize(1200, 700)  # taille de fenêtre
 
         self.ScoreRec = Score
+        self.IDJoueur = IdJoueur
         # Une méthode séparée pour construire le contenu de la fenêtre
         self.createWidgets()
-
 
     # Méthode de création des widgets
     def createWidgets(self):
@@ -61,7 +61,7 @@ class F04(Tk):
     # FONCTIONS statuant si le meilleur score est dépassé (en cours).
     def VictoireJeu(self):
         tab, nbLignes = open_score_file2()
-        if self.ScoreRec >= int(tab[nbLignes - 1][3]):
+        if self.ScoreRec >= int(tab[self.IDJoueur+ 1][3]):
             print("Meilleur score dépassé")
         else:
             print("Meilleur score non atteint")
@@ -72,5 +72,5 @@ class F04(Tk):
         self.destroy()  # ferme F04
 
         # ouvre F01
-        app = F01()
+        app = wF01.F01(self.IDJoueur)
         app.mainloop()
