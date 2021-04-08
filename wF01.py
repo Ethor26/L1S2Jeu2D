@@ -205,14 +205,16 @@ class F01(Tk):
         if TextAngleEnDegree != "":
             try:  # Essai la tranformation en int en vérifiant les erreurs avant (pour éviter un plantage total).
                 AngleEnDegree = int(TextAngleEnDegree)
+                if AngleEnDegree >= 360 or AngleEnDegree <= -360:
+                    AngleEnDegree = AngleEnDegree % 360  # Création d'un modulo pour ajuster les angles trop grand.
+                if AngleEnDegree < 0:
+                    AngleEnDegree += 360  # Angle ne change pas mais on le replace sur l'intervalle [0; 360]
+                msg = "Angle enregistré"
             except ValueError:
                 msg = ">> Angle doit etre un entier "  # Message informant l'utilisateur, s'affiche à l'ecran
                 print(msg)  # Pour contrôle en console
-        if AngleEnDegree >= 360 or AngleEnDegree <= -360:
-            AngleEnDegree = AngleEnDegree % 360  # Création d'un modulo pour ajuster les angles trop grand.
-        if AngleEnDegree < 0:
-            AngleEnDegree += 360  # Angle ne change pas mais on le replace sur l'intervalle [0; 360]
-        msg = "Angle enregistré"
+        else:
+            msg = "Pas d'angle enregistré"
         self.messageUtilisateurAngle.set(msg)  # Pour mise à jour texte écran
         print(str(self.messageUtilisateurAngle.get()))  # Pour Controle
         return AngleEnDegree
