@@ -18,7 +18,6 @@ class F03(Tk):
         Tk.__init__(self)
         self.title("F03")  # Le titre de la fenêtre
         self.minsize(1200, 700)  # taille de fenêtre
-
         self.IdJoueur = IDJoueur # Transmission de l'ID du joueur
         self.Largeur = 1200  # Largeur de la zone de jeu
         self.Hauteur = 700  # Hauteur de la zone de jeu
@@ -86,3 +85,4 @@ class F03(Tk):
         # ouvre F01
         app = wF01.F01(self.IdJoueur)
         app.mainloop()
+

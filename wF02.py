@@ -11,7 +11,7 @@ from tkinter import *
 from PIL import Image
 from PIL.ImageTk import PhotoImage
 from Tools import *
-import wF01   # Modification de l'import pour éviter les "circular import", en général rajoute des "wF01.Tk"
+import wF01  # Modification de l'import pour éviter les "circular import", en général rajoute des "wF01.Tk"
 from wF04 import F04
 
 
@@ -38,7 +38,7 @@ class F02(Tk):
 
         # Temps initiaux
         self.Temps = 0
-        self.cpTemps = 0
+        self.cpTemps = 2
         self.LimiteTpsDepl = 5
 
         # Score Initial
@@ -73,23 +73,22 @@ class F02(Tk):
                 print("Info:  touche d activée ***")
                 deplacement_D()
 
-            # Si touche ? => deplt a Gauche
-            # A CODER !!!
+            # Si touche q => deplt a Gauche
             if self.touche == 'q':
                 print("Info:  touche q activée ***")
                 deplacement_Q()
-            # Si touche ? => deplt a bas
-            # A CODER !!!
+
+            # Si touche s => deplt a bas
             if self.touche == 's':
                 print("Info:  touche s activée ***")
                 deplacement_S()
-            # Si touche ? => deplt a Haut
-            # A CODER !!!
+
+            # Si touche z => deplt a Haut
             if self.touche == 'z':
                 print("Info:  touche z activée ***")
                 deplacement_Z()
-            # Si touche p => déplacement selon equation de mouvement
 
+            # Si touche p => déplacement selon equation de mouvement
             if self.touche == 'p':
                 print("Info:  touche p activée ***")
                 deplacement_P()
@@ -126,7 +125,7 @@ class F02(Tk):
                 nbRebond = 0
 
         # =============================================================================
-        # FONCTION de déplacement de la touche D. Auteur : Ethan SUISSA - Terminé
+        # FONCTION de déplacement de la touche D. Auteur : Lilandra ALBERT-LAVAUX - Terminé
         def deplacement_D():  # ATTENTION : Pas de paramètres !
             nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
 
@@ -144,8 +143,8 @@ class F02(Tk):
                 nbRebond = nbRebond + 1
                 print("Nombre de rebond = ", nbRebond)
 
-            # On déclenche le déplacement toute les 20 ms, réactualisation de la fenêtre
-            idAfter = self.after(20, deplacement_D)
+            # On déclenche le déplacement toute les 40 ms, réactualisation de la fenêtre
+            idAfter = self.after(40, deplacement_D)
 
             # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
             self.cpTemps += 1
@@ -154,7 +153,8 @@ class F02(Tk):
                 self.after_cancel(idAfter)
                 self.cpTemps = 0
 
-
+        # =============================================================================
+        # FONCTION de déplacement de la touche Q. Auteur : Lilandra ALBERT-LAVAUX - Terminé
         def deplacement_Q():  # ATTENTION : Pas de paramètres !
             nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
 
@@ -171,8 +171,8 @@ class F02(Tk):
                 nbRebond = nbRebond + 1
                 print("Nombre de rebond = ", nbRebond)
 
-            # On déclenche le déplacement toute les 20 ms, réactualisation de la fenêtre
-            idAfter = self.after(20, deplacement_Q)
+            # On déclenche le déplacement toute les 40 ms, réactualisation de la fenêtre
+            idAfter = self.after(40, deplacement_Q)
 
             # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
             self.cpTemps += 1
@@ -181,7 +181,8 @@ class F02(Tk):
                 self.after_cancel(idAfter)
                 self.cpTemps = 0
 
-
+        # =============================================================================
+        # FONCTION de déplacement de la touche Z. Auteur : Lilandra ALBERT-LAVAUX - Terminé
         def deplacement_Z():  # ATTENTION : Pas de paramètres !
             nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
 
@@ -199,8 +200,8 @@ class F02(Tk):
                 nbRebond = nbRebond + 1
                 print("Nombre de rebond = ", nbRebond)
 
-            # On déclenche le déplacement toute les 20 ms, réactualisation de la fenêtre
-            idAfter = self.after(20, deplacement_Z)
+            # On déclenche le déplacement toute les 40 ms, réactualisation de la fenêtre
+            idAfter = self.after(40, deplacement_Z)
 
             # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
             self.cpTemps += 1
@@ -209,8 +210,8 @@ class F02(Tk):
                 self.after_cancel(idAfter)
                 self.cpTemps = 0
 
-
-
+        # =============================================================================
+        # FONCTION de déplacement de la touche S. Auteur : Lilandra ALBERT-LAVAUX - Terminé
         def deplacement_S():  # ATTENTION : Pas de paramètres !
             nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
 
@@ -228,8 +229,8 @@ class F02(Tk):
                 nbRebond = nbRebond + 1
                 print("Nombre de rebond = ", nbRebond)
 
-            # On déclenche le déplacement toute les 20 ms, réactualisation de la fenêtre
-            idAfter = self.after(20, deplacement_S)
+            # On déclenche le déplacement toute les 40 ms, réactualisation de la fenêtre
+            idAfter = self.after(40, deplacement_S)
 
             # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
             self.cpTemps += 1
@@ -307,13 +308,12 @@ class F02(Tk):
         self.B07_retourMenu = Button(self, text="Fin de partie", command=self.Fin_Partie)
         self.B07_retourMenu.place(x=400, y=700)
 
-
     # ========================
     # FONCTION OUTILS : Récupérant l'angle du fichier score.txt et le retournant en radian. Auteur : Ethan SUISSA - Terminé
     def ValeurAngleParametreEnRadian(self):
         # Etape 1 : Récupération angle du fichier Score.txt.
         tab, nbLignes = open_score_file2()
-        VAngleEnDegree = int(tab[self.IdJoueur+1][2]) # self.IdJoueur + 2 = Numéro de ligne, on enlève 1 car tableau.
+        VAngleEnDegree = int(tab[self.IdJoueur + 1][2])  # self.IdJoueur + 2 = Numéro de ligne, on enlève 1 car tableau.
 
         # Etape 2 : Conversion et envoi pour calcul commande programmable
         # Angles à tester : 26, 45, 60, 120, 210, 300, extremes (89, 179, 269, 359)
@@ -443,17 +443,19 @@ class F02(Tk):
         return rebond
 
     # ========================
-    # FONCTION OUTIL : Renvoie les valeurs de X et Y pour commandes figées. Auteur : Lilandra ALBERT-LAVAUX - En cours
+    # FONCTION OUTIL : Renvoie les valeurs de X et Y pour commandes figées. Auteur : Lilandra ALBERT-LAVAUX - Terminé
 
     def ValeurPosX(self, valInit, VarX):
-        self.valX_Final = valInit + VarX
-        rebond = self.RebondLargeur(valInit)
-        return self.valX_Final, rebond
+        self.valX_Final = valInit + VarX  # On crée la nouvelle position de X en aditionnant son ancienne position avec
+        # le décalage sur les cotés (vers la droite ou la gauche).
+        rebond = self.RebondLargeur(valInit)  # On teste le rebond sur les côtés avec la fonction RebondLargeur.
+        return self.valX_Final, rebond  # Renvoie des paramètres aux fonctions de déplacement pour réutilisation.
 
     def ValeurPosY(self, valInit, VarY):
-        self.valY_Final = valInit + VarY
-        rebond = self.RebondLargeur(valInit)
-        return self.valY_Final, rebond
+        self.valY_Final = valInit + VarY  # On crée la nouvelle position de Y en aditionnant son ancienne position avec
+        # le décalage de hauteur (vers le haut ou le bas).
+        rebond = self.RebondHauteur(valInit)  # On teste le rebond sur les côtés avec la fonction RebondHauteur.
+        return self.valY_Final, rebond  # Renvoie des paramètres aux fonctions de déplacement pour réutilisation.
 
     # ========================
     # COMMANDE = ouvre F01,  (retour au menu)
@@ -482,12 +484,12 @@ class F02(Tk):
         # Enregistre l'état du jeux et le score dans le fichier scores.txt:
         # >>>>>> ??A FAIRE
 
-# ========================
+    # ========================
     # FONCTION : Fonction de fin de partie, appelée si partie finie pour récupérer le meilleur score et ouvrir F04
     def Fin_Partie(self):
         self.Score = 3216  # A récupérer
-        BestScore = score_comparaison2(self.Score, self.IdJoueur) # Ligne trouvée avec l'ID dans la fonction
-        ModifPrecisFichier(self.IdJoueur+2, 3, BestScore)  # self.IdJoueur +2 car c'est le numéro de ligne
+        BestScore = score_comparaison2(self.Score, self.IdJoueur)  # Ligne trouvée avec l'ID dans la fonction
+        ModifPrecisFichier(self.IdJoueur + 2, 3, BestScore)  # self.IdJoueur +2 car c'est le numéro de ligne
         # correspondant, le meilleur score est à l'emplacement t[i][3] du tableau d'"open_score_file",
         # BestScore est ce qu'on écrit.
         self.commandeOuvreF04()
