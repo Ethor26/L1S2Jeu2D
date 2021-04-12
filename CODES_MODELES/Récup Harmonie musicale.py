@@ -70,14 +70,14 @@ def genererFenetrePrincipale(cheminAcces):
     # FONCTION COMMANDE BOUTON : Alimentation de la liste par la base de donnees           *-------
     def commandBoutonMajListe():
         print("commandBoutonMajList appelle")  # pour contrôle
-        lp.delete(0, END)  # Initialise la listBox
+        lp.delete(0, END)  # Initialise la listBox nommé lp
         fichierBdd = open(cheminAcces, 'r')  # Ouverture de la base de donnees # r pour read
         lignes = fichierBdd.readlines()  # Lecture des lignes
 
         # insertion des lignes dans la listBox
         i = 0
         for ligne in lignes:
-            if ligne.startswith("#"):
+            if ligne.startswith("#"): # Choix d'inclure les lignes commencant par # dans la listbox
                 i += 1
                 lp.insert(i, ligne.upper())  # upper pour passer en majuscule
 

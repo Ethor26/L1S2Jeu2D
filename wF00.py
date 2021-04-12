@@ -6,22 +6,24 @@
 # Fichier F00
 # ======================================================
 import os
-from tkinter import *
-from wF01 import F01
+from tkinter import * # Attention, TKinter doit être importé pour utiliser image de fond, pas remplacable par import de
+# fichier wF0... De plus, ordre des import important !
 from PIL import Image
 from PIL.ImageTk import PhotoImage
+
+from wF01 import F01
+
 
 class F00(Tk):
     # Constructeur de l'objet F01 : ne pas supprimer, sert pour mettre les paramètres et fonctions propres à l'objet.
     def __init__(self, message):
         Tk.__init__(self)
-        # self.configure(background='black')  # backgroud fenêtre
+        print("*** F00 ***") # Pour controle en console
         self.title("F00")  # Le titre de la fenêtre
-
         self.minsize(1200, 700)  # taille de fenêtre
-
         self.Largeur = 1200  # Largeur de la zone de jeu
         self.Hauteur = 700  # Hauteur de la zone de jeu
+
         # Une méthode séparée pour construire le contenu de la fenêtre
         self.createWidgets()
 
@@ -30,8 +32,6 @@ class F00(Tk):
     # Méthode de création des widgets
     def createWidgets(self):
         self.grid()  # Choix du mode d'arrangement
-
-        # Création des widgets :
 
         # ...........< L A B E L S > .........................
         # ELEMENT GRAPHIQUE : <Label> = [Libellé T01] : ...??
@@ -59,7 +59,7 @@ class F00(Tk):
                                          "de pouvoir dans une centrale, le Conseil vous recruta avec d’autres héros"
                                          "pour atteindre et détruire cette centrale, en évitant les tirs des "
                                          "vaisseaux\n "
-                                         "délégué par l’empereur. Vous, <Nom à définir>, devrez donc passer à travers "
+                                         "délégué par l’empereur. Vous devrez donc passer à travers "
                                          "cette armée, mais avec l’interdiction du Conseil de détruire les autres "
                                          "vaisseaux.\n "
                                          "En effet, ils sont contrôlés par des pilotes innocents mais manipulés. Ils "
@@ -86,12 +86,11 @@ class F00(Tk):
         self.quitButton.place(x=300, y=650)
 
     # ==================================================
-    # D'autres méthodes :
-    # ==================================================
+    # Autres Fonctions :
 
     # COMMANDE = ouvre F01,  et ferme F00 (retour au menu)
     def commandeOuvreF01(self):
         self.destroy()  # ferme F00
         # ouvre F01
-        app = F01()  #
+        app = F01(0) # 0 représente un ID nul, sert pour que F01 puisse transmettre l'ID après
         app.mainloop()

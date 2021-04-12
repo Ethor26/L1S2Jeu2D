@@ -5,7 +5,7 @@
 # Date : 4 mai 2021 (?)
 # Fichier outils
 # ======================================================
-
+from math import *
 
 # ========================================================================================
 # FONCTION OUTIL: fonction COMPLEMENTAIRE aux précédentes qui retourner la clé d'un dictionnaire avec en entrée
@@ -44,3 +44,9 @@ def lireLaLignechoisie(chemin_acces, noLine):  # Entrée :  Chemin_acces = chemi
 
 def closeFile(f):
     f.close()
+# =============================================================================
+
+
+
+
+
