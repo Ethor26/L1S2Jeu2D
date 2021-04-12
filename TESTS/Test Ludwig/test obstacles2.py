@@ -30,6 +30,7 @@ def collide():
     # Collision avec les parois
     for i in balles:
         if (i['x'] - i['ray']) <= 0 or (i['x'] + i['ray']) >= int(can['width']):
+            can.delete(ball2) # Pour supprimer obstacle, ici ball2, du canvas "can"
             i['dx'] = -i['dx']
         if (i['y'] - i['ray']) <= 0 or (i['y'] + i['ray']) >= int(can['height']):
             i['dy'] = -i['dy']
@@ -67,11 +68,14 @@ ray = 15
 can = Canvas(fen, width=canW, height=canH, bg='white')
 can.pack(side=TOP, padx=5, pady=5)
 
-balle1 = {'x': rr(canW - 2 * ray) + ray,
-          'y': rr(canH - 2 * ray) + ray,
+ListPosYDepart = [100, 200, 300, 400, 500]
+
+
+balle1 = {'x': 100,
+          'y': ListPosYDepart[randint(0, 4)],
           'ray': ray,
-          'dx': rr(-5, 5),
-          'dy': rr(-5, 5)}
+          'dx': 8,
+          'dy': 8}
 
 balle2 = {'x': rr(canW - 2 * ray) + ray,
           'y': rr(canH - 2 * ray) + ray,
