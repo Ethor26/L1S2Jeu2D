@@ -30,7 +30,7 @@ def collide():
     # Collision avec les parois
     for i in balles:
         if (i['x'] - i['ray']) <= 0 or (i['x'] + i['ray']) >= int(can['width']):
-            can.delete(ball2) # Pour supprimer obstacle, ici ball2, du canvas "can"
+            can.delete(ball2)   # Pour supprimer obstacle, ici ball2, du canvas "can"
             i['dx'] = -i['dx']
         if (i['y'] - i['ray']) <= 0 or (i['y'] + i['ray']) >= int(can['height']):
             i['dy'] = -i['dy']
@@ -127,3 +127,15 @@ Button(fen, text="Quitter", command=fen.quit).pack()
 
 action()
 fen.mainloop()
+
+# Test de la collision avec la raquette : utilisation d'une fonction qui vérifie s'il y a un chevauchement avec un
+# rectangle
+#   if len(canvas.find_overlapping(canvas.coords(raquette)[0], canvas.coords(raquette)[1], canvas.coords(raquette)[2],
+                              # canvas.coords(raquette)[3])) > 1:
+# Adaptation:
+# print("Collision",
+#                   self.CanevasJeu.find_overlapping(self.PosX - self.Perso_Largeur//2, self.PosY - self.Perso_Hauteur//2,
+#                                                    self.PosX + self.Perso_Largeur//2,
+#                                                    self.PosY + self.Perso_Hauteur//2))
+#             print("NumImage =", self.ImgPerso, self.objImgFondEcran, self.raquette, self.objImgV4, self.objImgV3,
+#                   self.objImgV2, self.objImgV1)

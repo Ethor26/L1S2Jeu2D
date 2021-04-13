@@ -5,8 +5,9 @@
 # Date : 4 mai 2021 (?)
 # Fichier F02 = "JEUX EN ACTION"
 # ======================================================
-from math import *
+# from math import *
 import os
+from random import *
 from tkinter import *
 from PIL import Image
 from PIL.ImageTk import PhotoImage
@@ -143,6 +144,11 @@ class F02(Tk):
                 nbRebond = nbRebond + 1
                 print("Nombre de rebond = ", nbRebond)
 
+            print("Collision",self.CanevasJeu.find_overlapping(self.PosX - self.Perso_Largeur//2, self.PosY - self.Perso_Hauteur//2,
+                                                                self.PosX + self.Perso_Largeur//2,
+                                                                self.PosY + self.Perso_Hauteur//2))
+            print("NumImage =", self.ImgPerso, self.objImgFondEcran, self.raquette, self.objImgV4, self.objImgV3,
+                               self.objImgV2, self.objImgV1)
             # On déclenche le déplacement toute les 40 ms, réactualisation de la fenêtre
             idAfter = self.after(40, deplacement_D)
 
@@ -152,6 +158,7 @@ class F02(Tk):
             if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
                 self.after_cancel(idAfter)
                 self.cpTemps = 0
+
 
         # =============================================================================
         # FONCTION de déplacement de la touche Q. Auteur : Lilandra ALBERT-LAVAUX - Terminé
@@ -239,6 +246,8 @@ class F02(Tk):
                 self.after_cancel(idAfter)
                 self.cpTemps = 0
 
+
+
         # ==================================================
         # ELEMENTS GRAPHIQUES::::::::
         # ...........< I M A G E S >........................
@@ -294,6 +303,82 @@ class F02(Tk):
         self.logo = PhotoImage(self.PersoImgVaisseau)
         self.ImgPerso = self.CanevasJeu.create_image(self.PosX, self.PosY, image=self.logo)  # Placement à PosX et PosY
         # pour le déplacement de l'image comme personnage.
+
+        # ...........< O B S T A C L E S >........................
+        # Image Test Pour collision
+        self.raquette = self.CanevasJeu.create_rectangle(200,380,400,390,fill='red')
+
+        # position initiale aleatoire
+        listpos = [50, 100, 150, 200, 250, 300, 350, 400]
+        ray = 15
+        # direction initiale aléatoire
+        Listvitesse = []
+        for i in range(4):
+            Listvitesse.append(uniform(1.8, 2) * 4)
+
+        Listangle = []
+        AngleRadianBalle = 0
+        for i in range(4):
+            Listangle.append(AngleRadianBalle)
+            AngleRadianBalle += pi / 2
+
+        print("ListAngles:", Listangle, "ListeVitesses", Listvitesse)
+        # DX = vitesse * math.cos(angle)
+        # DY = vitesse * math.sin(angle)
+
+        CoordObstacleGauche = {'x': 50,
+                               'y': listpos[randint(0, 5)],
+                               'ray': ray,
+                               'dx': Listvitesse[0] * cos(Listangle[0]),
+                               'dy': Listvitesse[0] * sin(Listangle[0])}
+
+        CoordObstacleBas = {'x': listpos[randint(0, 7)],
+                            'y': 50,
+                            'ray': ray,
+                            'dx': Listvitesse[1] * cos(Listangle[1]),
+                            'dy': Listvitesse[1] * sin(Listangle[1])}
+
+        CoordObstacleDroite = {'x': self.Hauteur - ray - 1,
+                               'y': listpos[randint(0, 5)],
+                               'ray': ray,
+                               'dx': Listvitesse[2] * cos(Listangle[2]),
+                               'dy': Listvitesse[2] * sin(Listangle[2])}
+
+        CoordObstacleHaut = {'x': listpos[randint(0, 7)],
+                             'y': self.Hauteur - ray - 1,
+                             'ray': ray,
+                             'dx': Listvitesse[3] * cos(Listangle[3]),
+                             'dy': Listvitesse[3] * sin(Listangle[3])}
+
+        self.balles = [CoordObstacleGauche, CoordObstacleBas, CoordObstacleDroite, CoordObstacleHaut]
+
+        ObjObstacleDroite = self.CanevasJeu.create_oval(CoordObstacleGauche['x'] - CoordObstacleGauche['ray'],
+                                            CoordObstacleGauche['y'] - CoordObstacleGauche['ray'],
+                                            CoordObstacleGauche['x'] + CoordObstacleGauche['ray'],
+                                            CoordObstacleGauche['y'] + CoordObstacleGauche['ray'],
+                                            fill='red')
+
+        ObjObstacleBas = self.CanevasJeu.create_oval(CoordObstacleBas['x'] - CoordObstacleBas['ray'],
+                                         CoordObstacleBas['y'] - CoordObstacleBas['ray'],
+                                         CoordObstacleBas['x'] + CoordObstacleBas['ray'],
+                                         CoordObstacleBas['y'] + CoordObstacleBas['ray'],
+                                         fill='green')
+
+        ObjObstacleGauche = self.CanevasJeu.create_oval(CoordObstacleDroite['x'] - CoordObstacleDroite['ray'],
+                                            CoordObstacleDroite['y'] - CoordObstacleDroite['ray'],
+                                            CoordObstacleDroite['x'] + CoordObstacleDroite['ray'],
+                                            CoordObstacleDroite['y'] + CoordObstacleDroite['ray'],
+                                            fill='blue')
+
+        ObjetObstacleHaut = self.CanevasJeu.create_oval(CoordObstacleHaut['x'] - CoordObstacleHaut['ray'],
+                                            CoordObstacleHaut['y'] - CoordObstacleHaut['ray'],
+                                            CoordObstacleHaut['x'] + CoordObstacleHaut['ray'],
+                                            CoordObstacleHaut['y'] + CoordObstacleHaut['ray'],
+                                            fill='yellow')
+
+        self.balls = [ObjObstacleDroite, ObjObstacleBas, ObjObstacleGauche, ObjetObstacleHaut]
+
+        self.action()
 
         # ...........< B U T T O N S >........................
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B07] : Retour au menu (Retour F01)
@@ -457,6 +542,55 @@ class F02(Tk):
         rebond = self.RebondHauteur(valInit)  # On teste le rebond sur les côtés avec la fonction RebondHauteur.
         return self.valY_Final, rebond  # Renvoie des paramètres aux fonctions de déplacement pour réutilisation.
 
+    # FONCTION de déplacement des obstacles
+    def action(self):
+        "Animation"
+        self.collide()
+        self.move()
+        self.after(20, self.action)
+
+    def move(self):
+        "Déplacement des balles"
+        for i in range(len(self.balles)):
+            self.balles[i]['x'] += self.balles[i]['dx']
+            self.balles[i]['y'] += self.balles[i]['dy']
+            self.CanevasJeu.coords(self.balls[i],
+                                   self.balles[i]['x'] - self.balles[i]['ray'],
+                                   self.balles[i]['y'] - self.balles[i]['ray'],
+                                   self.balles[i]['x'] + self.balles[i]['ray'],
+                                   self.balles[i]['y'] + self.balles[i]['ray'])
+
+    def collide(self):
+        "Test de collision des balles"
+
+    # Collision avec les parois
+        j = 0
+        for i in self.balles:
+            if (i['x'] - i['ray']) <= 0 or (i['x'] + i['ray']) >= int(self.CanevasJeu['width']) or \
+                    (i['y'] - i['ray']) <= 0 or (i['y'] + i['ray']) >= int(self.CanevasJeu['height']):
+                # i['dx'] = -i['dx']
+                CopieObjBall = self.balls[j]
+                CopieCoordBall = self.balles[j]
+                # Modif de balls, balles et des coordonnées de départ à faire
+                self.CanevasJeu.delete(self.balls[j])
+            j += 1
+
+            # di['dy'] = -i['dy']
+        # Collision entre les balles
+        # ordre = 1/2, 1/3, 1/4, 2/3, 2/4, 3/4
+        for i in range(len(self.balles)):
+            j = i + 1
+            while j < len(self.balles):
+                # Test si (ray1+ray2)² > dist(x1-x2)² + dist(y1-y2)²
+                # et interverti les dx et dy
+                if (self.balles[i]['ray'] + self.balles[j]['ray']) ** 2 > \
+                        ((self.balles[i]['x'] - self.balles[j]['x']) ** 2 +  # \
+                         (self.balles[i]['y'] - self.balles[j]['y']) ** 2):
+                    self.balles[i]['dx'], self.balles[j]['dx'] = self.balles[j]['dx'], self.balles[i]['dx']
+                    self.balles[i]['dy'], self.balles[j]['dy'] = self.balles[j]['dy'], self.balles[i]['dy']
+                j += 1
+
+
     # ========================
     # COMMANDE = ouvre F01,  (retour au menu)
     # Auteur : Ethan SUISSA - En Cours
@@ -481,9 +615,6 @@ class F02(Tk):
         app = F04(self.Score, self.IdJoueur)
         app.mainloop()
 
-        # Enregistre l'état du jeux et le score dans le fichier scores.txt:
-        # >>>>>> ??A FAIRE
-
     # ========================
     # FONCTION : Fonction de fin de partie, appelée si partie finie pour récupérer le meilleur score et ouvrir F04
     def Fin_Partie(self):
@@ -493,3 +624,6 @@ class F02(Tk):
         # correspondant, le meilleur score est à l'emplacement t[i][3] du tableau d'"open_score_file",
         # BestScore est ce qu'on écrit.
         self.commandeOuvreF04()
+
+
+

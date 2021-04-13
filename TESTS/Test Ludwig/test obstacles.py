@@ -1,6 +1,6 @@
 from tkinter import *
 import math, random
-from random import randrange as rr
+# from random import randrange as rr
 from random import randint
 
 
@@ -72,62 +72,72 @@ can.pack(side=TOP, padx=5, pady=5)
 listpos= [50,100,150,200,250,300,350,400]
 
 # direction initiale aléatoire
-vitesse = random.uniform(1.8, 2) * 5
-angle = random.uniform(0, 2 * math.pi)
-DX = vitesse * math.cos(angle)
-DY = vitesse * math.sin(angle)
+Listvitesse = []
+for i in range(4):
+    Listvitesse.append(random.uniform(1.8, 2) * 4)
 
-balle1 = {'x': listpos[randint(0,7)],
+Listangle = []
+AngleRadianBalle = 0
+for i in range(4):
+    Listangle.append(AngleRadianBalle)
+    AngleRadianBalle += math.pi/2
+
+
+print("ListAngles:", Listangle, "ListeVitesses", Listvitesse)
+# DX = vitesse * math.cos(angle)
+# DY = vitesse * math.sin(angle)
+
+CoordObstacleDroite = {'x': 50,
           'y': listpos[randint(0,5)],
           'ray': ray,
-          'dx': random.uniform(1.8, 2) * 5 * math.cos(random.uniform(0, 2 * math.pi)),
-          'dy': random.uniform(1.8, 2) * 5* math.sin(random.uniform(0, 2 * math.pi))}
+          'dx': Listvitesse[0] * math.cos(Listangle[0]),
+          'dy': Listvitesse[0] * math.sin(Listangle[0])}
 
-balle2 = {'x': listpos[randint(0,7)],
+CoordObstacleBas = {'x': listpos[randint(0, 7)],
+          'y': canH-ray+1,
+          'ray': ray,
+          'dx': Listvitesse[1] * math.cos(Listangle[1]),
+          'dy': Listvitesse[1] * math.sin(Listangle[1])}
+
+CoordObstacleGauche = {'x': canW - ray - 1,
           'y': listpos[randint(0,5)],
           'ray': ray,
-          'dx': random.uniform(1.8, 2) * 5 * math.cos(random.uniform(0, 2 * math.pi)),
-          'dy': random.uniform(1.8, 2) * 5* math.sin(random.uniform(0, 2 * math.pi))}
+          'dx': Listvitesse[2] * math.cos(Listangle[2]),
+          'dy': Listvitesse[2] * math.sin(Listangle[2])}
 
-balle3 = {'x': listpos[randint(0,7)],
-          'y': listpos[randint(0,5)],
+CoordObstacleHaut = {'x': listpos[randint(0, 7)],
+          'y': 50,
           'ray': ray,
-          'dx': random.uniform(1.8, 2) * 5 * math.cos(random.uniform(0, 2 * math.pi)),
-          'dy': random.uniform(1.8, 2) * 5* math.sin(random.uniform(0, 2 * math.pi))}
+          'dx': Listvitesse[3] * math.cos(Listangle[3]),
+          'dy': Listvitesse[3] * math.sin(Listangle[3])}
 
-balle4 = {'x': listpos[randint(0,7)],
-          'y': listpos[randint(0,5)],
-          'ray': ray,
-          'dx': random.uniform(1.8, 2) * 5 * math.cos(random.uniform(0, 2 * math.pi)),
-          'dy': random.uniform(1.8, 2) * 5* math.sin(random.uniform(0, 2 * math.pi))}
+balles = (CoordObstacleDroite, CoordObstacleBas, CoordObstacleGauche, CoordObstacleHaut)
 
-balles = (balle1, balle2, balle3, balle4)
+ObjObstacleDroite = can.create_oval(CoordObstacleDroite['x'] - CoordObstacleDroite['ray'],
+                                    CoordObstacleDroite['y'] - CoordObstacleDroite['ray'],
+                                    CoordObstacleDroite['x'] + CoordObstacleDroite['ray'],
+                                    CoordObstacleDroite['y'] + CoordObstacleDroite['ray'],
+                                    fill='red')
 
-ball1 = can.create_oval(balle1['x'] - balle1['ray'],
-                        balle1['y'] - balle1['ray'],
-                        balle1['x'] + balle1['ray'],
-                        balle1['y'] + balle1['ray'],
-                        fill='red')
+ObjObstacleBas = can.create_oval(CoordObstacleBas['x'] - CoordObstacleBas['ray'],
+                                 CoordObstacleBas['y'] - CoordObstacleBas['ray'],
+                                 CoordObstacleBas['x'] + CoordObstacleBas['ray'],
+                                 CoordObstacleBas['y'] + CoordObstacleBas['ray'],
+                                 fill='green')
 
-ball2 = can.create_oval(balle2['x'] - balle2['ray'],
-                        balle2['y'] - balle2['ray'],
-                        balle2['x'] + balle2['ray'],
-                        balle2['y'] + balle2['ray'],
-                        fill='green')
+ObjObstacleGauche = can.create_oval(CoordObstacleGauche['x'] - CoordObstacleGauche['ray'],
+                                    CoordObstacleGauche['y'] - CoordObstacleGauche['ray'],
+                                    CoordObstacleGauche['x'] + CoordObstacleGauche['ray'],
+                                    CoordObstacleGauche['y'] + CoordObstacleGauche['ray'],
+                                    fill='blue')
 
-ball3 = can.create_oval(balle3['x'] - balle3['ray'],
-                        balle3['y'] - balle3['ray'],
-                        balle3['x'] + balle3['ray'],
-                        balle3['y'] + balle3['ray'],
-                        fill='blue')
+ObjetObstacleHaut = can.create_oval(CoordObstacleHaut['x'] - CoordObstacleHaut['ray'],
+                                    CoordObstacleHaut['y'] - CoordObstacleHaut['ray'],
+                                    CoordObstacleHaut['x'] + CoordObstacleHaut['ray'],
+                                    CoordObstacleHaut['y'] + CoordObstacleHaut['ray'],
+                                    fill='yellow')
 
-ball4 = can.create_oval(balle4['x'] - balle4['ray'],
-                        balle4['y'] - balle4['ray'],
-                        balle4['x'] + balle4['ray'],
-                        balle4['y'] + balle4['ray'],
-                        fill='yellow')
-
-balls = (ball1, ball2, ball3, ball4)
+balls = (ObjObstacleDroite, ObjObstacleBas, ObjObstacleGauche, ObjetObstacleHaut)
 
 Button(fen, text="Quitter", command=fen.quit).pack()
 
