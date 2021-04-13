@@ -1,4 +1,5 @@
 from tkinter import *
+import math, random
 from random import randrange as rr
 from random import randint
 
@@ -67,29 +68,38 @@ ray = 15
 can = Canvas(fen, width=canW, height=canH, bg='white')
 can.pack(side=TOP, padx=5, pady=5)
 
-balle1 = {'x': rr(canW - 2 * ray) + ray,
-          'y': rr(canH - 2 * ray) + ray,
-          'ray': ray,
-          'dx': rr(-5, 5),
-          'dy': rr(-5, 5)}
+# position initiale aleatoire
+listpos= [50,100,150,200,250,300,350,400]
 
-balle2 = {'x': rr(canW - 2 * ray) + ray,
-          'y': rr(canH - 2 * ray) + ray,
-          'ray': ray,
-          'dx': rr(-5, 5),
-          'dy': rr(-5, 5)}
+# direction initiale aléatoire
+vitesse = random.uniform(1.8, 2) * 5
+angle = random.uniform(0, 2 * math.pi)
+DX = vitesse * math.cos(angle)
+DY = vitesse * math.sin(angle)
 
-balle3 = {'x': rr(canW - 2 * ray) + ray,
-          'y': rr(canH - 2 * ray) + ray,
+balle1 = {'x': listpos[randint(0,7)],
+          'y': listpos[randint(0,5)],
           'ray': ray,
-          'dx': rr(-5, 5),
-          'dy': rr(-5, 5)}
+          'dx': random.uniform(1.8, 2) * 5 * math.cos(random.uniform(0, 2 * math.pi)),
+          'dy': random.uniform(1.8, 2) * 5* math.sin(random.uniform(0, 2 * math.pi))}
 
-balle4 = {'x': rr(canW - 2 * ray) + ray,
-          'y': rr(canH - 2 * ray) + ray,
+balle2 = {'x': listpos[randint(0,7)],
+          'y': listpos[randint(0,5)],
           'ray': ray,
-          'dx': rr(-5, 5),
-          'dy': rr(-5, 5)}
+          'dx': random.uniform(1.8, 2) * 5 * math.cos(random.uniform(0, 2 * math.pi)),
+          'dy': random.uniform(1.8, 2) * 5* math.sin(random.uniform(0, 2 * math.pi))}
+
+balle3 = {'x': listpos[randint(0,7)],
+          'y': listpos[randint(0,5)],
+          'ray': ray,
+          'dx': random.uniform(1.8, 2) * 5 * math.cos(random.uniform(0, 2 * math.pi)),
+          'dy': random.uniform(1.8, 2) * 5* math.sin(random.uniform(0, 2 * math.pi))}
+
+balle4 = {'x': listpos[randint(0,7)],
+          'y': listpos[randint(0,5)],
+          'ray': ray,
+          'dx': random.uniform(1.8, 2) * 5 * math.cos(random.uniform(0, 2 * math.pi)),
+          'dy': random.uniform(1.8, 2) * 5* math.sin(random.uniform(0, 2 * math.pi))}
 
 balles = (balle1, balle2, balle3, balle4)
 
