@@ -147,24 +147,33 @@ class F01(Tk):
         self.quitButton = Button(self, text="Quitter", command=self.destroy)
         self.quitButton.place(x=150, y=600)
 
-
         # ...........< L I S T B O X ' S > .......................
         # (Tkinter)LISTBOX : Liste des ID des joueurs de la base de données (déclaration & position)
         AffID = Listbox(self)
-        AffID.place(x=400, y=26, width=100, height=500)
+        AffID.place(x=600, y=26, width=100, height=500)
+        tab, nb_ligne = open_score_file2()
+        for i in range(0, nb_ligne):
+            AffID.insert(END, tab[i][0])
 
         # (Tkinter)LISTBOX : Liste des noms des joueurs de la base de données (déclaration & position)
         AffNom = Listbox(self)
-        AffNom.place(x=500, y=26, width=100, height=500)
+        AffNom.place(x=700, y=26, width=100, height=500)
+        tab, nb_ligne = open_score_file2()
+        for i in range(0, nb_ligne):
+            AffNom.insert(END, tab[i][1])
+        # (Tkinter)LISTBOX : Liste des Angles des joueurs de la base de données (déclaration & position)
+        AffAngle = Listbox(self)
+        AffAngle.place(x=800, y=26, width=100, height=500)
+        tab, nb_ligne = open_score_file2()
+        for i in range(0, nb_ligne):
+            AffAngle.insert(END, tab[i][2])
 
         # (Tkinter)LISTBOX : Liste des score des joueurs de la base de données (déclaration & position)
         AffScore = Listbox(self)
-        AffScore.place(x=600, y=26, width=100, height=500)
-
-        # (Tkinter)LISTBOX : Liste des Angles des joueurs de la base de données (déclaration & position)
-        AffAngle = Listbox(self)
-        AffAngle.place(x=700, y=26, width=100, height=500)
-
+        AffScore.place(x=900, y=26, width=100, height=500)
+        tab, nb_ligne = open_score_file2()
+        for i in range(0, nb_ligne):
+            AffScore.insert(END, tab[i][3])
     # ==================================================
     # FONCTIONS DE L'OBJET::::::::
 
