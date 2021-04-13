@@ -21,13 +21,17 @@ class F02(Tk):
     def __init__(self, IDJoueur):
         Tk.__init__(self)
         self.title("F02")  # Le titre de la fenêtre
-        self.minsize(1200, 700)  # taille de fenêtre
-
         self.IdJoueur = IDJoueur
 
         # Une méthode séparée pour construire le contenu de la fenêtre
         self.Largeur = 1200  # Largeur de la zone de jeu
         self.Hauteur = 680  # Hauteur de la zone de jeu
+
+        # # Paramètres plein écran
+        #         self.fullScreenState = False
+        #         self.window.attributes("-fullscreen", self.fullScreenState)
+        #         self.window.bind("<F11>", self.toggleFullScreen)
+        #         self.window.bind("<Escape>", self.quitFullScreen)
 
         # Dimension de l'image du vaisseaux
         self.Perso_Hauteur = 45
@@ -41,7 +45,7 @@ class F02(Tk):
         self.Temps = 0
         self.cpTemps = 2
         self.LimiteTpsDepl = 5
-
+        self.FinAttente = True
         # Score Initial
         self.Score = 0
 
@@ -72,27 +76,32 @@ class F02(Tk):
             # Si touche d => deplt a droite
             if self.touche == 'd':
                 print("Info:  touche d activée ***")
-                deplacement_D()
+                if self.FinAttente:  # Si Pause n'est pas activé
+                    deplacement_D()
 
             # Si touche q => deplt a Gauche
             if self.touche == 'q':
                 print("Info:  touche q activée ***")
-                deplacement_Q()
+                if self.FinAttente:  # Si Pause n'est pas activé
+                    deplacement_Q()
 
             # Si touche s => deplt a bas
             if self.touche == 's':
                 print("Info:  touche s activée ***")
-                deplacement_S()
+                if self.FinAttente:  # Si Pause n'est pas activé
+                    deplacement_S()
 
             # Si touche z => deplt a Haut
             if self.touche == 'z':
                 print("Info:  touche z activée ***")
-                deplacement_Z()
+                if self.FinAttente:  # Si Pause n'est pas activé
+                    deplacement_Z()
 
             # Si touche p => déplacement selon equation de mouvement
             if self.touche == 'p':
                 print("Info:  touche p activée ***")
-                deplacement_P()
+                if self.FinAttente:  # Si Pause n'est pas activé
+                    deplacement_P()
 
         # =============================================================================
         # FONCTION de déplacement de la touche P. Auteur : Ethan SUISSA - Terminé
@@ -144,11 +153,13 @@ class F02(Tk):
                 nbRebond = nbRebond + 1
                 print("Nombre de rebond = ", nbRebond)
 
-            print("Collision",self.CanevasJeu.find_overlapping(self.PosX - self.Perso_Largeur//2, self.PosY - self.Perso_Hauteur//2,
-                                                                self.PosX + self.Perso_Largeur//2,
-                                                                self.PosY + self.Perso_Hauteur//2))
+            print("Collision", self.CanevasJeu.find_overlapping(self.PosX - self.Perso_Largeur // 2,
+                                                                self.PosY - self.Perso_Hauteur // 2,
+                                                                self.PosX + self.Perso_Largeur // 2,
+                                                                self.PosY + self.Perso_Hauteur // 2))
             print("NumImage =", self.ImgPerso, self.objImgFondEcran, self.raquette, self.objImgV4, self.objImgV3,
-                               self.objImgV2, self.objImgV1)
+                  self.objImgV2, self.objImgV1)
+
             # On déclenche le déplacement toute les 40 ms, réactualisation de la fenêtre
             idAfter = self.after(40, deplacement_D)
 
@@ -158,7 +169,6 @@ class F02(Tk):
             if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
                 self.after_cancel(idAfter)
                 self.cpTemps = 0
-
 
         # =============================================================================
         # FONCTION de déplacement de la touche Q. Auteur : Lilandra ALBERT-LAVAUX - Terminé
@@ -246,8 +256,6 @@ class F02(Tk):
                 self.after_cancel(idAfter)
                 self.cpTemps = 0
 
-
-
         # ==================================================
         # ELEMENTS GRAPHIQUES::::::::
         # ...........< I M A G E S >........................
@@ -306,7 +314,7 @@ class F02(Tk):
 
         # ...........< O B S T A C L E S >........................
         # Image Test Pour collision
-        self.raquette = self.CanevasJeu.create_rectangle(200,380,400,390,fill='red')
+        self.raquette = self.CanevasJeu.create_rectangle(200, 380, 400, 390, fill='red')
 
         # position initiale aleatoire
         listpos = [50, 100, 150, 200, 250, 300, 350, 400]
@@ -353,28 +361,28 @@ class F02(Tk):
         self.balles = [CoordObstacleGauche, CoordObstacleBas, CoordObstacleDroite, CoordObstacleHaut]
 
         ObjObstacleDroite = self.CanevasJeu.create_oval(CoordObstacleGauche['x'] - CoordObstacleGauche['ray'],
-                                            CoordObstacleGauche['y'] - CoordObstacleGauche['ray'],
-                                            CoordObstacleGauche['x'] + CoordObstacleGauche['ray'],
-                                            CoordObstacleGauche['y'] + CoordObstacleGauche['ray'],
-                                            fill='red')
+                                                        CoordObstacleGauche['y'] - CoordObstacleGauche['ray'],
+                                                        CoordObstacleGauche['x'] + CoordObstacleGauche['ray'],
+                                                        CoordObstacleGauche['y'] + CoordObstacleGauche['ray'],
+                                                        fill='red')
 
         ObjObstacleBas = self.CanevasJeu.create_oval(CoordObstacleBas['x'] - CoordObstacleBas['ray'],
-                                         CoordObstacleBas['y'] - CoordObstacleBas['ray'],
-                                         CoordObstacleBas['x'] + CoordObstacleBas['ray'],
-                                         CoordObstacleBas['y'] + CoordObstacleBas['ray'],
-                                         fill='green')
+                                                     CoordObstacleBas['y'] - CoordObstacleBas['ray'],
+                                                     CoordObstacleBas['x'] + CoordObstacleBas['ray'],
+                                                     CoordObstacleBas['y'] + CoordObstacleBas['ray'],
+                                                     fill='green')
 
         ObjObstacleGauche = self.CanevasJeu.create_oval(CoordObstacleDroite['x'] - CoordObstacleDroite['ray'],
-                                            CoordObstacleDroite['y'] - CoordObstacleDroite['ray'],
-                                            CoordObstacleDroite['x'] + CoordObstacleDroite['ray'],
-                                            CoordObstacleDroite['y'] + CoordObstacleDroite['ray'],
-                                            fill='blue')
+                                                        CoordObstacleDroite['y'] - CoordObstacleDroite['ray'],
+                                                        CoordObstacleDroite['x'] + CoordObstacleDroite['ray'],
+                                                        CoordObstacleDroite['y'] + CoordObstacleDroite['ray'],
+                                                        fill='blue')
 
         ObjetObstacleHaut = self.CanevasJeu.create_oval(CoordObstacleHaut['x'] - CoordObstacleHaut['ray'],
-                                            CoordObstacleHaut['y'] - CoordObstacleHaut['ray'],
-                                            CoordObstacleHaut['x'] + CoordObstacleHaut['ray'],
-                                            CoordObstacleHaut['y'] + CoordObstacleHaut['ray'],
-                                            fill='yellow')
+                                                        CoordObstacleHaut['y'] - CoordObstacleHaut['ray'],
+                                                        CoordObstacleHaut['x'] + CoordObstacleHaut['ray'],
+                                                        CoordObstacleHaut['y'] + CoordObstacleHaut['ray'],
+                                                        fill='yellow')
 
         self.balls = [ObjObstacleDroite, ObjObstacleBas, ObjObstacleGauche, ObjetObstacleHaut]
 
@@ -389,6 +397,10 @@ class F02(Tk):
         self.quitButton = Button(self, text="Quitter", command=self.destroy)
         self.quitButton.place(x=300, y=700)
 
+        # ELEMENT GRAPHIQUE : <Button> = [A preciser] : Un bouton pour quitter l'application
+        self.quitButton = Button(self, text="Pause", command=self.Pause)
+        self.quitButton.place(x=500, y=700)
+
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B0?] : Fin de la partie et ouvre F04, temporaire ?
         self.B07_retourMenu = Button(self, text="Fin de partie", command=self.Fin_Partie)
         self.B07_retourMenu.place(x=400, y=700)
@@ -402,12 +414,12 @@ class F02(Tk):
 
         # Etape 2 : Conversion et envoi pour calcul commande programmable
         # Angles à tester : 26, 45, 60, 120, 210, 300, extremes (89, 179, 269, 359)
-            # Angle Temporaire
+        # Angle Temporaire
         # AngleEnDegree = 269
         # print("Angle en degree = ", AngleEnDegree)  # Pour controle
         # angleRadian = math.radians(AngleEnDegree)  # Conversion en radians pour calculs de com programmable
         # return angleRadian
-            # Vrai Angle
+        # Vrai Angle
         print("Angle en degree = ", VAngleEnDegree)
         VangleRadian = radians(VAngleEnDegree)
         return VangleRadian
@@ -545,9 +557,11 @@ class F02(Tk):
     # FONCTION de déplacement des obstacles
     def action(self):
         "Animation"
+        print("Action balle !")
         self.collide()
         self.move()
-        self.after(20, self.action)
+        if self.FinAttente:  # Si Pause n'est pas activé
+            self.after(20, self.action)
 
     def move(self):
         "Déplacement des balles"
@@ -563,7 +577,7 @@ class F02(Tk):
     def collide(self):
         "Test de collision des balles"
 
-    # Collision avec les parois
+        # Collision avec les parois
         j = 0
         for i in self.balles:
             if (i['x'] - i['ray']) <= 0 or (i['x'] + i['ray']) >= int(self.CanevasJeu['width']) or \
@@ -589,6 +603,51 @@ class F02(Tk):
                     self.balles[i]['dx'], self.balles[j]['dx'] = self.balles[j]['dx'], self.balles[i]['dx']
                     self.balles[i]['dy'], self.balles[j]['dy'] = self.balles[j]['dy'], self.balles[i]['dy']
                 j += 1
+        self.CollisionVaisseau()
+
+    # FONCTION vérifiant les collisions du vaisseaux et appliquant ses conséquences
+    def CollisionVaisseau(self):
+        ListCollisions = self.CanevasJeu.find_overlapping(self.PosX - self.Perso_Largeur // 2,
+                                                          self.PosY - self.Perso_Hauteur // 2,
+                                                          self.PosX + self.Perso_Largeur // 2,
+                                                          self.PosY + self.Perso_Hauteur // 2)
+
+        print("Listes Collisions", ListCollisions, "\nNumImagePerso =", self.ImgPerso, "NumImageEcran =",
+              self.objImgFondEcran, "NumImageTest =",
+              self.raquette,
+              "NumImageV4 =", self.objImgV4, "NumImageV3 =", self.objImgV3, "\nNumImageV2 =", self.objImgV2,
+              "NumImageV1 =", self.objImgV1,
+              "\nNumBalleDroite =", self.balls[0], "NumBallebas =", self.balls[1], "NumBalleGauche =", self.balls[2],
+              "NumBalleHaut =", self.balls[3])  # Pour control de collision
+
+        if len(ListCollisions) > 2:
+            for i in range(len(ListCollisions)):
+                if (ListCollisions[i] == self.balls[0] or ListCollisions[i] == self.balls[1] or
+                        ListCollisions[i] == self.balls[2] or ListCollisions[i] == self.balls[3] or
+                        ListCollisions[i] == self.raquette):
+                    print("Collision balle avec :", i, "Fin de partie")
+                    self.Fin_Partie()  # Erreur compliquée à modifier : trouver un moyen de stopper action.
+
+    def Pause(self):
+         self.FinAttente = False
+         def Reprendre():
+                self.FinAttente = True
+                self.action()
+         self.BoutonReprise = Button(self, text="Reprendre", command=Reprendre)
+         self.BoutonReprise.place(x=550, y=700)
+         print("A coder")
+
+    #              input('hit ENTER to continue')
+    #              while not self.FinAttente:
+    #            time.sleep(5)
+
+    #     def toggleFullScreen(self, event):
+    #         self.fullScreenState = not self.fullScreenState
+    #         self.window.attributes("-fullscreen", self.fullScreenState)
+    #
+    #     def quitFullScreen(self, event):
+    #         self.fullScreenState = False
+    #         self.window.attributes("-fullscreen", self.fullScreenState)
 
 
     # ========================
