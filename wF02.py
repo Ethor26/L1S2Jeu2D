@@ -346,7 +346,7 @@ class F02(Tk):
                             'dx': Listvitesse[1] * cos(Listangle[1]),
                             'dy': Listvitesse[1] * sin(Listangle[1])}
 
-        CoordObstacleDroite = {'x': self.Hauteur - ray - 1,
+        CoordObstacleDroite = {'x': self.Largeur - ray - 1,
                                'y': listpos[randint(0, 5)],
                                'ray': ray,
                                'dx': Listvitesse[2] * cos(Listangle[2]),
