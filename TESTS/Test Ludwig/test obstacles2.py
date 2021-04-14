@@ -139,3 +139,4 @@ fen.mainloop()
 #                                                    self.PosY + self.Perso_Hauteur//2))
 #             print("NumImage =", self.ImgPerso, self.objImgFondEcran, self.raquette, self.objImgV4, self.objImgV3,
 #                   self.objImgV2, self.objImgV1)
+
