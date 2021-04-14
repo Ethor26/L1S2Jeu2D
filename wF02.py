@@ -37,6 +37,7 @@ class F02(Tk):
         self.Perso_Hauteur = 45
         self.Perso_Largeur = 30
 
+        self.RayonObstacles = 15
         # position initiale du perso, respectivement X et Y
         self.PosX = 600
         self.PosY = 400
@@ -317,8 +318,7 @@ class F02(Tk):
         self.raquette = self.CanevasJeu.create_rectangle(200, 380, 400, 390, fill='red')
 
         # position initiale aleatoire
-        listpos = [50, 100, 150, 200, 250, 300, 350, 400]
-        ray = 15
+        self.listpos = [50, 100, 150, 200, 250, 300, 350, 400]
         # direction initiale aléatoire
         Listvitesse = []
         for i in range(4):
@@ -334,57 +334,60 @@ class F02(Tk):
         # DX = vitesse * math.cos(angle)
         # DY = vitesse * math.sin(angle)
 
+        # ATTENTION: Les directions des obstacles dans le nom représentent l'endroit d'où ils partent, et non leurs
+        # trajectoires.
+
         CoordObstacleGauche = {'x': 50,
-                               'y': listpos[randint(0, 5)],
-                               'ray': ray,
+                               'y': self.listpos[randint(0, 5)],
+                               'ray': self.RayonObstacles,
                                'dx': Listvitesse[0] * cos(Listangle[0]),
                                'dy': Listvitesse[0] * sin(Listangle[0])}
 
-        CoordObstacleBas = {'x': listpos[randint(0, 7)],
+        CoordObstacleHaut = {'x': self.listpos[randint(0, 7)],
                             'y': 50,
-                            'ray': ray,
+                            'ray': self.RayonObstacles,
                             'dx': Listvitesse[1] * cos(Listangle[1]),
                             'dy': Listvitesse[1] * sin(Listangle[1])}
 
-        CoordObstacleDroite = {'x': self.Largeur - ray - 1,
-                               'y': listpos[randint(0, 5)],
-                               'ray': ray,
+        CoordObstacleDroite = {'x': self.Largeur - self.RayonObstacles - 1,
+                               'y': self.listpos[randint(0, 5)],
+                               'ray': self.RayonObstacles,
                                'dx': Listvitesse[2] * cos(Listangle[2]),
                                'dy': Listvitesse[2] * sin(Listangle[2])}
 
-        CoordObstacleHaut = {'x': listpos[randint(0, 7)],
-                             'y': self.Hauteur - ray - 1,
-                             'ray': ray,
+        CoordObstacleBas = {'x': self.listpos[randint(0, 7)],
+                             'y': self.Hauteur - self.RayonObstacles - 1,
+                             'ray': self.RayonObstacles,
                              'dx': Listvitesse[3] * cos(Listangle[3]),
                              'dy': Listvitesse[3] * sin(Listangle[3])}
 
-        self.balles = [CoordObstacleGauche, CoordObstacleBas, CoordObstacleDroite, CoordObstacleHaut]
+        self.balles = [CoordObstacleDroite, CoordObstacleHaut, CoordObstacleGauche , CoordObstacleBas]
 
-        ObjObstacleDroite = self.CanevasJeu.create_oval(CoordObstacleGauche['x'] - CoordObstacleGauche['ray'],
+        ObjObstacleGauche = self.CanevasJeu.create_oval(CoordObstacleGauche['x'] - CoordObstacleGauche['ray'],
                                                         CoordObstacleGauche['y'] - CoordObstacleGauche['ray'],
                                                         CoordObstacleGauche['x'] + CoordObstacleGauche['ray'],
                                                         CoordObstacleGauche['y'] + CoordObstacleGauche['ray'],
                                                         fill='red')
 
-        ObjObstacleBas = self.CanevasJeu.create_oval(CoordObstacleBas['x'] - CoordObstacleBas['ray'],
-                                                     CoordObstacleBas['y'] - CoordObstacleBas['ray'],
-                                                     CoordObstacleBas['x'] + CoordObstacleBas['ray'],
-                                                     CoordObstacleBas['y'] + CoordObstacleBas['ray'],
+        ObjObstacleHaut = self.CanevasJeu.create_oval(CoordObstacleHaut['x'] - CoordObstacleHaut['ray'],
+                                                     CoordObstacleHaut['y'] - CoordObstacleHaut['ray'],
+                                                     CoordObstacleHaut['x'] + CoordObstacleHaut['ray'],
+                                                     CoordObstacleHaut['y'] + CoordObstacleHaut['ray'],
                                                      fill='green')
 
-        ObjObstacleGauche = self.CanevasJeu.create_oval(CoordObstacleDroite['x'] - CoordObstacleDroite['ray'],
+        ObjObstacleDroite = self.CanevasJeu.create_oval(CoordObstacleDroite['x'] - CoordObstacleDroite['ray'],
                                                         CoordObstacleDroite['y'] - CoordObstacleDroite['ray'],
                                                         CoordObstacleDroite['x'] + CoordObstacleDroite['ray'],
                                                         CoordObstacleDroite['y'] + CoordObstacleDroite['ray'],
                                                         fill='blue')
 
-        ObjetObstacleHaut = self.CanevasJeu.create_oval(CoordObstacleHaut['x'] - CoordObstacleHaut['ray'],
-                                                        CoordObstacleHaut['y'] - CoordObstacleHaut['ray'],
-                                                        CoordObstacleHaut['x'] + CoordObstacleHaut['ray'],
-                                                        CoordObstacleHaut['y'] + CoordObstacleHaut['ray'],
+        ObjetObstacleBas = self.CanevasJeu.create_oval(CoordObstacleBas['x'] - CoordObstacleBas['ray'],
+                                                        CoordObstacleBas['y'] - CoordObstacleBas['ray'],
+                                                        CoordObstacleBas['x'] + CoordObstacleBas['ray'],
+                                                        CoordObstacleBas['y'] + CoordObstacleBas['ray'],
                                                         fill='yellow')
 
-        self.balls = [ObjObstacleDroite, ObjObstacleBas, ObjObstacleGauche, ObjetObstacleHaut]
+        self.balls = [ObjObstacleDroite, ObjObstacleHaut, ObjObstacleGauche, ObjetObstacleBas]
 
         self.action()
 
@@ -583,10 +586,21 @@ class F02(Tk):
             if (i['x'] - i['ray']) <= 0 or (i['x'] + i['ray']) >= int(self.CanevasJeu['width']) or \
                     (i['y'] - i['ray']) <= 0 or (i['y'] + i['ray']) >= int(self.CanevasJeu['height']):
                 # i['dx'] = -i['dx']
-                CopieObjBall = self.balls[j]
-                CopieCoordBall = self.balles[j]
+                # CopieObjBall = self.balls[j]
+                # CopieCoordBall = self.balles[j]
+
+                # Réinitialisation à droite
+                if self.balls[j] == 10:
+                    i['x'] = self.Largeur - self.RayonObstacles - 1
+                    i['y'] = self.listpos[randint(0, 5)]
+
+                # Réinitialisation à bas
+                if self.balls[j] == 11:
+                    i['x'] = self.listpos[randint(0, 7)]
+                    i['y'] = self.Hauteur - self.RayonObstacles - 1
+
                 # Modif de balls, balles et des coordonnées de départ à faire
-                self.CanevasJeu.delete(self.balls[j])
+                # self.CanevasJeu.delete(self.balls[j])
             j += 1
 
             # di['dy'] = -i['dy']
@@ -617,8 +631,8 @@ class F02(Tk):
               self.raquette,
               "NumImageV4 =", self.objImgV4, "NumImageV3 =", self.objImgV3, "\nNumImageV2 =", self.objImgV2,
               "NumImageV1 =", self.objImgV1,
-              "\nNumBalleDroite =", self.balls[0], "NumBallebas =", self.balls[1], "NumBalleGauche =", self.balls[2],
-              "NumBalleHaut =", self.balls[3])  # Pour control de collision
+              "\nNumBalleDroite =", self.balls[0], "NumBallebas =", self.balls[3], "NumBalleGauche =", self.balls[2],
+              "NumBalleHaut =", self.balls[1])  # Pour control de collision
 
         if len(ListCollisions) > 2:
             for i in range(len(ListCollisions)):
