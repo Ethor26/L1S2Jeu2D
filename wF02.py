@@ -344,10 +344,10 @@ class F02(Tk):
                                'dy': Listvitesse[0] * sin(Listangle[0])}
 
         CoordObstacleHaut = {'x': self.listpos[randint(0, 7)],
-                            'y': 50,
-                            'ray': self.RayonObstacles,
-                            'dx': Listvitesse[1] * cos(Listangle[1]),
-                            'dy': Listvitesse[1] * sin(Listangle[1])}
+                             'y': 50,
+                             'ray': self.RayonObstacles,
+                             'dx': Listvitesse[1] * cos(Listangle[1]),
+                             'dy': Listvitesse[1] * sin(Listangle[1])}
 
         CoordObstacleDroite = {'x': self.Largeur - self.RayonObstacles - 1,
                                'y': self.listpos[randint(0, 5)],
@@ -356,12 +356,12 @@ class F02(Tk):
                                'dy': Listvitesse[2] * sin(Listangle[2])}
 
         CoordObstacleBas = {'x': self.listpos[randint(0, 7)],
-                             'y': self.Hauteur - self.RayonObstacles - 1,
-                             'ray': self.RayonObstacles,
-                             'dx': Listvitesse[3] * cos(Listangle[3]),
-                             'dy': Listvitesse[3] * sin(Listangle[3])}
+                            'y': self.Hauteur - self.RayonObstacles - 1,
+                            'ray': self.RayonObstacles,
+                            'dx': Listvitesse[3] * cos(Listangle[3]),
+                            'dy': Listvitesse[3] * sin(Listangle[3])}
 
-        self.balles = [CoordObstacleDroite, CoordObstacleHaut, CoordObstacleGauche , CoordObstacleBas]
+        self.balles = [CoordObstacleDroite, CoordObstacleHaut, CoordObstacleGauche, CoordObstacleBas]
 
         ObjObstacleGauche = self.CanevasJeu.create_oval(CoordObstacleGauche['x'] - CoordObstacleGauche['ray'],
                                                         CoordObstacleGauche['y'] - CoordObstacleGauche['ray'],
@@ -370,10 +370,10 @@ class F02(Tk):
                                                         fill='red')
 
         ObjObstacleHaut = self.CanevasJeu.create_oval(CoordObstacleHaut['x'] - CoordObstacleHaut['ray'],
-                                                     CoordObstacleHaut['y'] - CoordObstacleHaut['ray'],
-                                                     CoordObstacleHaut['x'] + CoordObstacleHaut['ray'],
-                                                     CoordObstacleHaut['y'] + CoordObstacleHaut['ray'],
-                                                     fill='green')
+                                                      CoordObstacleHaut['y'] - CoordObstacleHaut['ray'],
+                                                      CoordObstacleHaut['x'] + CoordObstacleHaut['ray'],
+                                                      CoordObstacleHaut['y'] + CoordObstacleHaut['ray'],
+                                                      fill='green')
 
         ObjObstacleDroite = self.CanevasJeu.create_oval(CoordObstacleDroite['x'] - CoordObstacleDroite['ray'],
                                                         CoordObstacleDroite['y'] - CoordObstacleDroite['ray'],
@@ -382,10 +382,10 @@ class F02(Tk):
                                                         fill='blue')
 
         ObjetObstacleBas = self.CanevasJeu.create_oval(CoordObstacleBas['x'] - CoordObstacleBas['ray'],
-                                                        CoordObstacleBas['y'] - CoordObstacleBas['ray'],
-                                                        CoordObstacleBas['x'] + CoordObstacleBas['ray'],
-                                                        CoordObstacleBas['y'] + CoordObstacleBas['ray'],
-                                                        fill='yellow')
+                                                       CoordObstacleBas['y'] - CoordObstacleBas['ray'],
+                                                       CoordObstacleBas['x'] + CoordObstacleBas['ray'],
+                                                       CoordObstacleBas['y'] + CoordObstacleBas['ray'],
+                                                       fill='yellow')
 
         self.balls = [ObjObstacleDroite, ObjObstacleHaut, ObjObstacleGauche, ObjetObstacleBas]
 
@@ -634,6 +634,10 @@ class F02(Tk):
                                                           self.PosY - self.Perso_Hauteur // 2,
                                                           self.PosX + self.Perso_Largeur // 2,
                                                           self.PosY + self.Perso_Hauteur // 2)
+        # Find-overlapping retourne la liste des objets débordant sur un rectangle dont les coordonnées sont envoyées en
+        # paramètres (ici le rectangle représente le personnage). Les coordonnées du rectangle sont celles des deux
+        # sommets de sa diagonale principale (celui du bas puis celui du haut). Elle les retourne sous forme d'un tuple
+        # des nombres associés aux éléments graphiques crées.
 
         print("Listes Collisions", ListCollisions, "\nNumImagePerso =", self.ImgPerso, "NumImageEcran =",
               self.objImgFondEcran, "NumImageTest =",
@@ -641,24 +645,31 @@ class F02(Tk):
               "NumImageV4 =", self.objImgV4, "NumImageV3 =", self.objImgV3, "\nNumImageV2 =", self.objImgV2,
               "NumImageV1 =", self.objImgV1,
               "\nNumBalleDroite =", self.balls[0], "NumBallebas =", self.balls[3], "NumBalleGauche =", self.balls[2],
-              "NumBalleHaut =", self.balls[1])  # Pour control de collision
+              "NumBalleHaut =", self.balls[1])  # Pour control de collision : affiche identité des objets en collisions.
 
-        if len(ListCollisions) > 2:
+        if len(ListCollisions) > 2:  # On vérifie si la liste du tuple de find.Overlapping excède 2, c'est à dire s'il y
+            # a un objet supplémentaire en contact avec le vaisseau. En effet, deux objets sont toujours sur ce
+            # rectangle: l'image du perso (représentée par 1) et celle du Canevas (représentée par 6).
             for i in range(len(ListCollisions)):
                 if (ListCollisions[i] == self.balls[0] or ListCollisions[i] == self.balls[1] or
                         ListCollisions[i] == self.balls[2] or ListCollisions[i] == self.balls[3] or
-                        ListCollisions[i] == self.raquette):
+                        ListCollisions[i] == self.raquette):  # Si le nombre du tuple est celui associé à l'une des
+                    # balles, mais pas celui des pointes de vaisseaux car ce sont des images de fond uniquement.
                     print("Collision balle avec :", i, "Fin de partie")
-                    self.Fin_Partie()  # Erreur compliquée à modifier : trouver un moyen de stopper action.
+                    self.Fin_Partie()  # Déclenchement de l'arrêt de la partie
+                    # Erreur compliquée à modifier : trouver un moyen de stopper action.
 
     def Pause(self):
-         self.FinAttente = False
-         def Reprendre():
-                self.FinAttente = True
-                self.action()
-         self.BoutonReprise = Button(self, text="Reprendre", command=Reprendre)
-         self.BoutonReprise.place(x=550, y=700)
-         print("A coder")
+        self.FinAttente = False  # Les fonctions de déplacement des objets et personnage ne s'active que si ce boléen
+
+        # est à "True", donc blocage de ces actions. Quitter la fenêtre de jeu reste cependant possible (contrairement
+        # à time.sleep()).
+        def Reprendre():  # Si le bouton "Reprendre" est cliqué, le boléen change et tout redémarre
+            self.FinAttente = True
+            self.action() # Redémarre les balles car fonctions récursive, activée une fois dans l'algorithme principal.
+
+        self.BoutonReprise = Button(self, text="Reprendre", command=Reprendre)
+        self.BoutonReprise.place(x=550, y=700)  # Le clic de "Pause" crée le bouton reprendre
 
     #              input('hit ENTER to continue')
     #              while not self.FinAttente:
@@ -671,7 +682,6 @@ class F02(Tk):
     #     def quitFullScreen(self, event):
     #         self.fullScreenState = False
     #         self.window.attributes("-fullscreen", self.fullScreenState)
-
 
     # ========================
     # COMMANDE = ouvre F01,  (retour au menu)
@@ -706,7 +716,3 @@ class F02(Tk):
         # correspondant, le meilleur score est à l'emplacement t[i][3] du tableau d'"open_score_file",
         # BestScore est ce qu'on écrit.
         self.commandeOuvreF04()
-
-
-
-
