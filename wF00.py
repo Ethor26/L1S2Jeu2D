@@ -107,4 +107,5 @@ class F00(Tk):
         self.destroy()  # ferme F00
         # ouvre F01
         app = F01(0)  # 0 représente un ID nul, sert pour que F01 puisse transmettre l'ID après
+        app.focus_force()  # Force le focus sur la fenetre
         app.mainloop()

@@ -83,9 +83,14 @@ class F04(Tk):
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B07 bis] : Retour au menu (Retour F01)
         self.RetourMenu = Button(self, text="Rejouer", command=self.commandeOuvreF02)
         self.RetourMenu.place(x=250, y=600)
+
+        # ELEMENT GRAPHIQUE : <Button> = [A preciser] : Un bouton pour quitter l'application
+        self.quitButton = Button(self, text="Retourner au Menu", command=self.commandeOuvreF01)
+        self.quitButton.place(x=350, y=600)
+
         # ELEMENT GRAPHIQUE : <Button> = [A preciser] : Un bouton pour quitter l'application
         self.quitButton = Button(self, text="Quitter", command=self.destroy)
-        self.quitButton.place(x=350, y=600)
+        self.quitButton.place(x=550, y=600)
 
     # ==================================================
     # AUTRES FONCTIONS::::::::
@@ -118,6 +123,7 @@ class F04(Tk):
 
         # ouvre F01
         app = wF01.F01(self.IDJoueur)
+        app.focus_force()  # Force le focus sur la fenetre
         app.mainloop()
 
 # COMMANDE : ouvre F02 (Jouer)

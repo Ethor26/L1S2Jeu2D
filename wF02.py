@@ -703,6 +703,7 @@ class F02(Tk):
 
         # ouvre F01
         app = wF01.F01(self.IdJoueur)
+        app.focus_force()  # Force le focus sur la fenetre
         app.mainloop()
 
     # ========================
@@ -713,6 +714,7 @@ class F02(Tk):
         F02.destroy(self)  # ferme F02, format donne même résultat
         # ouvre F01
         app = F04(self.Score, self.IdJoueur)
+        app.focus_force()  # Force le focus sur la fenetre
         app.mainloop()
 
     # ========================

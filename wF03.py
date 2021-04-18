@@ -98,5 +98,6 @@ class F03(Tk):
         self.destroy()  # ferme F03
         # ouvre F01
         app = wF01.F01(self.IdJoueur)
+        app.focus_force()  # Force le focus sur la fenetre
         app.mainloop()
 
