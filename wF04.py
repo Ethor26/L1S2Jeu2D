@@ -5,9 +5,13 @@
 # Date : 4 mai 2021 (?)
 # Fichier F04 = "RESULTATS DU JEUX"
 # ======================================================
+import os
 from tkinter import *
 import wF01
 from Tools import *
+from PIL import Image
+from PIL.ImageTk import PhotoImage
+import wF02
 
 
 class F04(Tk):
@@ -16,6 +20,9 @@ class F04(Tk):
         Tk.__init__(self)
         self.title("F04")  # Le titre de la fenêtre
         self.minsize(1200, 700)  # taille de fenêtre
+
+        self.Largeur = 1200  # Largeur de la zone de résultat
+        self.Hauteur = 700  # Hauteur de la zone de résultat
 
         self.ScoreRec = Score
         self.IDJoueur = IdJoueur
@@ -35,40 +42,44 @@ class F04(Tk):
 
         # Création des widgets (boutons, labels, etc...)
         # ...........
-        # ...........
+        # ...........< I M A G E S >.........................
+
+        # Fond d'écran :
+        self.PhotofondInfo = Image.open(os.getcwd() + "/IMAGES/ImageF04/ImageConflitSpace.jpg")
+        self.PhotofondInfo = self.PhotofondInfo.resize((self.Largeur, self.Hauteur), Image.ANTIALIAS)  # resize permet
+        # de mettre les photos au bon format pour les inclure dans le canevas. Antialias = inconnu, permet à resize de
+        # fonctionner
+        self.FondF04 = PhotoImage(self.PhotofondInfo)
+        self.CanvasResult = Canvas(self, width=self.Largeur, height=self.Hauteur)
+        self.ImgFondF04 = self.CanvasResult.create_image(self.Largeur // 2, self.Hauteur // 2, image=self.FondF04)
+        self.CanvasResult.pack(padx=5, pady=5)  # .pack sert à placer le texte
+        self.CanvasResult.tag_lower(self.ImgFondF04)
 
         # ...........< L A B E L S > .........................
         # ELEMENT GRAPHIQUE : <Label> = [A definir] : Afficher Score, nom, ...
         # >>>>> ??? plusieurs elements a faire !!!
 
-        def F04():
-            score = 1540
-            personal_best = 1900
-            self = Tk()
-            self.title("F04")
-            canvas = Canvas(self, width=500, height=300)
-            canvas.configure(background='black')
-            canvas.pack()
-            if (score > personal_best):
-                Bravo = canvas.create_text(250, 150,
-                                           text="Bravo, vous avez battu votre record !\nVotre score est : {}\nVotre ancien meilleur score était : {}".format(
-                                               score, personal_best), font='Gabriola 17', fill='white')
-            else:
-                Dommage = canvas.create_text(250, 150,
-                                             text="Dommage, vous ferez mieux la prochaine fois !\n Votre score est : {}\nVotre meilleur score est : {}".format(
-                                                 score, personal_best), font='Gabriola 17', fill='white')
-            b1 = Button(self, text="Quitter", command=self.destroy).place(x=10, y=270)
-            b2 = Button(self, text="Rejouer", command=self).place(x=60, y=270)
-            self.mainloop()
+        self.CanvasResult.create_text(600, 100,
+                                      text="Résultat de la partie :", font='Gabriola 32 bold', fill='white')
+        Depasse, BestScore = self.VictoireJeu()
+        if Depasse:
+            self.CanvasResult.create_text(300, 300,
+                                       text="Bravo, vous avez battu votre record !\nVotre score est : {}\n"
+                                            "Votre ancien meilleur score était : {}".format(
+                                           self.ScoreRec, BestScore), font='Gabriola 26', fill='cyan')
+        else:
+            self.CanvasResult.create_text(300, 300,
+                                         text="Dommage, vous ferez mieux la prochaine fois !\n Votre score est : {}\n"
+                                              "Votre meilleur score est : {}".format(
+                                             self.ScoreRec, BestScore), font='Gabriola 26', fill='cyan')
 
         # ...........< B U T T O N S >........................
-        # ELEMENT GRAPHIQUE : Bouton B07 bis : Retour au menu (Retour F01)
-        self.B07_retourMenu = Button(self, text="Retour Menu", command=self.commandeOuvreF01)
-        self.B07_retourMenu.place(x=10, y=600)
-
-        # ELEMENT GRAPHIQUE : Un bouton pour quitter l'application
+        # ELEMENT GRAPHIQUE : <Button> = [Bouton B07 bis] : Retour au menu (Retour F01)
+        self.RetourMenu = Button(self, text="Rejouer", command=self.commandeOuvreF02)
+        self.RetourMenu.place(x=250, y=600)
+        # ELEMENT GRAPHIQUE : <Button> = [A preciser] : Un bouton pour quitter l'application
         self.quitButton = Button(self, text="Quitter", command=self.destroy)
-        self.quitButton.place(x=150, y=600)
+        self.quitButton.place(x=350, y=600)
 
     # ==================================================
     # AUTRES FONCTIONS::::::::
@@ -80,9 +91,11 @@ class F04(Tk):
     def VictoireJeu(self):
         tab, nbLignes = open_score_file2()
         if self.ScoreRec >= int(tab[self.IDJoueur+ 1][3]):
-            print("Meilleur score dépassé")
+            print("Meilleur score dépassé")  # Pour controle
+            return True, int(tab[self.IDJoueur+ 1][3])
         else:
-            print("Meilleur score non atteint")
+            print("Meilleur score non atteint")  # Pour controle
+            return False, int(tab[self.IDJoueur+ 1][3])
 
     # COMMANDE = ouvre F01,  (retour au menu)
     def commandeOuvreF01(self):
@@ -91,4 +104,12 @@ class F04(Tk):
 
         # ouvre F01
         app = wF01.F01(self.IDJoueur)
+        app.mainloop()
+
+# COMMANDE : ouvre F02 (Jouer)
+    def commandeOuvreF02(self):
+        self.destroy()  # ferme F01
+        # ouvre F02
+        app = wF02.F02(self.IDJoueur)         # implémente l'objet app
+        app.focus_force()   # Force le focus sur la fenetre
         app.mainloop()

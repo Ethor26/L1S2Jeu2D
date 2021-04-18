@@ -26,24 +26,24 @@ class F03(Tk):
         self.createWidgets()
 
     # Méthode de création des widgets
-    def createWidgets(self):
+    def createWidgets(self): # Création des widgets (boutons, labels, etc...)
         self.grid()  # Choix du mode d'arrangement des elements
 
         # ==================================================
         # FONCTIONS WIDGET ::::::::
 
         # ELEMENTS GRAPHIQUES ::::::::
-        # Création des widgets (boutons, labels, etc...)
+
+        # Fond d'écran :
         self.PhotofondInfo = Image.open(os.getcwd() + "/IMAGES/ImageF03/ImageGuerreSatellite.jpg")
         self.PhotofondInfo = self.PhotofondInfo.resize((self.Largeur, self.Hauteur), Image.ANTIALIAS)  # resize permet
         # de mettre les photos au bon format pour les inclure dans le canevas. Antialias = inconnu, permet à resize de
         # fonctionner
-        self.FondF01 = PhotoImage(self.PhotofondInfo)
+        self.FondF03 = PhotoImage(self.PhotofondInfo)
         self.CanvasInfo = Canvas(self, width=self.Largeur, height=self.Hauteur)
-        self.ImgFondF01 = self.CanvasInfo.create_image(self.Largeur // 2, self.Hauteur // 2, image=self.FondF01)
+        self.ImgFondF03 = self.CanvasInfo.create_image(self.Largeur // 2, self.Hauteur // 2, image=self.FondF03)
         self.CanvasInfo.pack(padx=5, pady=5)  # .pack sert à placer le texte
-        self.CanvasInfo.tag_lower(self.ImgFondF01)
-
+        self.CanvasInfo.tag_lower(self.ImgFondF03)
 
         # ...........< T E X T E S > .......................
         self.CanvasInfo.create_text(600, 350, text="Bienvenue dans notre jeu ! \nLe but est simple :"
