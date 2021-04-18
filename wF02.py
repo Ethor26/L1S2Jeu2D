@@ -27,11 +27,11 @@ class F02(Tk):
         self.Largeur = 1200  # Largeur de la zone de jeu
         self.Hauteur = 680  # Hauteur de la zone de jeu
 
-        # # Paramètres plein écran
-        #         self.fullScreenState = False
-        #         self.window.attributes("-fullscreen", self.fullScreenState)
-        #         self.window.bind("<F11>", self.toggleFullScreen)
-        #         self.window.bind("<Escape>", self.quitFullScreen)
+        # Paramètres plein écran
+        self.fullScreenState = True
+        self.attributes("-fullscreen", self.fullScreenState)
+        self.bind("<F11>", self.toggleFullScreen)
+        self.bind("<Escape>", self.quitFullScreen)
 
         # Dimension de l'image du vaisseaux
         self.Perso_Hauteur = 45
@@ -259,6 +259,7 @@ class F02(Tk):
 
         # ==================================================
         # ELEMENTS GRAPHIQUES::::::::
+
         # ...........< I M A G E S >........................
 
         # ELEMENT GRAPHIQUE : <Canvas> = G01 (fond imagé ou se deroule le jeu)
@@ -682,13 +683,13 @@ class F02(Tk):
     #              while not self.FinAttente:
     #            time.sleep(5)
 
-    #     def toggleFullScreen(self, event):
-    #         self.fullScreenState = not self.fullScreenState
-    #         self.window.attributes("-fullscreen", self.fullScreenState)
-    #
-    #     def quitFullScreen(self, event):
-    #         self.fullScreenState = False
-    #         self.window.attributes("-fullscreen", self.fullScreenState)
+    def toggleFullScreen(self, event):
+        self.fullScreenState = not self.fullScreenState
+        self.attributes("-fullscreen", self.fullScreenState)
+
+    def quitFullScreen(self, event):
+        self.fullScreenState = False
+        self.attributes("-fullscreen", self.fullScreenState)
 
     # ========================
     # COMMANDE = ouvre F01,  (retour au menu)

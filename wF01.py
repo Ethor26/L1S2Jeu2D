@@ -21,6 +21,12 @@ class F01(Tk):
         self.minsize(1200, 700)  # taille de fenêtre
 
         self.IdJoueur = IDJoueur
+
+        # Paramètres plein écran
+        self.fullScreenState = True
+        self.attributes("-fullscreen", self.fullScreenState)
+        self.bind("<F11>", self.toggleFullScreen)
+        self.bind("<Escape>", self.quitFullScreen)
         self.createWidgets() # Une méthode séparée pour construire le contenu de la fenêtre : A PLACER EN BAS
 
     # Méthode/fonction de création des widgets
@@ -227,6 +233,14 @@ class F01(Tk):
         self.messageUtilisateurAngle.set(msg)  # Pour mise à jour texte écran
         print(str(self.messageUtilisateurAngle.get()))  # Pour Controle
         return AngleEnDegree
+
+    def toggleFullScreen(self, event):
+        self.fullScreenState = not self.fullScreenState
+        self.attributes("-fullscreen", self.fullScreenState)
+
+    def quitFullScreen(self, event):
+        self.fullScreenState = False
+        self.attributes("-fullscreen", self.fullScreenState)
 
     # COMMANDE : ouvre F02 (Jouer)
     def commandeOuvreF02(self):

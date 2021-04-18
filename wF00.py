@@ -6,7 +6,7 @@
 # Fichier F00
 # ======================================================
 import os
-from tkinter import * # Attention, TKinter doit être importé pour utiliser image de fond, pas remplacable par import de
+from tkinter import *  # Attention, TKinter doit être importé pour utiliser image de fond, pas remplacable par import de
 # fichier wF0... De plus, ordre des import important !
 from PIL import Image
 from PIL.ImageTk import PhotoImage
@@ -18,11 +18,17 @@ class F00(Tk):
     # Constructeur de l'objet F01 : ne pas supprimer, sert pour mettre les paramètres et fonctions propres à l'objet.
     def __init__(self, message):
         Tk.__init__(self)
-        print("*** F00 ***") # Pour controle en console
+        print("*** F00 ***")  # Pour controle en console
         self.title("F00")  # Le titre de la fenêtre
         self.minsize(1200, 700)  # taille de fenêtre
         self.Largeur = 1200  # Largeur de la zone de jeu
         self.Hauteur = 700  # Hauteur de la zone de jeu
+
+        # Paramètres plein écran
+        self.fullScreenState = True
+        self.attributes("-fullscreen", self.fullScreenState)
+        self.bind("<F11>", self.toggleFullScreen)
+        self.bind("<Escape>", self.quitFullScreen)
 
         # Une méthode séparée pour construire le contenu de la fenêtre
         self.createWidgets()
@@ -41,7 +47,7 @@ class F00(Tk):
         self.Photofond = Image.open(os.getcwd() + "/IMAGES/Image F00/image5.png")
         self.FondF00 = PhotoImage(self.Photofond)
         self.CanvasPres = Canvas(self, width=self.Largeur, height=self.Hauteur)
-        self.ImgFondF00 = self.CanvasPres.create_image(self.Largeur // 2, self.Hauteur // 2,image=self.FondF00)
+        self.ImgFondF00 = self.CanvasPres.create_image(self.Largeur // 2, self.Hauteur // 2, image=self.FondF00)
         self.CanvasPres.pack(padx=5, pady=5)  # .pack sert à placer le texte
         self.CanvasPres.tag_lower(self.ImgFondF00)
 
@@ -64,8 +70,9 @@ class F00(Tk):
                                          "vaisseaux.\n "
                                          "En effet, ils sont contrôlés par des pilotes innocents mais manipulés. Ils "
                                          "ignorent "
-                                         "vos objectifs et s’imaginent que vous venez détruire leur empire.\n " 
-                                         "Une quête ardue commence alors pour vous…\n", font='Gabriola 17 italic', fill='white')
+                                         "vos objectifs et s’imaginent que vous venez détruire leur empire.\n "
+                                         "Une quête ardue commence alors pour vous…\n", font='Gabriola 17 italic',
+                                    fill='white')
         self.CanvasPres.create_text(600, 50,
                                     text="Un heros Contre Galacticov.", font='Gabriola 32 italic', fill='cyan')
 
@@ -87,10 +94,17 @@ class F00(Tk):
 
     # ==================================================
     # Autres Fonctions :
+    def toggleFullScreen(self, event):
+        self.fullScreenState = not self.fullScreenState
+        self.attributes("-fullscreen", self.fullScreenState)
+
+    def quitFullScreen(self, event):
+        self.fullScreenState = False
+        self.attributes("-fullscreen", self.fullScreenState)
 
     # COMMANDE = ouvre F01,  et ferme F00 (retour au menu)
     def commandeOuvreF01(self):
         self.destroy()  # ferme F00
         # ouvre F01
-        app = F01(0) # 0 représente un ID nul, sert pour que F01 puisse transmettre l'ID après
+        app = F01(0)  # 0 représente un ID nul, sert pour que F01 puisse transmettre l'ID après
         app.mainloop()

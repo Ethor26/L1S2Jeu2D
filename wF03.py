@@ -22,6 +22,12 @@ class F03(Tk):
         self.Largeur = 1200  # Largeur de la zone de jeu
         self.Hauteur = 700  # Hauteur de la zone de jeu
 
+        # Paramètres plein écran
+        self.fullScreenState = True
+        self.attributes("-fullscreen", self.fullScreenState)
+        self.bind("<F11>", self.toggleFullScreen)
+        self.bind("<Escape>", self.quitFullScreen)
+
         # Une méthode séparée pour construire le contenu de la fenêtre
         self.createWidgets()
 
@@ -77,6 +83,14 @@ class F03(Tk):
 
     # ==================================================
     # AUTRES FONCTIONS DE LA CLASSE ::::::::
+
+    def toggleFullScreen(self, event):
+        self.fullScreenState = not self.fullScreenState
+        self.attributes("-fullscreen", self.fullScreenState)
+
+    def quitFullScreen(self, event):
+        self.fullScreenState = False
+        self.attributes("-fullscreen", self.fullScreenState)
 
     # COMMANDE = ouvre F01,  (retour au menu)
     def commandeOuvreF01(self):

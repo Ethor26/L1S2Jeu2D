@@ -24,6 +24,12 @@ class F04(Tk):
         self.Largeur = 1200  # Largeur de la zone de résultat
         self.Hauteur = 700  # Hauteur de la zone de résultat
 
+        # Paramètres plein écran
+        self.fullScreenState = True
+        self.attributes("-fullscreen", self.fullScreenState)
+        self.bind("<F11>", self.toggleFullScreen)
+        self.bind("<Escape>", self.quitFullScreen)
+
         self.ScoreRec = Score
         self.IDJoueur = IdJoueur
         # Une méthode séparée pour construire le contenu de la fenêtre
@@ -96,6 +102,14 @@ class F04(Tk):
         else:
             print("Meilleur score non atteint")  # Pour controle
             return False, int(tab[self.IDJoueur+ 1][3])
+
+    def toggleFullScreen(self, event):
+        self.fullScreenState = not self.fullScreenState
+        self.attributes("-fullscreen", self.fullScreenState)
+
+    def quitFullScreen(self, event):
+        self.fullScreenState = False
+        self.attributes("-fullscreen", self.fullScreenState)
 
     # COMMANDE = ouvre F01,  (retour au menu)
     def commandeOuvreF01(self):
