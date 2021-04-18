@@ -5,4 +5,3 @@ ID;USER;ANGLE;SCORE
 3;g;0;0
 4;jean;0;0
 5;shakira;60;3216
-6;git;50;3216
