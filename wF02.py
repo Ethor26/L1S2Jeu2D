@@ -14,6 +14,7 @@ from PIL.ImageTk import PhotoImage
 from Tools import *
 import wF01  # Modification de l'import pour éviter les "circular import", en général rajoute des "wF01.Tk"
 from wF04 import F04
+import time
 
 
 class F02(Tk):
@@ -394,11 +395,11 @@ class F02(Tk):
         # ...........< B U T T O N S >........................
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B07] : Retour au menu (Retour F01)
         self.B07_retourMenu = Button(self, text="Retour Menu", command=self.commandeOuvreF01)
-        self.B07_retourMenu.place(x=190, y=700)
+        self.B07_retourMenu.place(x=5, y=650)
 
         # ELEMENT GRAPHIQUE : <Button> = [A preciser] : Un bouton pour quitter l'application
         self.quitButton = Button(self, text="Quitter", command=self.destroy)
-        self.quitButton.place(x=300, y=700)
+        self.quitButton.place(x=100, y=650)
 
         # ELEMENT GRAPHIQUE : <Button> = [A preciser] : Un bouton pour quitter l'application
         self.quitButton = Button(self, text="Pause", command=self.Pause)
@@ -406,7 +407,11 @@ class F02(Tk):
 
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B0?] : Fin de la partie et ouvre F04, temporaire ?
         self.B07_retourMenu = Button(self, text="Fin de partie", command=self.Fin_Partie)
-        self.B07_retourMenu.place(x=400, y=700)
+        self.B07_retourMenu.place(x=150, y=650)
+
+        # Bouton score
+        self.B08_score = Button(self, text="Score", command=self.Chrono)
+        self.B08_score.place(x=240, y=650)
 
     # ========================
     # FONCTION OUTILS : Récupérant l'angle du fichier score.txt et le retournant en radian. Auteur : Ethan SUISSA - Terminé
@@ -716,3 +721,5 @@ class F02(Tk):
         # correspondant, le meilleur score est à l'emplacement t[i][3] du tableau d'"open_score_file",
         # BestScore est ce qu'on écrit.
         self.commandeOuvreF04()
+
+

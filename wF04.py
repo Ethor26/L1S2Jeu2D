@@ -41,7 +41,25 @@ class F04(Tk):
         # ELEMENT GRAPHIQUE : <Label> = [A definir] : Afficher Score, nom, ...
         # >>>>> ??? plusieurs elements a faire !!!
 
-
+        def F04():
+            score = 1540
+            personal_best = 1900
+            self = Tk()
+            self.title("F04")
+            canvas = Canvas(self, width=500, height=300)
+            canvas.configure(background='black')
+            canvas.pack()
+            if (score > personal_best):
+                Bravo = canvas.create_text(250, 150,
+                                           text="Bravo, vous avez battu votre record !\nVotre score est : {}\nVotre ancien meilleur score était : {}".format(
+                                               score, personal_best), font='Gabriola 17', fill='white')
+            else:
+                Dommage = canvas.create_text(250, 150,
+                                             text="Dommage, vous ferez mieux la prochaine fois !\n Votre score est : {}\nVotre meilleur score est : {}".format(
+                                                 score, personal_best), font='Gabriola 17', fill='white')
+            b1 = Button(self, text="Quitter", command=self.destroy).place(x=10, y=270)
+            b2 = Button(self, text="Rejouer", command=self).place(x=60, y=270)
+            self.mainloop()
 
         # ...........< B U T T O N S >........................
         # ELEMENT GRAPHIQUE : Bouton B07 bis : Retour au menu (Retour F01)

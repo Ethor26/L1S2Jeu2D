@@ -10,7 +10,7 @@ def Chrono():
     x = True
     while x == True:
         time.sleep(1)
-        print(time.strftime('%M # %S ',time.localtime()))
+        print(time.strftime('%M # %S ', time.localtime()))
         score += 5
         score_variable.set(f'score: {score}')
         canvas.update()
@@ -31,4 +31,26 @@ b2 = Button(self, text="Stop le chrono", command=ChangeX).pack(side=LEFT, padx=5
 score_variable = tk.StringVar(self, f'score: {score}')
 score_lbl = tk.Label(self, textvariable=score_variable).pack()
 self.mainloop()
+
+
+# FONCTION OUTIL : Lance un chrono lorsqu'on lance la partie, score augmente en fonction.
+# Renvoie un chiffre, généré par la fonction qui sera utilisé comme score
+# Auteur : Pierre REY - Terminé
+def Chrono(self):
+    global score
+    montemps = time.time()
+    time.time() - montemps
+    score = 0
+    score_variable = 0
+    x = True
+    while x == True:
+        time.sleep(1)
+        print(time.strftime('%M # %S ', time.localtime()))
+        score += 5
+        score_variable.set(f'score: {score}')
+        self.update()
+
+
+def ChangeX(self):
+    time.sleep(5)
 
