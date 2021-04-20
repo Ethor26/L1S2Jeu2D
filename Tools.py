@@ -63,7 +63,6 @@ def ajout_score(f, id, user, angle, score):
 def ajout_nom_F01(name):
     with open("scores.txt", 'r') as file:
         score = file.readlines()
-        print("fichier =", score)
         nb_line = len(score)
         f = open("scores.txt", 'a')
         f.write('\n')
@@ -99,7 +98,6 @@ def open_score_file2():
             spel = spell.split(";")
             tab.append(spel)
         filin.close()
-    print(tab)
     return tab, nb_line
 
 # =============================================================================
