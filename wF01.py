@@ -67,15 +67,10 @@ class F01(Tk):
                     # de -2.
                     # Déverouillage des boutons
                 self.DeverouilCommands()
+                self.MajListe()
             else:
                 msg = "Pas de nom, pas de jeu !"
             self.messageUtilisateurNom.set(msg)  # Pour mise à jour texte écran
-            AffNom.insert(END, Name)
-            id = ajout_nom_F01(Name)
-            idint = int(id)
-            id1 = idint -1
-            idfin = str(id1)
-            AffID.insert(END, idfin)
 
             # ==================================================
             # ELEMENTS GRAPHIQUES::::::::
@@ -165,33 +160,23 @@ class F01(Tk):
 
         # ...........< L I S T B O X ' S > .......................
         # (Tkinter)LISTBOX : Liste des ID des joueurs de la base de données (déclaration & position)
-        AffID = Listbox(self)
-        AffID.place(x=600, y=26, width=100, height=500)
-        tab, nb_ligne = open_score_file2()
-        for i in range(0, nb_ligne):
-            AffID.insert(END, tab[i][0])
+        self.AffID = Listbox(self)
+        self.AffID.place(x=600, y=26, width=100, height=500)
 
         # (Tkinter)LISTBOX : Liste des noms des joueurs de la base de données (déclaration & position)
-        AffNom = Listbox(self)
-        AffNom.place(x=700, y=26, width=100, height=500)
-        tab, nb_ligne = open_score_file2()
-        for i in range(0, nb_ligne):
-            AffNom.insert(END, tab[i][1])
+        self.AffNom = Listbox(self)
+        self.AffNom.place(x=700, y=26, width=100, height=500)
+
         # (Tkinter)LISTBOX : Liste des Angles des joueurs de la base de données (déclaration & position)
-        AffAngle = Listbox(self)
-        AffAngle.place(x=800, y=26, width=100, height=500)
-        tab, nb_ligne = open_score_file2()
-        for i in range(0, nb_ligne):
-            AffAngle.insert(END, tab[i][2])
+        self.AffAngle = Listbox(self)
+        self.AffAngle.place(x=800, y=26, width=100, height=500)
 
         # (Tkinter)LISTBOX : Liste des score des joueurs de la base de données (déclaration & position)
-        AffScore = Listbox(self)
-        AffScore.place(x=900, y=26, width=100, height=500)
-        tab, nb_ligne = open_score_file2()
-        for i in range(0, nb_ligne):
-            AffScore.insert(END, tab[i][3])
+        self.AffScore = Listbox(self)
+        self.AffScore.place(x=900, y=26, width=100, height=500)
 
-
+        # Alimentation des listboxs
+        self.MajListe()
 
     # ==================================================
     # FONCTIONS DE L'OBJET::::::::
@@ -221,9 +206,8 @@ class F01(Tk):
 
         # Etape 2 : Envoi de l'angle dans score.txt
         ModifPrecisFichier(self.IdJoueur + 2, 2,
-                           AngleEnDegree)  # Explication de l'appel : voir l'appel identique
-        # dans F02
-
+                           AngleEnDegree)  # Explication de l'appel : voir l'appel identique dans F02
+        self.MajListe()
 
         # =================
         # FONCTION OUTIL Traite l'angle pour le rendre enregistrable et utilisable.
@@ -256,6 +240,24 @@ class F01(Tk):
     def quitFullScreen(self, event):
         self.fullScreenState = False
         self.attributes("-fullscreen", self.fullScreenState)
+
+    def MajListe(self):
+        # Initialisation des listboxs
+        self.AffID.delete(0, END)
+        self.AffNom.delete(0, END)
+        self.AffAngle.delete(0, END)
+        self.AffScore.delete(0, END)
+
+        # Remplissage
+        tab, nb_ligne = open_score_file2()
+        for i in range(0, nb_ligne):
+            self.AffID.insert(END, tab[i][0])
+        for i in range(0, nb_ligne):
+            self.AffNom.insert(END, tab[i][1])
+        for i in range(0, nb_ligne):
+            self.AffAngle.insert(END, tab[i][2])
+        for i in range(0, nb_ligne):
+            self.AffScore.insert(END, tab[i][3])
 
     # COMMANDE : ouvre F02 (Jouer)
     def commandeOuvreF02(self):
