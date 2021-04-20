@@ -11,6 +11,9 @@ from tkinter import *
 from Tools import *
 from wF02 import F02
 
+
+
+
 class F01(Tk):
 
     # Constructeur de l'objet F01 : ne pas supprimer !!!
@@ -67,6 +70,12 @@ class F01(Tk):
             else:
                 msg = "Pas de nom, pas de jeu !"
             self.messageUtilisateurNom.set(msg)  # Pour mise à jour texte écran
+            AffNom.insert(END, Name)
+            id = ajout_nom_F01(Name)
+            idint = int(id)
+            id1 = idint -1
+            idfin = str(id1)
+            AffID.insert(END, idfin)
 
             # ==================================================
             # ELEMENTS GRAPHIQUES::::::::
@@ -129,6 +138,7 @@ class F01(Tk):
 
         # Création d'un widget Button (bouton Valider)
         self.BoutonValidNom = Button(self, text='Valider', font=("Arial", 15), command=RecupNameDever)
+
         self.BoutonValidNom.place(x=10, y=150)
 
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B0?] : Configuration commande
@@ -180,6 +190,9 @@ class F01(Tk):
         tab, nb_ligne = open_score_file2()
         for i in range(0, nb_ligne):
             AffScore.insert(END, tab[i][3])
+
+
+
     # ==================================================
     # FONCTIONS DE L'OBJET::::::::
 
@@ -211,6 +224,7 @@ class F01(Tk):
                            AngleEnDegree)  # Explication de l'appel : voir l'appel identique
         # dans F02
 
+
         # =================
         # FONCTION OUTIL Traite l'angle pour le rendre enregistrable et utilisable.
     def TrtAngle(self, TextAngleEnDegree):
@@ -232,6 +246,7 @@ class F01(Tk):
             msg = "Pas d'angle enregistré"
         self.messageUtilisateurAngle.set(msg)  # Pour mise à jour texte écran
         print(str(self.messageUtilisateurAngle.get()))  # Pour Controle
+        #AffAngle.insert(END, AngleEnDegree)
         return AngleEnDegree
 
     def toggleFullScreen(self, event):

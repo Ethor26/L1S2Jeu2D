@@ -71,6 +71,7 @@ def ajout_nom_F01(name):
         id = str(nb_line)
         f.write(id + ';' + name + ";")
         # Possibilité de faire plusieurs "file.write"  à la suite ou concaténer les chaines
+        return id
 
 
 def ajout_angle_F02(angle):
