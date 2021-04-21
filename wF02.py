@@ -392,6 +392,12 @@ class F02(Tk):
 
         self.action()
 
+        # ...........< L A B E L S >........................
+        # Création d'un widget Label (texte 'Nom')
+        Label1 = Label(self, text=" Un Heros contre Galacticov ", font=('Arial', 20), fg='blue')
+        # Label1.pack(padx=1, pady=1)
+        Label1.place(x=900, y=700)
+
         # ...........< B U T T O N S >........................
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B07] : Retour au menu (Retour F01)
         self.B07_retourMenu = Button(self, text="Retour Menu", command=self.commandeOuvreF01)

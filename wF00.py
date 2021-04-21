@@ -75,6 +75,8 @@ class F00(Tk):
                                     fill='white')
         self.CanvasPres.create_text(600, 50,
                                     text="Un heros Contre Galacticov.", font='Gabriola 32 italic', fill='cyan')
+        self.CanvasPres.create_text(1100, 650,
+                                    text="© Touts droits réservés. ", font='Gabriola 15 italic', fill='cyan')
 
         # ELEMENT GRAPHIQUE : <Label> = [Libellé T02] : ...??
         # ??? A FAIRE

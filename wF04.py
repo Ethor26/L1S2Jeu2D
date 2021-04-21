@@ -79,6 +79,10 @@ class F04(Tk):
                                               "Votre meilleur score est : {}".format(
                                              self.ScoreRec, BestScore), font='Gabriola 26', fill='cyan')
 
+        # Création d'un widget Label (texte 'Nom')
+        Label1 = Label(self, text=" Un Heros contre Galacticov ", font=('Arial', 20), fg='blue')
+        # Label1.pack(padx=1, pady=1)
+        Label1.place(x=900, y=750)
         # ...........< B U T T O N S >........................
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B07 bis] : Retour au menu (Retour F01)
         self.RetourMenu = Button(self, text="Rejouer", command=self.commandeOuvreF02)

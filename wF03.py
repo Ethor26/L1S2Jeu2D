@@ -69,6 +69,10 @@ class F03(Tk):
         self.CanvasInfo.create_text(600, 50,
                                     text="Informations sur le jeu.", font='Gabriola 32 italic', fill='blue')
 
+        # Création d'un widget Label (texte 'Nom')
+        Label1 = Label(self, text=" Un Heros contre Galacticov ", font=('Arial', 20), fg='blue')
+        # Label1.pack(padx=1, pady=1)
+        Label1.place(x=900, y=750)
         # ...........< E N T R Y ' S > .......................
 
         # ...........< B U T T O N S >........................

@@ -24,7 +24,7 @@ def F04(score, t4):
     else:
         Dommage = canvas.create_text(250, 150, text="Dommage, vous ferez mieux la prochaine fois !\n Votre score est : {}\nVotre meilleur score est : {}\nVous avez tenu : {} secondes".format(score, personal_best,t4), font='Gabriola 17', fill='white')
     b1 = Button(self, text="Quitter", command=self.destroy).place(x=10, y=270)
-    b2 = Button(self, text="Rejouer", command=self).place(x=60, y=270)
+    b2 = Button(self, text="Rejouer", command=F02).place(x=60, y=270)
     self.mainloop()
 
 
@@ -38,6 +38,7 @@ def UpdateScore():
     while t3 > 0.2:
         score += 5
         t3 -= 0.2
+        print(score)
     F04(score, t4)
 
 
