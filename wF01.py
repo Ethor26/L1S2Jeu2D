@@ -10,6 +10,9 @@ from wF03 import *
 from tkinter import *
 from Tools import *
 from wF02 import F02
+from PIL import Image
+from PIL.ImageTk import PhotoImage
+
 
 
 
@@ -25,6 +28,10 @@ class F01(Tk):
 
         self.IdJoueur = IDJoueur
 
+        # Une méthode séparée pour construire le contenu de la fenêtre
+        self.Largeur = 1500  # Largeur de la zone de jeu
+        self.Hauteur = 1000  # Hauteur de la zone de jeu
+
         # Paramètres plein écran
         self.fullScreenState = True
         self.attributes("-fullscreen", self.fullScreenState)
@@ -38,6 +45,17 @@ class F01(Tk):
 
         # ==================================================
         # FONCTIONS WIDGET ::::::::
+
+
+        # Affichage du fond d'écran de F01
+        self.Photofond = Image.open(os.getcwd() + "/IMAGES/ImageF01/nebuleuse.jpg")
+        self.Photofond = self.Photofond.resize((self.Largeur,self.Hauteur), Image.ANTIALIAS)
+        self.FondF01 = PhotoImage(self.Photofond)
+        self.CanvasPres = Canvas(self, width=self.Largeur, height=self.Hauteur)
+        self.ImgFondF01 = self.CanvasPres.create_image(self.Largeur // 2, self.Hauteur // 2,image=self.FondF01)
+        self.CanvasPres.pack(padx=5, pady=5)  # .pack sert à placer le texte
+        self.CanvasPres.tag_lower(self.ImgFondF01)
+
 
         # =================
         # FONCTION Récupération Nom et enregistrement dans score.txt, met à jour l'ID de joueur et permet le premier
@@ -76,6 +94,12 @@ class F01(Tk):
             # ELEMENTS GRAPHIQUES::::::::
 
         # ...........< L A B E L S > .........................
+
+        # Création d'un widget Label (texte 'Nom')
+        Label1 = Label(self, text=" Un Heros contre Galacticov ", font=('Arial', 20), fg='blue')
+         # Label1.pack(padx=1, pady=1)
+        Label1.place(x=900, y=700)
+
         # ELEMENT GRAPHIQUE : <Label> = [Libellé T04] : ...??
         # ??? A FAIRE
         lblEntreAngle = Label(self, text="Angle entre 0 et 360° :")  # Nom de la fenêtre en rouge à déclarer comme au
@@ -101,7 +125,7 @@ class F01(Tk):
 
         # ...........< E N T R Y ' S > .......................
 
-
+        EntreeNom.place(x=200, y=50)
         # ELEMENT GRAPHIQUE : <Entry> = [Libellé E01] : Entrée du pseudo
         # Création d'un widget Entry (champ de saisie)
         Nom = StringVar()
@@ -161,19 +185,19 @@ class F01(Tk):
         # ...........< L I S T B O X ' S > .......................
         # (Tkinter)LISTBOX : Liste des ID des joueurs de la base de données (déclaration & position)
         self.AffID = Listbox(self)
-        self.AffID.place(x=600, y=26, width=100, height=500)
+        self.AffID.place(x=800, y=26, width=100, height=500)
 
         # (Tkinter)LISTBOX : Liste des noms des joueurs de la base de données (déclaration & position)
         self.AffNom = Listbox(self)
-        self.AffNom.place(x=700, y=26, width=100, height=500)
+        self.AffNom.place(x=900, y=26, width=100, height=500)
 
         # (Tkinter)LISTBOX : Liste des Angles des joueurs de la base de données (déclaration & position)
         self.AffAngle = Listbox(self)
-        self.AffAngle.place(x=800, y=26, width=100, height=500)
+        self.AffAngle.place(x=1000, y=26, width=100, height=500)
 
         # (Tkinter)LISTBOX : Liste des score des joueurs de la base de données (déclaration & position)
         self.AffScore = Listbox(self)
-        self.AffScore.place(x=900, y=26, width=100, height=500)
+        self.AffScore.place(x=1100, y=26, width=100, height=500)
 
         # Alimentation des listboxs
         self.MajListe()
