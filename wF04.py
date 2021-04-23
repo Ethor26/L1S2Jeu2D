@@ -72,12 +72,12 @@ class F04(Tk):
             self.CanvasResult.create_text(300, 300,
                                        text="Bravo, vous avez battu votre record !\nVotre score est : {}\n"
                                             "Votre ancien meilleur score était : {}".format(
-                                           self.ScoreRec, BestScore), font='Gabriola 26', fill='cyan')
+                                           int(self.ScoreRec), BestScore), font='Gabriola 26', fill='cyan')
         else:
             self.CanvasResult.create_text(300, 300,
                                          text="Dommage, vous ferez mieux la prochaine fois !\n Votre score est : {}\n"
                                               "Votre meilleur score est : {}".format(
-                                             self.ScoreRec, BestScore), font='Gabriola 26', fill='cyan')
+                                             int(self.ScoreRec), BestScore), font='Gabriola 26', fill='cyan')
 
         # Création d'un widget Label (texte 'Nom')
         Label1 = Label(self, text=" Un Heros contre Galacticov ", font=('Arial', 20), fg='blue')

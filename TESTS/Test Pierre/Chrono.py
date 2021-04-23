@@ -22,9 +22,9 @@ def F04(score, t4):
 
 def Score():
 #Augmente le score toutes les X millisecondes
-    global compteur
-    compteur += 15
-    compteur_lbl['text'] = str(compteur)
+    global CompteurScore
+    CompteurScore += 15
+    compteur_lbl['text'] = str(CompteurScore)
     app.after(1000, Score)
 
 
@@ -32,8 +32,8 @@ app = tk.Tk()
 canvas = Canvas(app, width = 1200, height = 700)
 canvas.configure(background='black')
 canvas.pack()
-compteur = 0
-compteur_lbl = tk.Label(app, text=str(compteur), font=("", 16))
+CompteurScore = 0
+compteur_lbl = tk.Label(app, text=str(CompteurScore), font=("", 16))
 compteur_lbl.place(x=8,y=8)
 
 app.after(1000, Score)

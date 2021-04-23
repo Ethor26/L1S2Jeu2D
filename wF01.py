@@ -125,7 +125,6 @@ class F01(Tk):
 
         # ...........< E N T R Y ' S > .......................
 
-        EntreeNom.place(x=200, y=50)
         # ELEMENT GRAPHIQUE : <Entry> = [Libellé E01] : Entrée du pseudo
         # Création d'un widget Entry (champ de saisie)
         Nom = StringVar()
