@@ -14,6 +14,7 @@ from PIL.ImageTk import PhotoImage
 from Tools import *
 import wF01  # Modification de l'import pour éviter les "circular import", en général rajoute des "wF01.Tk"
 from wF04 import F04
+import time
 
 
 class F02(Tk):
@@ -319,7 +320,7 @@ class F02(Tk):
         self.raquette = self.CanevasJeu.create_rectangle(200, 380, 400, 390, fill='red')
 
         # position initiale aleatoire
-        self.listpos = [25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475, 500, 525, 550, 575, 600, 625, 650, 675, 700]
+        self.listpos = [25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475, 500, 525, 550, 575, 600, 625, 650, 675, 700, 725, 750, 775, 800, 825, 850, 875, 900, 925, 950, 975, 1000, 1025, 1050, 1075, 1100, 1125, 1150, 1175, 1200]
         # direction initiale aléatoire
         Listvitesse = []
         for i in range(4):
@@ -387,6 +388,8 @@ class F02(Tk):
                                                        CoordObstacleBas['x'] + CoordObstacleBas['ray'],
                                                        CoordObstacleBas['y'] + CoordObstacleBas['ray'],
                                                        fill='yellow')
+
+
 
         self.balls = [ObjObstacleDroite, ObjObstacleHaut, ObjObstacleGauche, ObjetObstacleBas]
 
@@ -568,6 +571,13 @@ class F02(Tk):
         rebond = self.RebondHauteur(valInit)  # On teste le rebond sur les côtés avec la fonction RebondHauteur.
         return self.valY_Final, rebond  # Renvoie des paramètres aux fonctions de déplacement pour réutilisation.
 
+    def plusdeballe(self):
+        self.move()
+
+
+
+
+
     # FONCTION de déplacement des obstacles
     def action(self):
         "Animation"
@@ -603,20 +613,20 @@ class F02(Tk):
                 # Réinitialisation à droite
                 if self.balls[j] == 10:
                     i['x'] = self.Largeur - self.RayonObstacles - 1
-                    i['y'] = self.listpos[randint(0, 5)]
+                    i['y'] = self.listpos[randint(0, 28)]
 
                 # Réinitialisation en bas
                 if self.balls[j] == 11:
-                    i['x'] = self.listpos[randint(0, 7)]
+                    i['x'] = self.listpos[randint(0, 48)]
                     i['y'] = self.Hauteur - self.RayonObstacles - 1
 
                 # Réinitialisation à gauche
                 if self.balls[j] == 8:
                     i['x'] = 50
-                    i['y'] = self.listpos[randint(0, 5)]
+                    i['y'] = self.listpos[randint(0, 28)]
                 # Réinitialisation en haut
                 if self.balls[j] == 9:
-                    i['x'] = self.listpos[randint(0, 7)]
+                    i['x'] = self.listpos[randint(0, 48)]
                     i['y'] = 50
 
                 # Modif de balls, balles et des coordonnées de départ à faire
@@ -669,6 +679,7 @@ class F02(Tk):
                     print("Collision balle avec :", i, "Fin de partie")
                     self.Fin_Partie()  # Déclenchement de l'arrêt de la partie
                     # Erreur compliquée à modifier : trouver un moyen de stopper action.
+
 
     def Pause(self):
         self.FinAttente = False  # Les fonctions de déplacement des objets et personnage ne s'active que si ce boléen
@@ -732,5 +743,4 @@ class F02(Tk):
         # correspondant, le meilleur score est à l'emplacement t[i][3] du tableau d'"open_score_file",
         # BestScore est ce qu'on écrit.
         self.commandeOuvreF04()
-
 

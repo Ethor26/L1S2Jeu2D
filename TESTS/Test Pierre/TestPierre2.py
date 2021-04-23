@@ -26,11 +26,11 @@ def F00():
                        "vos objectifs et s’imaginent que vous venez détruire leur empire. Une quête ardue \n"
                        "commence pour vous…\n", font='Gabriola 17 italic', fill='white')
     b1 = Button(self, text="Close", command=self.destroy).pack(side=RIGHT)
-    b2 = Button(self, text="Play", command=self.commandeOuvreF01).pack(side=LEFT)
+    b2 = Button(self, text="Play", command=self).pack(side=LEFT)
     #label = Label(self, text="Saisir votre pseudo", bg="white").pack(side=BOTTOM)
     value = StringVar()
     value.set("texte par défaut")
-    entree = Entry(self, textvariable=label, width=30)
+    entree = Entry(self, textvariable="label", width=30)
     entree.pack()
     self.mainloop()
 

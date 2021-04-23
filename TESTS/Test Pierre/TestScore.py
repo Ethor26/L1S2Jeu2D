@@ -1,15 +1,6 @@
 from tkinter import *
+import tkinter as tk
 import time
-
-
-def F02():
-    self = Tk()
-    self.title("F02")
-    canvas = Canvas(self, width=500, height=300)
-    canvas.configure(background='black')
-    canvas.pack()
-    canvas.create_text(250, 150, text="Okok mec", font='25', fill='white')
-    self.mainloop()
 
 
 def F04(score, t4):
@@ -24,22 +15,26 @@ def F04(score, t4):
     else:
         Dommage = canvas.create_text(250, 150, text="Dommage, vous ferez mieux la prochaine fois !\n Votre score est : {}\nVotre meilleur score est : {}\nVous avez tenu : {} secondes".format(score, personal_best,t4), font='Gabriola 17', fill='white')
     b1 = Button(self, text="Quitter", command=self.destroy).place(x=10, y=270)
-    b2 = Button(self, text="Rejouer", command=F02).place(x=60, y=270)
+    b2 = Button(self, text="Rejouer", command=self).place(x=60, y=270)
     self.mainloop()
 
 
-def UpdateScore():
-    score = 0
-    t1 = time.time()
-    F02()
-    t2 = time.time()
-    t3 = t2-t1
-    t4 = t3
-    while t3 > 0.2:
-        score += 5
-        t3 -= 0.2
-        print(score)
-    F04(score, t4)
+
+def Score():
+#Augmente le score toutes les X millisecondes
+    global compteur
+    compteur += 15
+    compteur_lbl['text'] = str(compteur)
+    app.after(1000, Score)
 
 
-UpdateScore()
+app = tk.Tk()
+canvas = Canvas(app, width = 1200, height = 700)
+canvas.configure(background='black')
+canvas.pack()
+compteur = 0
+compteur_lbl = tk.Label(app, text=str(compteur), font=("", 16))
+compteur_lbl.place(x=8,y=8)
+
+app.after(1000, Score)
+app.mainloop()

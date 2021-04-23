@@ -11,13 +11,13 @@ def Chrono():
     while x == True:
         time.sleep(1)
         print(time.strftime('%M # %S ', time.localtime()))
-        score += 5
+        score += 25
         score_variable.set(f'score: {score}')
         canvas.update()
 
 
 def ChangeX():
-    time.sleep(5)
+    time.sleep(2)
 
 
 x = True
@@ -46,11 +46,11 @@ def Chrono(self):
     while x == True:
         time.sleep(1)
         print(time.strftime('%M # %S ', time.localtime()))
-        score += 5
+        score += 25
         score_variable.set(f'score: {score}')
         self.update()
 
 
 def ChangeX(self):
-    time.sleep(5)
+    time.sleep(2)
 
