@@ -459,7 +459,7 @@ class F02(Tk):
         tab, nbLignes = open_score_file2()
         VAngleEnDegree = int(tab[self.IdJoueur + 1][2])  # self.IdJoueur + 2 = Numéro de ligne, on enlève 1 car tableau.
 
-        # Etape 2 : Conversion et envoi pour calcul commande programmable
+        # Etape 2 : Conversion et envoi pour calcul commande programmable.
         # Angles à tester : 26, 45, 60, 120, 210, 300, extremes (89, 179, 269, 359)
         # Angle Temporaire
         # AngleEnDegree = 269
