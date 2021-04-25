@@ -49,10 +49,10 @@ class F01(Tk):
         self.Photofond = Image.open(os.getcwd() + "/IMAGES/ImageF01/nebuleuse.jpg")
         self.Photofond = self.Photofond.resize((self.Largeur, self.Hauteur), Image.ANTIALIAS)
         self.FondF01 = PhotoImage(self.Photofond)
-        self.CanvasPres = Canvas(self, width=self.Largeur, height=self.Hauteur)
-        self.ImgFondF01 = self.CanvasPres.create_image(self.Largeur // 2, self.Hauteur // 2, image=self.FondF01)
-        self.CanvasPres.pack(padx=5, pady=5)  # .pack sert à placer le texte
-        self.CanvasPres.tag_lower(self.ImgFondF01)
+        self.CanvasMenu = Canvas(self, width=self.Largeur, height=self.Hauteur)
+        self.ImgFondF01 = self.CanvasMenu.create_image(self.Largeur // 2, self.Hauteur // 2, image=self.FondF01)
+        self.CanvasMenu.pack(padx=5, pady=5)  # .pack sert à placer le texte
+        self.CanvasMenu.tag_lower(self.ImgFondF01)
 
         # =================
         # FONCTION Récupération Nom et enregistrement dans score.txt, met à jour l'ID de joueur et permet le premier

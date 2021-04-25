@@ -5,52 +5,69 @@
 # Date : 4 mai 2021 (?)
 # Fichier F00
 # ======================================================
-import os
+import os # Sert pour simplifier l'écriture du chemin d'accès d'un fichier (voir os.getcwd()).
 from tkinter import *  # Attention, TKinter doit être importé pour utiliser image de fond, pas remplacable par import de
 # fichier wF0... De plus, ordre des import important !
 from PIL import Image
-from PIL.ImageTk import PhotoImage
+from PIL.ImageTk import PhotoImage # Ces deux liens servent pour amener les fonctions fixant les images de fond.
 
-from wF01 import F01
+from wF01 import F01 # Import de F01 pour pouvoir l'ouvrir
 
 
-class F00(Tk):
+class F00(Tk): # Declaration de l'objet F00
+    # *****************************************
     # Constructeur de l'objet F01 : ne pas supprimer, sert pour mettre les paramètres et fonctions propres à l'objet.
-    def __init__(self, message):
+    def __init__(self, message): # Importation d'un message de test, ici "début" affiché en console
+        # (pour vérifier l'importation de paramètres).
         Tk.__init__(self)
         print("*** F00 ***")  # Pour controle en console
         self.title("F00")  # Le titre de la fenêtre
-        self.minsize(1200, 700)  # taille de fenêtre
-        self.Largeur = 1200  # Largeur de la zone de jeu
+        self.minsize(1200, 700)  # Initialisation de la taille de fenêtre
+        self.Largeur = 1200  # Paramètre représentant la largeur de la zone de jeu
         self.Hauteur = 700  # Hauteur de la zone de jeu
 
-        # Paramètres plein écran
+        # Paramètres plein écran, réutilisés dans les autres fenêtres.
         self.fullScreenState = True
-        self.attributes("-fullscreen", self.fullScreenState)
-        self.bind("<F11>", self.toggleFullScreen)
-        self.bind("<Escape>", self.quitFullScreen)
+        self.attributes("-fullscreen", self.fullScreenState)  # la fonction crée un plein écran si self.FullscreenState
+        # = "True", et en mode affichage simple si "False".
+        self.bind("<F11>", self.toggleFullScreen)  # Fonction permet d'obtenir un plein écran avec la touche F11
+        self.bind("<Escape>", self.quitFullScreen)  # Fonction permet d'enlever le plein écran avec la touche Echap
 
-        # Une méthode séparée pour construire le contenu de la fenêtre
+        # Une méthode séparée pour construire le contenu de la fenêtre : crée une sorte "d'algorithme principal" dans
+        # l'objet
         self.createWidgets()
 
         print(message)  # A supprimer : controle/test de passage de valeur à la classe par son constructeur
 
-    # Méthode de création des widgets
+    # **************************************
+    # Fonction/Méthode de création des widgets.
     def createWidgets(self):
-        self.grid()  # Choix du mode d'arrangement
+        self.grid()  # Choix du mode d'arrangement des éléments de la fenêtre.
+
+        # ...........< I M A G E S > .........................
+        # ELEMENT GRAPHIQUE : <Image en FOND> = [Libellé I01] + <Canevas> = [Libellé G01] :
+        # Affichage du fond d'écran de F00 dans son Canevas
+        self.Photofond = Image.open(os.getcwd() + "/IMAGES/Image F00/image5.png") # Ouverture de l'image en important le
+        # chemin d'accès de l'image : os.getcwd() est une chaine de caractère représentant l'emplacement du fichier
+        # wF00, le fichier image a donc ce chemin là avec celui du dossier IMAGES puis du dossier "Images F00".
+        self.FondF00 = PhotoImage(self.Photofond) # Formatation de l'image en tant que image pour Canevas
+
+        self.CanvasPres = Canvas(self, width=self.Largeur, height=self.Hauteur) # Creation du Canevas de F00
+        self.ImgFondF00 = self.CanvasPres.create_image(self.Largeur // 2, self.Hauteur // 2, image=self.FondF00)
+        # Creation d'un emplacement d'image dans le canevas, où l'on place l'image de Fond sélectionnée.
+        self.CanvasPres.pack(padx=5, pady=5)  # .pack sert à placer un élément dans la fenêtre.
+        self.CanvasPres.tag_lower(self.ImgFondF00)  # tag_lower place ses éléments en paramètres à l'arrière plan.
 
         # ...........< L A B E L S > .........................
-        # ELEMENT GRAPHIQUE : <Label> = [Libellé T01] : ...??
-        # ??? A FAIRE
+        # ELEMENT GRAPHIQUE : <Label> = [Libellé T01] : Titre du jeu
+        self.CanvasPres.create_text(600, 50,
+                                    text="Un heros Contre Galacticov.", font='Gabriola 32 italic', fill='cyan')
 
-        # Affichage du fond d'écran de F00
-        self.Photofond = Image.open(os.getcwd() + "/IMAGES/Image F00/image5.png")
-        self.FondF00 = PhotoImage(self.Photofond)
-        self.CanvasPres = Canvas(self, width=self.Largeur, height=self.Hauteur)
-        self.ImgFondF00 = self.CanvasPres.create_image(self.Largeur // 2, self.Hauteur // 2, image=self.FondF00)
-        self.CanvasPres.pack(padx=5, pady=5)  # .pack sert à placer le texte
-        self.CanvasPres.tag_lower(self.ImgFondF00)
+        # ELEMENT GRAPHIQUE : <Label> = [Libellé T02] : Label anti-copie
+        self.CanvasPres.create_text(1100, 650,
+                                    text="© Touts droits réservés. ", font='Gabriola 15 italic', fill='cyan')
 
+        # ELEMENT GRAPHIQUE : <Label> = [Libellé T03] : Texte du scénario
         # Affichage du scénario : un label sur Tkinter permet d'afficher du texte, create_text met du texte dans un
         # canvas. Paramètre inutile ici car placement direct.
         self.CanvasPres.create_text(600, 300,
@@ -73,31 +90,24 @@ class F00(Tk):
                                          "vos objectifs et s’imaginent que vous venez détruire leur empire.\n "
                                          "Une quête ardue commence alors pour vous…\n", font='Gabriola 17 italic',
                                     fill='white')
-        self.CanvasPres.create_text(600, 50,
-                                    text="Un heros Contre Galacticov.", font='Gabriola 32 italic', fill='cyan')
-        self.CanvasPres.create_text(1100, 650,
-                                    text="© Touts droits réservés. ", font='Gabriola 15 italic', fill='cyan')
-
-        # ELEMENT GRAPHIQUE : <Label> = [Libellé T02] : ...??
-        # ??? A FAIRE
-
-        # ELEMENT GRAPHIQUE : <Label> = [Libellé T03] : ...??
-        # ??? A FAIRE
-        # ...........
 
         # ...........< B U T T O N S >........................
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B01] : ouvrir menu (F01)
         self.ouvreF01 = Button(self, text="Start", command=self.commandeOuvreF01)
         self.ouvreF01.place(x=200, y=650)
 
-        # ELEMENT GRAPHIQUE : <Button> = [A preciser] : Un bouton pour quitter l'application
+        # ELEMENT GRAPHIQUE : <Button> = [Bouton B06] : Un bouton pour quitter l'application
         self.quitButton = Button(self, text="Quitter", command=self.destroy)
         self.quitButton.place(x=300, y=650)
 
-    # ==================================================
-    # Autres Fonctions :
+    # **************************************
+    # Autres Fonctions de l'objet:
+
+    # -----------------------
+    # FONCTIONS réglant respectivement l'application du plein écran avec F11, et la fin du plein écran avec Echap.
     def toggleFullScreen(self, event):
-        self.fullScreenState = not self.fullScreenState
+        self.fullScreenState = not self.fullScreenState  # Le paramètre prend True si False avant (ce qui est le cas
+        # par défaut: la fenêtre ne s'affiche pas en plein écran)
         self.attributes("-fullscreen", self.fullScreenState)
 
     def quitFullScreen(self, event):
@@ -109,5 +119,6 @@ class F00(Tk):
         self.destroy()  # ferme F00
         # ouvre F01
         app = F01(0)  # 0 représente un ID nul, sert pour que F01 puisse transmettre l'ID après
-        app.focus_force()  # Force le focus sur la fenetre
-        app.mainloop()
+        app.focus_force()  # Force le focus sur la fenetre, pour ne pas avoir besoin de cliquer dessus et risquer
+        # d'endommager le code.
+        app.mainloop() # Ouvre l'objet tkinter (fenêtre) F01.
