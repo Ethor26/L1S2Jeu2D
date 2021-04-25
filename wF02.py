@@ -7,6 +7,7 @@
 # ======================================================
 # from math import *
 import os
+# import time
 from random import *
 from tkinter import *
 
@@ -60,6 +61,9 @@ class F02(Tk):
         # Score Initial
         self.CompteurScore = 0
 
+        # Nombre de vies Initial
+        self.CompteurVies = 3
+        self.Explosion = False # Pas d'explosion au début
         # 1ere position finale (confondue avec initiale)
         self.valY_Final = 0
         self.valX_Final = 0
@@ -89,31 +93,35 @@ class F02(Tk):
                 print("Info:  touche d activée ***")
                 if self.FinAttente:  # Si Pause n'est pas activé
                     deplacement_D()
+                    self.Explosion = False
 
             # Si touche q => deplt a Gauche
             if self.touche == 'q':
                 print("Info:  touche q activée ***")
                 if self.FinAttente:  # Si Pause n'est pas activé
                     deplacement_Q()
+                    self.Explosion = False
 
             # Si touche s => deplt a bas
             if self.touche == 's':
                 print("Info:  touche s activée ***")
                 if self.FinAttente:  # Si Pause n'est pas activé
                     deplacement_S()
+                    self.Explosion = False
 
             # Si touche z => deplt a Haut
             if self.touche == 'z':
                 print("Info:  touche z activée ***")
                 if self.FinAttente:  # Si Pause n'est pas activé
                     deplacement_Z()
+                    self.Explosion = False
 
             # Si touche p => déplacement selon equation de mouvement
             if self.touche == 'p':
                 print("Info:  touche p activée ***")
                 if self.FinAttente:  # Si Pause n'est pas activé
                     deplacement_P()
-
+                    self.Explosion = False
         # =============================================================================
         # FONCTION de déplacement de la touche P. Auteur : Ethan SUISSA - Terminé
         def deplacement_P():
@@ -337,6 +345,13 @@ class F02(Tk):
         self.ImgPerso = self.CanevasJeu.create_image(self.PosX, self.PosY, image=self.logo)  # Placement à PosX et PosY
         # pour le déplacement de l'image comme personnage.
 
+        # Image explosion
+        self.imageExpl = Image.open(os.getcwd() + "/IMAGES/ImagesF02/ImageExplosion.png")
+        self.imageExpl = self.imageExpl.resize((100, 60), Image.ANTIALIAS)
+        self.imgExpl = PhotoImage(self.imageExpl)
+        self.objImgExpl = self.CanevasJeu.create_image(self.PosX, self.PosY, image=self.imgExpl)
+        self.CanevasJeu.tag_lower(self.objImgExpl)
+
         # ...........< O B S T A C L E S >........................
         # Image Test Pour collision
         # self.raquette = self.CanevasJeu.create_rectangle(200, 380, 400, 390, fill='red')
@@ -395,23 +410,28 @@ class F02(Tk):
 
         self.balles = [CoordObstacleDroite, CoordObstacleHaut, CoordObstacleGauche, CoordObstacleBas]
 
+        self.ListPosInitBalles = []
+        for i in range(4):
+            DictPos = {'x0': self.balles[i]['x'], 'y0': self.balles[i]['y']}
+            self.ListPosInitBalles.append(DictPos)
+
         ObjObstacleGauche = self.CanevasJeu.create_oval(CoordObstacleGauche['x'] - CoordObstacleGauche['ray'],
                                                         CoordObstacleGauche['y'] - CoordObstacleGauche['ray'],
                                                         CoordObstacleGauche['x'] + CoordObstacleGauche['ray'],
                                                         CoordObstacleGauche['y'] + CoordObstacleGauche['ray'],
-                                                        fill='red')
+                                                        fill='yellow')
 
         ObjObstacleHaut = self.CanevasJeu.create_oval(CoordObstacleHaut['x'] - CoordObstacleHaut['ray'],
                                                       CoordObstacleHaut['y'] - CoordObstacleHaut['ray'],
                                                       CoordObstacleHaut['x'] + CoordObstacleHaut['ray'],
                                                       CoordObstacleHaut['y'] + CoordObstacleHaut['ray'],
-                                                      fill='green')
+                                                      fill='yellow')
 
         ObjObstacleDroite = self.CanevasJeu.create_oval(CoordObstacleDroite['x'] - CoordObstacleDroite['ray'],
                                                         CoordObstacleDroite['y'] - CoordObstacleDroite['ray'],
                                                         CoordObstacleDroite['x'] + CoordObstacleDroite['ray'],
                                                         CoordObstacleDroite['y'] + CoordObstacleDroite['ray'],
-                                                        fill='blue')
+                                                        fill='yellow')
 
         ObjetObstacleBas = self.CanevasJeu.create_oval(CoordObstacleBas['x'] - CoordObstacleBas['ray'],
                                                        CoordObstacleBas['y'] - CoordObstacleBas['ray'],
@@ -432,8 +452,17 @@ class F02(Tk):
 
         self.TextScore = StringVar()
         self.TextScore.set(str(int(self.CompteurScore)))
-        self.compteur_lbl = Label(self, textvariable=self.TextScore, font=("", 16))
-        self.compteur_lbl.place(x=120, y=100)
+        self.compteurScore_lbl = Label(self, textvariable=self.TextScore, font=("", 16))
+        self.compteurScore_lbl.place(x=120, y=100)
+
+        LabelVies = Label(self, text="Vies: ", font=('Arial', 20), fg='blue')
+        # LabelTitre.pack(padx=1, pady=1)
+        LabelVies.place(x=20, y=300)
+
+        self.TextVies = StringVar()
+        self.TextVies.set(str(self.CompteurVies))
+        self.compteurVies_lbl = Label(self, textvariable=self.TextVies, font=("", 16))
+        self.compteurVies_lbl.place(x=120, y=300)
 
         # ...........< B U T T O N S >........................
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B07] : Retour au menu (Retour F01)
@@ -622,7 +651,7 @@ class F02(Tk):
                                                                   CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
                                                                   CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
                                                                   CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
-                                                                  fill='red')
+                                                                  fill='yellow')
             if TypeObstacle == 1:
                 CoordObstacleRandom = {'x': self.listposX[randint(0, 46)],
                                        'y': 50,
@@ -634,7 +663,7 @@ class F02(Tk):
                                                                   CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
                                                                   CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
                                                                   CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
-                                                                  fill='green')
+                                                                  fill='yellow')
 
             if TypeObstacle == 2:
                 CoordObstacleRandom = {'x': self.Largeur - self.RayonObstacles - 1,
@@ -647,7 +676,7 @@ class F02(Tk):
                                                                   CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
                                                                   CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
                                                                   CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
-                                                                  fill='blue')
+                                                                  fill='yellow')
             if TypeObstacle == 3:
                 CoordObstacleRandom = {'x': self.listposX[randint(0, 46)],
                                        'y': self.Hauteur - self.RayonObstacles - 1,
@@ -660,6 +689,7 @@ class F02(Tk):
                                                                   CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
                                                                   CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
                                                                   fill='yellow')
+            self.ListPosInitBalles.append({'x0': CoordObstacleRandom['x'], 'y0':CoordObstacleRandom['y']})
             self.balles.append(CoordObstacleRandom)
             self.balls.append(ObjetObstacleRandom)
             print("balles", self.balles, "balls", self.balls)
@@ -678,6 +708,7 @@ class F02(Tk):
         if self.FinAttente:  # Si Pause n'est pas activé, sert aussi pour éviter les interruptions brutales
             self.collide()
             self.ComptageScore()
+            self.AnimExplos()
             self.move()
             self.after(20, self.action)
 
@@ -767,8 +798,7 @@ class F02(Tk):
                         # balles, mais pas celui des pointes de vaisseaux car ce sont des images de fond uniquement.
                         if self.FinAttente:  # Sert pour éviter les interruptions brutales
                             print("Collision balle avec :", i, "Fin de partie")
-                            self.Fin_Partie()  # Déclenchement de l'arrêt de la partie
-                    # Erreur compliquée à modifier : trouver un moyen de stopper action.
+                            self.ActionsPerteVie()
 
     def Pause(self):
         self.FinAttente = False  # Les fonctions de déplacement des objets et personnage ne s'active que si ce boléen
@@ -799,6 +829,25 @@ class F02(Tk):
     #              input('hit ENTER to continue')
     #              while not self.FinAttente:
     #            time.sleep(5)
+    def ActionsPerteVie(self):
+        for i in range(len(self.ListPosInitBalles)): # Réinitialisation des balles à leurs positions initiales.
+            self.balles[i]['x'] = self.ListPosInitBalles[i]['x0']
+            self.balles[i]['y'] = self.ListPosInitBalles[i]['y0']
+        self.Explosion = True
+        # Nombre de vies Initial
+        self.CompteurVies -= 1
+        self.TextVies.set(str(self.CompteurVies))
+        if self.FinAttente and self.CompteurVies == 0:
+            self.Fin_Partie()
+
+    def AnimExplos(self):
+        if self.FinAttente:  # Sert pour éviter les interruptions brutales
+            self.CanevasJeu.coords(self.objImgExpl, self.PosX, self.PosY)
+            if self.Explosion: # Si le booléen est à "True", l'image devient visible, sinon elle redevient invisible.
+                self.CanevasJeu.tag_raise(self.objImgExpl)
+            else:
+                self.CanevasJeu.tag_lower(self.objImgExpl)
+
 
     def toggleFullScreen(self, event):
         self.fullScreenState = not self.fullScreenState
@@ -839,7 +888,7 @@ class F02(Tk):
     def Fin_Partie(self):
         self.FinAttente = False  # Arrêt de toutes les fonctions en cours exécutée par l'ordi.
         # Arrêt des actualisation de fenêtre par les fonctions (vérifier si risque d'erreurs) :
-        self.after_cancel(self.action) # Inutile
+        self.after_cancel(self.action)
         self.after_cancel(self.AjoutBalles) #Inutile
         self.after_cancel(self.idAfterD)
         self.after_cancel(self.idAfterP)
