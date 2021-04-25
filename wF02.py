@@ -9,6 +9,7 @@
 import os
 from random import *
 from tkinter import *
+
 from PIL import Image
 from PIL.ImageTk import PhotoImage
 from Tools import *
@@ -16,10 +17,8 @@ import wF01  # Modification de l'import pour éviter les "circular import", en g
 from wF04 import F04
 
 
-# import time
-
-
 class F02(Tk):
+
     # ************************************
     # Constructeur de l'objet F02 : ne pas supprimer !!!
     def __init__(self, IDJoueur):
@@ -45,6 +44,13 @@ class F02(Tk):
         # position initiale du perso, respectivement X et Y
         self.PosX = 600
         self.PosY = 400
+
+        # Declaration des variables d'actualisation des fenêtres pour l'arrêt
+        self.idAfterD = 1
+        self.idAfterP = 2
+        self.idAfterQ = 3
+        self.idAfterZ = 4
+        self.idAfterS = 5
 
         # Temps initiaux
         self.Temps = 0
@@ -134,11 +140,11 @@ class F02(Tk):
 
                     # On déclenche le déplacement toute les 1 ms, réactualisation de la fenêtre
                     if self.FinAttente:  # Sert pour éviter les interruptions brutales (pas au point pour P)
-                        idAfter = self.after(1, deplacement_P)
-
+                        self.idAfterP = self.after(1, deplacement_P)
+                        print("idAfterP", self.idAfterP)
                         # On arrête le déplacement s'il y a un rebond ou si le facteur temps est supérieur à 0.05
                         if nbRebond > 0 or self.Temps > 0.06:  # 0.07 pour courbe complète
-                            self.after_cancel(idAfter)
+                            self.after_cancel(self.idAfterP)
                             self.Temps = 0
                             nbRebond = 0
 
@@ -167,18 +173,19 @@ class F02(Tk):
                                                                         self.PosY - self.Perso_Hauteur // 2,
                                                                         self.PosX + self.Perso_Largeur // 2,
                                                                         self.PosY + self.Perso_Hauteur // 2))
-                    print("NumImage =", self.ImgPerso, self.objImgFondEcran,  self.objImgV4, self.objImgV3,
-                          self.objImgV2, self.objImgV1) # self.raquette
+                    print("NumImage =", self.ImgPerso, self.objImgFondEcran, self.objImgV4, self.objImgV3,
+                          self.objImgV2, self.objImgV1)  # self.raquette
 
                     # On déclenche le déplacement toute les 40 ms, réactualisation de la fenêtre
-                    idAfter = self.after(40, deplacement_D)
+                    self.idAfterD = self.after(40, deplacement_D)
 
                     # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
                     self.cpTemps += 1
 
                     if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
-                        self.after_cancel(idAfter)
+                        self.after_cancel(self.idAfterD)
                         self.cpTemps = 0
+
 
         # =============================================================================
         # FONCTION de déplacement de la touche Q. Auteur : Lilandra ALBERT-LAVAUX - Terminé
@@ -201,13 +208,13 @@ class F02(Tk):
                         print("Nombre de rebond = ", nbRebond)
 
                     # On déclenche le déplacement toute les 40 ms, réactualisation de la fenêtre
-                    idAfter = self.after(40, deplacement_Q)
+                    self.idAfterQ = self.after(40, deplacement_Q)
 
                     # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
                     self.cpTemps += 1
 
                     if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
-                        self.after_cancel(idAfter)
+                        self.after_cancel(self.idAfterQ)
                         self.cpTemps = 0
 
         # =============================================================================
@@ -232,13 +239,13 @@ class F02(Tk):
                         print("Nombre de rebond = ", nbRebond)
 
                     # On déclenche le déplacement toute les 40 ms, réactualisation de la fenêtre
-                    idAfter = self.after(40, deplacement_Z)
+                    self.idAfterZ = self.after(40, deplacement_Z)
 
                     # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
                     self.cpTemps += 1
 
                     if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
-                        self.after_cancel(idAfter)
+                        self.after_cancel(self.idAfterZ)
                         self.cpTemps = 0
 
         # =============================================================================
@@ -264,13 +271,13 @@ class F02(Tk):
 
                     # On déclenche le déplacement toute les 40 ms, réactualisation de la fenêtre
 
-                    idAfter = self.after(40, deplacement_S)
+                    self.idAfterS = self.after(40, deplacement_S)
 
                     # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
                     self.cpTemps += 1
 
                     if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
-                        self.after_cancel(idAfter)
+                        self.after_cancel(self.idAfterS)
                         self.cpTemps = 0
 
         # ==================================================
@@ -441,14 +448,9 @@ class F02(Tk):
         self.PauseButton = Button(self, text="Pause", command=self.Pause)
         self.PauseButton.place(x=500, y=700)
 
-        # ELEMENT GRAPHIQUE : <Button> = [Bouton B0?] : Fin de la partie et ouvre F04, temporaire ?
-        self.B0_FinPartie = Button(self, text="Fin de partie", command=self.Fin_Partie)
-        self.B0_FinPartie.place(x=400, y=700)
-
         # *********************** Appel des fonctions
-        self.GestionAjoutBalles()
+        self.AjoutBalles()
         self.action()
-
 
     # ********************* FONTIONS DE L'OBJET
 
@@ -606,70 +608,68 @@ class F02(Tk):
         # ATTENTION: Les directions des obstacles dans le nom représentent l'endroit d'où ils partent, et non leurs
         # trajectoires.
         # Declaration initiales (rappel)
-
-        ObjetObstacleRandom = self.CanevasJeu.create_oval(100,100,100,100,fill='yellow')  # Pour sécuriser Pycharm
-        TypeObstacle = randint(0, 3)
-        CoordObstacleRandom = {}
-        if TypeObstacle == 0:
-            CoordObstacleRandom = {'x': 50,
-                                    'y': self.listposY[randint(0, 26)],  # 26 et 46 car liste a décalage de position
-                                    'ray': self.RayonObstacles,
-                                    'dx': self.Listvitesse[0] * cos(self.Listangle[0]),
-                                    'dy': self.Listvitesse[0] * sin(self.Listangle[0])}
-            ObjetObstacleRandom = self.CanevasJeu.create_oval(CoordObstacleRandom['x'] - CoordObstacleRandom['ray'],
-                                                                 CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
-                                                                 CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
-                                                                 CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
-                                                                 fill='red')
-        if TypeObstacle == 1:
-            CoordObstacleRandom = {'x': self.listposX[randint(0, 46)],
-                                     'y': 50,
-                                     'ray': self.RayonObstacles,
-                                     'dx': self.Listvitesse[1] * cos(self.Listangle[1]),
-                                     'dy': self.Listvitesse[1] * sin(self.Listangle[1])}
-
-            ObjetObstacleRandom = self.CanevasJeu.create_oval(CoordObstacleRandom['x'] - CoordObstacleRandom['ray'],
-                                                               CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
-                                                               CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
-                                                               CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
-                                                               fill='green')
-
-        if TypeObstacle == 2:
-            CoordObstacleRandom = {'x': self.Largeur - self.RayonObstacles - 1,
-                                    'y': self.listposY[randint(0, 26)],
-                                    'ray': self.RayonObstacles,
-                                    'dx': self.Listvitesse[2] * cos(self.Listangle[2]),
-                                    'dy': self.Listvitesse[2] * sin(self.Listangle[2])}
-
-            ObjetObstacleRandom = self.CanevasJeu.create_oval(CoordObstacleRandom['x'] - CoordObstacleRandom['ray'],
-                                                                CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
-                                                                CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
-                                                                CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
-                                                                fill='blue')
-        if TypeObstacle == 3:
-            CoordObstacleRandom = {'x': self.listposX[randint(0, 46)],
-                                    'y': self.Hauteur - self.RayonObstacles - 1,
-                                    'ray': self.RayonObstacles,
-                                    'dx': self.Listvitesse[3] * cos(self.Listangle[3]),
-                                    'dy': self.Listvitesse[3] * sin(self.Listangle[3])}
-
-            ObjetObstacleRandom = self.CanevasJeu.create_oval(CoordObstacleRandom['x'] - CoordObstacleRandom['ray'],
-                                                                CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
-                                                                CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
-                                                                CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
-                                                                fill='yellow')
-
-        self.balles.append(CoordObstacleRandom)
-        self.balls.append(ObjetObstacleRandom)
-        print("balles", self.balles, "balls", self.balls)
-
-# FONCTION de gestion de creation des obstacles
-    def GestionAjoutBalles(self):
-        self.AjoutBalles()
         if self.FinAttente:  # Si Pause n'est pas activé, sert aussi pour éviter les interruptions brutales
-            self.after(10000, self.GestionAjoutBalles)
+            ObjetObstacleRandom = self.CanevasJeu.create_oval(100, 100, 100, 100, fill='yellow')  # Pour sécuriser Pycharm
+            TypeObstacle = randint(0, 3)
+            CoordObstacleRandom = {}
+            if TypeObstacle == 0:
+                CoordObstacleRandom = {'x': 50,
+                                       'y': self.listposY[randint(0, 26)],  # 26 et 46 car liste a décalage de position
+                                       'ray': self.RayonObstacles,
+                                       'dx': self.Listvitesse[0] * cos(self.Listangle[0]),
+                                       'dy': self.Listvitesse[0] * sin(self.Listangle[0])}
+                ObjetObstacleRandom = self.CanevasJeu.create_oval(CoordObstacleRandom['x'] - CoordObstacleRandom['ray'],
+                                                                  CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
+                                                                  CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
+                                                                  CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
+                                                                  fill='red')
+            if TypeObstacle == 1:
+                CoordObstacleRandom = {'x': self.listposX[randint(0, 46)],
+                                       'y': 50,
+                                       'ray': self.RayonObstacles,
+                                       'dx': self.Listvitesse[1] * cos(self.Listangle[1]),
+                                       'dy': self.Listvitesse[1] * sin(self.Listangle[1])}
 
+                ObjetObstacleRandom = self.CanevasJeu.create_oval(CoordObstacleRandom['x'] - CoordObstacleRandom['ray'],
+                                                                  CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
+                                                                  CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
+                                                                  CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
+                                                                  fill='green')
 
+            if TypeObstacle == 2:
+                CoordObstacleRandom = {'x': self.Largeur - self.RayonObstacles - 1,
+                                       'y': self.listposY[randint(0, 26)],
+                                       'ray': self.RayonObstacles,
+                                       'dx': self.Listvitesse[2] * cos(self.Listangle[2]),
+                                       'dy': self.Listvitesse[2] * sin(self.Listangle[2])}
+
+                ObjetObstacleRandom = self.CanevasJeu.create_oval(CoordObstacleRandom['x'] - CoordObstacleRandom['ray'],
+                                                                  CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
+                                                                  CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
+                                                                  CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
+                                                                  fill='blue')
+            if TypeObstacle == 3:
+                CoordObstacleRandom = {'x': self.listposX[randint(0, 46)],
+                                       'y': self.Hauteur - self.RayonObstacles - 1,
+                                       'ray': self.RayonObstacles,
+                                       'dx': self.Listvitesse[3] * cos(self.Listangle[3]),
+                                       'dy': self.Listvitesse[3] * sin(self.Listangle[3])}
+
+                ObjetObstacleRandom = self.CanevasJeu.create_oval(CoordObstacleRandom['x'] - CoordObstacleRandom['ray'],
+                                                                  CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
+                                                                  CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
+                                                                  CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
+                                                                  fill='yellow')
+            self.balles.append(CoordObstacleRandom)
+            self.balls.append(ObjetObstacleRandom)
+            print("balles", self.balles, "balls", self.balls)
+            self.after(10000, self.AjoutBalles)
+
+    # FONCTION de gestion de creation des obstacles
+    #     def GestionAjoutBalles(self):
+    #         if self.FinAttente:  # Si Pause n'est pas activé, sert aussi pour éviter les interruptions brutales
+    #             self.AjoutBalles()
+    #             self.after(10000, self.GestionAjoutBalles)
 
     # FONCTION de déplacement des obstacles
     def action(self):
@@ -680,6 +680,7 @@ class F02(Tk):
             self.ComptageScore()
             self.move()
             self.after(20, self.action)
+
 
     def move(self):
         "Déplacement des balles"
@@ -698,19 +699,19 @@ class F02(Tk):
 
         # Collision avec les parois
         for i in self.balles:
-            if i['x'] - i['ray'] <= 0: # Réinitialisation à droite
+            if i['x'] - i['ray'] <= 0:  # Réinitialisation à droite
                 i['x'] = self.Largeur - self.RayonObstacles - 1
                 i['y'] = self.listposY[randint(0, 26)]
 
-            if i['x'] + i['ray'] >= int(self.CanevasJeu['width']): # Réinitialisation à gauche
+            if i['x'] + i['ray'] >= int(self.CanevasJeu['width']):  # Réinitialisation à gauche
                 i['x'] = 50
                 i['y'] = self.listposY[randint(0, 26)]
 
-            if (i['y'] - i['ray']) <= 0: # Réinitialisation en bas
+            if (i['y'] - i['ray']) <= 0:  # Réinitialisation en bas
                 i['x'] = self.listposX[randint(0, 46)]
                 i['y'] = self.Hauteur - self.RayonObstacles - 1
 
-            if (i['y'] + i['ray']) >= int(self.CanevasJeu['height']): # Réinitialisation en haut
+            if (i['y'] + i['ray']) >= int(self.CanevasJeu['height']):  # Réinitialisation en haut
                 i['x'] = self.listposX[randint(0, 46)]
                 i['y'] = 50
                 # i['dx'] = -i['dx']
@@ -781,7 +782,9 @@ class F02(Tk):
         self.BoutonReprise = Button(self, text="Reprendre", command=Reprendre)
         self.BoutonReprise.place(x=550, y=700)  # Le clic de "Pause" crée le bouton reprendre
 
-
+        # ELEMENT GRAPHIQUE : <Button> = [Bouton B0?] : Fin de la partie et ouvre F04, temporaire ?
+        self.B0_FinPartie = Button(self, text="Fin de partie", command=self.Fin_Partie)
+        self.B0_FinPartie.place(x=400, y=700)
 
     def ComptageScore(self):
         # Augmente le score toutes les X millisecondes
@@ -834,10 +837,18 @@ class F02(Tk):
     # ========================
     # FONCTION : Fonction de fin de partie, appelée si partie finie pour récupérer le meilleur score et ouvrir F04
     def Fin_Partie(self):
-        self.FinAttente = False  # Arrêt de toutes les fonctions en cours exécutée par l'ordi.pq
-        # time.sleep(1) Pour arrêt
-        # self.CompteurScore = 3216  # A récupérer
-        BestScore = score_comparaison2(self.CompteurScore, self.IdJoueur)  # Ligne trouvée avec l'ID dans la fonction
+        self.FinAttente = False  # Arrêt de toutes les fonctions en cours exécutée par l'ordi.
+        # Arrêt des actualisation de fenêtre par les fonctions (vérifier si risque d'erreurs) :
+        self.after_cancel(self.action) # Inutile
+        self.after_cancel(self.AjoutBalles) #Inutile
+        self.after_cancel(self.idAfterD)
+        self.after_cancel(self.idAfterP)
+        self.after_cancel(self.idAfterQ)
+        self.after_cancel(self.idAfterZ)
+        self.after_cancel(self.idAfterS)
+        # time.sleep(1) # Pour arrêt
+        BestScore = score_comparaison2(int(self.CompteurScore),
+                                       self.IdJoueur)  # Ligne trouvée avec l'ID dans la fonction
         ModifPrecisFichier(self.IdJoueur + 2, 3, BestScore)  # self.IdJoueur +2 car c'est le numéro de ligne
         # correspondant, le meilleur score est à l'emplacement t[i][3] du tableau d'"open_score_file",
         # BestScore est ce qu'on écrit.

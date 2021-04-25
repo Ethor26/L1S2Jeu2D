@@ -41,7 +41,6 @@ class F04(Tk):
 
     # ==================================================
     # FONCTIONS WIDGETS::::::::
-        self.VictoireJeu()
 
     # ==================================================
     # ELEMENTS GRAPHIQUES::::::::
@@ -107,7 +106,7 @@ class F04(Tk):
         tab, nbLignes = open_score_file2()
         if self.ScoreRec >= int(tab[self.IDJoueur+ 1][3]):
             print("Meilleur score dépassé")  # Pour controle
-            return True, int(tab[self.IDJoueur+ 1][3])
+            return True, int(tab[self.IDJoueur + 1][3])
         else:
             print("Meilleur score non atteint")  # Pour controle
             return False, int(tab[self.IDJoueur+ 1][3])
