@@ -128,7 +128,7 @@ class F01(Tk):
         # ELEMENT GRAPHIQUE : <Entry> = [Libellé E01] : Entrée du pseudo
         # Création d'un widget Entry (champ de saisie)
         Nom = StringVar()
-        EntreeNom = Entry(self, textvariable=Nom, bg='bisque', fg='red', font=("Arial", 20), )
+        EntreeNom = Entry(self, textvariable=Nom, bg='bisque', fg='RoyalBlue1', font=("Arial", 20), )
         EntreeNom.focus_set()  # : nécessaire ?
         EntreeNom.place(x=self.leftPadding + 300, y=self.paddingtop + 50)
 
@@ -156,7 +156,7 @@ class F01(Tk):
         # Boutons "configuration commande" et "valider" en haut
 
         # Création d'un widget Button (bouton Valider)
-        self.BoutonValidNom = Button(self, text='Valider', bg="red", fg="white", font=("Arial", 15),
+        self.BoutonValidNom = Button(self, text="Valider", bg="RoyalBlue1", fg="white", font=("Arial", 15),
                                      command=RecupNameDever)
 
         self.BoutonValidNom.place(x=self.leftPadding, y=self.paddingtop + 150)
