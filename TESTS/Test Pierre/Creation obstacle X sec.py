@@ -14,13 +14,10 @@ from PIL.ImageTk import PhotoImage
 from Tools import *
 import wF01  # Modification de l'import pour éviter les "circular import", en général rajoute des "wF01.Tk"
 from wF04 import F04
-
-
-# import time
+import time
 
 
 class F02(Tk):
-    # ************************************
     # Constructeur de l'objet F02 : ne pas supprimer !!!
     def __init__(self, IDJoueur):
         Tk.__init__(self)
@@ -52,19 +49,19 @@ class F02(Tk):
         self.LimiteTpsDepl = 5
         self.FinAttente = True
         # Score Initial
-        self.CompteurScore = 0
+        self.Score = 0
 
         # 1ere position finale (confondue avec initiale)
         self.valY_Final = 0
         self.valX_Final = 0
 
+        self.Score = 1
         # Nombre de Pas de déplacement
         self.NbPas = 20
 
         # Creation des elements graphiques
         self.createWidgets()
 
-    # ************************************
     # Méthode de création des widgets
     def createWidgets(self):
         self.grid()  # Choix du mode d'arrangement
@@ -111,167 +108,155 @@ class F02(Tk):
         # =============================================================================
         # FONCTION de déplacement de la touche P. Auteur : Ethan SUISSA - Terminé
         def deplacement_P():
-            if self.FinAttente:  # Sert pour éviter les interruptions brutales
-                nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
-                self.Temps += 0.00015  # Augmentation d'une variable de temps pour calcul Position Y (de commande
-                # programmable) et permet de définir la limite du mouvement.
-                # Récupération des nouvelles position
-                self.PosX, self.PosY, self.siRebond, Temps = self.ValeurPosXY_P(self.PosX, self.PosY, self.Temps)
+            nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
+            self.Temps += 0.00015  # Augmentation d'une variable de temps pour calcul Position Y (de commande
+            # programmable) et permet de définir la limite du mouvement.
+            # Récupération des nouvelles position
+            self.PosX, self.PosY, self.siRebond, Temps = self.ValeurPosXY_P(self.PosX, self.PosY, self.Temps)
 
-                print("posY = ", self.PosY)  # pour controle
-                print("posX = ", self.PosX)  # pour controle
-                print("Pion = ", self.PersoImgVaisseau)  # pour controle
-                print("Temps = ", Temps)  # pour controle
+            print("posY = ", self.PosY)  # pour controle
+            print("posX = ", self.PosX)  # pour controle
+            print("Pion = ", self.PersoImgVaisseau)  # pour controle
+            print("Temps = ", Temps)  # pour controle
 
-                # Repositionnne le personnage
-                if self.FinAttente:  # Sert pour éviter les interruptions brutales
-                    self.CanevasJeu.coords(self.ImgPerso, self.PosX, self.PosY)
+            # Repositionnne le personnage
+            self.CanevasJeu.coords(self.ImgPerso, self.PosX, self.PosY)
 
-                    # S'il y a un rebond sur un côté, augmente la variable du nombre de rebond
-                    if self.siRebond:
-                        nbRebond = nbRebond + 1
-                        print("Nombre de rebond = ", nbRebond)
+            # S'il y a un rebond sur un côté, augmente la variable du nombre de rebond
+            if self.siRebond:
+                nbRebond = nbRebond + 1
+                print("Nombre de rebond = ", nbRebond)
 
-                    # On déclenche le déplacement toute les 1 ms, réactualisation de la fenêtre
-                    if self.FinAttente:  # Sert pour éviter les interruptions brutales (pas au point pour P)
-                        idAfter = self.after(1, deplacement_P)
+            # On déclenche le déplacement toute les 1 ms, réactualisation de la fenêtre
+            idAfter = self.after(1, deplacement_P)
 
-                        # On arrête le déplacement s'il y a un rebond ou si le facteur temps est supérieur à 0.05
-                        if nbRebond > 0 or self.Temps > 0.06:  # 0.07 pour courbe complète
-                            self.after_cancel(idAfter)
-                            self.Temps = 0
-                            nbRebond = 0
+            # On arrête le déplacement s'il y a un rebond ou si le facteur temps est supérieur à 0.05
+            if nbRebond > 0 or self.Temps > 0.06:  # 0.07 pour courbe complète
+                self.after_cancel(idAfter)
+                self.Temps = 0
+                nbRebond = 0
 
         # =============================================================================
         # FONCTION de déplacement de la touche D. Auteur : Lilandra ALBERT-LAVAUX - Terminé
         def deplacement_D():  # ATTENTION : Pas de paramètres !
-            if self.FinAttente:  # Sert pour éviter les interruptions brutales
-                nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
+            nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
 
-                # Récupération de la nouvelle position de X et renvoie siRebond=true si on touche le bord
-                self.PosX, self.siRebond = self.ValeurPosX(self.PosX, self.NbPas)
+            # Récupération de la nouvelle position de X et renvoie siRebond=true si on touche le bord
+            self.PosX, self.siRebond = self.ValeurPosX(self.PosX, self.NbPas)
 
-                print("Deplacement Droite : posY = ", self.PosY)  # pour controle
-                print("Deplacement Droite : posX = ", self.PosX)  # pour controle
+            print("Deplacement Droite : posY = ", self.PosY)  # pour controle
+            print("Deplacement Droite : posX = ", self.PosX)  # pour controle
 
-                # Repositionnne le personnage
-                if self.FinAttente:  # Sert pour éviter les interruptions brutales
-                    self.CanevasJeu.coords(self.ImgPerso, self.PosX, self.PosY)
+            # Repositionnne le personnage
+            self.CanevasJeu.coords(self.ImgPerso, self.PosX, self.PosY)
 
-                    # S'il y a un rebond sur un côté, augmente la variable du nombre de rebond
-                    if self.siRebond:
-                        nbRebond = nbRebond + 1
-                        print("Nombre de rebond = ", nbRebond)
+            # S'il y a un rebond sur un côté, augmente la variable du nombre de rebond
+            if self.siRebond:
+                nbRebond = nbRebond + 1
+                print("Nombre de rebond = ", nbRebond)
 
-                    print("Collision", self.CanevasJeu.find_overlapping(self.PosX - self.Perso_Largeur // 2,
-                                                                        self.PosY - self.Perso_Hauteur // 2,
-                                                                        self.PosX + self.Perso_Largeur // 2,
-                                                                        self.PosY + self.Perso_Hauteur // 2))
-                    print("NumImage =", self.ImgPerso, self.objImgFondEcran,  self.objImgV4, self.objImgV3,
-                          self.objImgV2, self.objImgV1) # self.raquette
+            print("Collision", self.CanevasJeu.find_overlapping(self.PosX - self.Perso_Largeur // 2,
+                                                                self.PosY - self.Perso_Hauteur // 2,
+                                                                self.PosX + self.Perso_Largeur // 2,
+                                                                self.PosY + self.Perso_Hauteur // 2))
+            print("NumImage =", self.ImgPerso, self.objImgFondEcran, self.raquette, self.objImgV4, self.objImgV3,
+                  self.objImgV2, self.objImgV1)
 
-                    # On déclenche le déplacement toute les 40 ms, réactualisation de la fenêtre
-                    idAfter = self.after(40, deplacement_D)
+            # On déclenche le déplacement toute les 40 ms, réactualisation de la fenêtre
+            idAfter = self.after(40, deplacement_D)
 
-                    # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
-                    self.cpTemps += 1
+            # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
+            self.cpTemps += 1
 
-                    if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
-                        self.after_cancel(idAfter)
-                        self.cpTemps = 0
+            if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
+                self.after_cancel(idAfter)
+                self.cpTemps = 0
 
         # =============================================================================
         # FONCTION de déplacement de la touche Q. Auteur : Lilandra ALBERT-LAVAUX - Terminé
         def deplacement_Q():  # ATTENTION : Pas de paramètres !
-            if self.FinAttente:  # Sert pour éviter les interruptions brutales
-                nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
+            nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
 
-                # Récupération de la nouvelle position de X et renvoie siRebond=true si on touche le bord
-                self.PosX, self.siRebond = self.ValeurPosX(self.PosX, -self.NbPas)
-                print("Deplacement Gauche : posY = ", self.PosY)  # pour controle
-                print("Deplacement Gauche : posX = ", self.PosX)  # pour controle
+            # Récupération de la nouvelle position de X et renvoie siRebond=true si on touche le bord
+            self.PosX, self.siRebond = self.ValeurPosX(self.PosX, -self.NbPas)
+            print("Deplacement Gauche : posY = ", self.PosY)  # pour controle
+            print("Deplacement Gauche : posX = ", self.PosX)  # pour controle
 
-                # Repositionnne le personnage
-                if self.FinAttente:  # Sert pour éviter les interruptions brutales
-                    self.CanevasJeu.coords(self.ImgPerso, self.PosX, self.PosY)
+            # Repositionnne le personnage
+            self.CanevasJeu.coords(self.ImgPerso, self.PosX, self.PosY)
 
-                    # S'il y a un rebond sur un côté, augmente la variable du nombre de rebond
-                    if self.siRebond:
-                        nbRebond = nbRebond + 1
-                        print("Nombre de rebond = ", nbRebond)
+            # S'il y a un rebond sur un côté, augmente la variable du nombre de rebond
+            if self.siRebond:
+                nbRebond = nbRebond + 1
+                print("Nombre de rebond = ", nbRebond)
 
-                    # On déclenche le déplacement toute les 40 ms, réactualisation de la fenêtre
-                    idAfter = self.after(40, deplacement_Q)
+            # On déclenche le déplacement toute les 40 ms, réactualisation de la fenêtre
+            idAfter = self.after(40, deplacement_Q)
 
-                    # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
-                    self.cpTemps += 1
+            # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
+            self.cpTemps += 1
 
-                    if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
-                        self.after_cancel(idAfter)
-                        self.cpTemps = 0
+            if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
+                self.after_cancel(idAfter)
+                self.cpTemps = 0
 
         # =============================================================================
         # FONCTION de déplacement de la touche Z. Auteur : Lilandra ALBERT-LAVAUX - Terminé
         def deplacement_Z():  # ATTENTION : Pas de paramètres !
-            if self.FinAttente:  # Sert pour éviter les interruptions brutales
-                nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
+            nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
 
-                # Récupération de la nouvelle position de X et renvoie siRebond=true si on touche le bord
-                self.PosY, self.siRebond = self.ValeurPosY(self.PosY, -self.NbPas)
+            # Récupération de la nouvelle position de X et renvoie siRebond=true si on touche le bord
+            self.PosY, self.siRebond = self.ValeurPosY(self.PosY, -self.NbPas)
 
-                print("Deplacement Haut : posY = ", self.PosY)  # pour controle
-                print("Deplacement Haut : posX = ", self.PosX)  # pour controle
+            print("Deplacement Haut : posY = ", self.PosY)  # pour controle
+            print("Deplacement Haut : posX = ", self.PosX)  # pour controle
 
-                # Repositionnne le personnage
-                if self.FinAttente:
-                    self.CanevasJeu.coords(self.ImgPerso, self.PosX, self.PosY)
+            # Repositionnne le personnage
+            self.CanevasJeu.coords(self.ImgPerso, self.PosX, self.PosY)
 
-                    # S'il y a un rebond sur un côté, augmente la variable du nombre de rebond
-                    if self.siRebond:
-                        nbRebond = nbRebond + 1
-                        print("Nombre de rebond = ", nbRebond)
+            # S'il y a un rebond sur un côté, augmente la variable du nombre de rebond
+            if self.siRebond:
+                nbRebond = nbRebond + 1
+                print("Nombre de rebond = ", nbRebond)
 
-                    # On déclenche le déplacement toute les 40 ms, réactualisation de la fenêtre
-                    idAfter = self.after(40, deplacement_Z)
+            # On déclenche le déplacement toute les 40 ms, réactualisation de la fenêtre
+            idAfter = self.after(40, deplacement_Z)
 
-                    # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
-                    self.cpTemps += 1
+            # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
+            self.cpTemps += 1
 
-                    if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
-                        self.after_cancel(idAfter)
-                        self.cpTemps = 0
+            if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
+                self.after_cancel(idAfter)
+                self.cpTemps = 0
 
         # =============================================================================
         # FONCTION de déplacement de la touche S. Auteur : Lilandra ALBERT-LAVAUX - Terminé
         def deplacement_S():  # ATTENTION : Pas de paramètres !
-            if self.FinAttente:  # Sert pour éviter les interruptions brutales
-                nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
+            nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
 
-                # Récupération de la nouvelle position de X et renvoie siRebond=true si on touche le bord
-                self.PosY, self.siRebond = self.ValeurPosY(self.PosY, self.NbPas)
+            # Récupération de la nouvelle position de X et renvoie siRebond=true si on touche le bord
+            self.PosY, self.siRebond = self.ValeurPosY(self.PosY, self.NbPas)
 
-                print("Deplacement Bas : posY = ", self.PosY)  # pour controle
-                print("Deplacement Bas : posX = ", self.PosX)  # pour controle
+            print("Deplacement Bas : posY = ", self.PosY)  # pour controle
+            print("Deplacement Bas : posX = ", self.PosX)  # pour controle
 
-                # Repositionnne le personnage
-                if self.FinAttente:  # Sert pour éviter les interruptions brutales
-                    self.CanevasJeu.coords(self.ImgPerso, self.PosX, self.PosY)
+            # Repositionnne le personnage
+            self.CanevasJeu.coords(self.ImgPerso, self.PosX, self.PosY)
 
-                    # S'il y a un rebond sur un côté, augmente la variable du nombre de rebond
-                    if self.siRebond:
-                        nbRebond = nbRebond + 1
-                        print("Nombre de rebond = ", nbRebond)
+            # S'il y a un rebond sur un côté, augmente la variable du nombre de rebond
+            if self.siRebond:
+                nbRebond = nbRebond + 1
+                print("Nombre de rebond = ", nbRebond)
 
-                    # On déclenche le déplacement toute les 40 ms, réactualisation de la fenêtre
+            # On déclenche le déplacement toute les 40 ms, réactualisation de la fenêtre
+            idAfter = self.after(40, deplacement_S)
 
-                    idAfter = self.after(40, deplacement_S)
+            # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
+            self.cpTemps += 1
 
-                    # On arrête le dépldacement s'il y a un rebond ou si on arrive à la limite du temps de déplacement
-                    self.cpTemps += 1
-
-                    if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
-                        self.after_cancel(idAfter)
-                        self.cpTemps = 0
+            if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
+                self.after_cancel(idAfter)
+                self.cpTemps = 0
 
         # ==================================================
         # ELEMENTS GRAPHIQUES::::::::
@@ -332,30 +317,24 @@ class F02(Tk):
 
         # ...........< O B S T A C L E S >........................
         # Image Test Pour collision
-        # self.raquette = self.CanevasJeu.create_rectangle(200, 380, 400, 390, fill='red')
+        self.raquette = self.CanevasJeu.create_rectangle(200, 380, 400, 390, fill='red')
 
         # position initiale aleatoire
-        self.listposY = [25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475,
-                         500,
-                         525, 550, 575, 600, 625, 650, 675]  # longueur = 27
-
-        self.listposX = [25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475,
-                         500,
-                         525, 550, 575, 600, 625, 650, 675, 700, 725, 750, 775, 800, 825, 850, 875, 900, 925, 950, 975,
-                         1000, 1025, 1050, 1075, 1100, 1125, 1150, 1175]  # Longueur = 47
-
+        self.listpos = [25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475, 500,
+                        525, 550, 575, 600, 625, 650, 675, 700, 725, 750, 775, 800, 825, 850, 875, 900, 925, 950, 975,
+                        1000, 1025, 1050, 1075, 1100, 1125, 1150, 1175, 1200]
         # direction initiale aléatoire
-        self.Listvitesse = []
+        Listvitesse = []
         for i in range(4):
-            self.Listvitesse.append(uniform(1.8, 2) * 4)
+            Listvitesse.append(uniform(1.8, 2) * 4)
 
-        self.Listangle = []
+        Listangle = []
         AngleRadianBalle = 0
         for i in range(4):
-            self.Listangle.append(AngleRadianBalle)
+            Listangle.append(AngleRadianBalle)
             AngleRadianBalle += pi / 2
 
-        print("ListAngles:", self.Listangle, "ListeVitesses", self.Listvitesse)
+        print("ListAngles:", Listangle, "ListeVitesses", Listvitesse)
         # DX = vitesse * math.cos(angle)
         # DY = vitesse * math.sin(angle)
 
@@ -363,28 +342,28 @@ class F02(Tk):
         # trajectoires.
 
         CoordObstacleGauche = {'x': 50,
-                               'y': self.listposY[randint(0, 26)],  # 26 et 46 car liste a décalage de position
+                               'y': self.listpos[randint(0, 5)],
                                'ray': self.RayonObstacles,
-                               'dx': self.Listvitesse[0] * cos(self.Listangle[0]),
-                               'dy': self.Listvitesse[0] * sin(self.Listangle[0])}
+                               'dx': Listvitesse[0] * cos(Listangle[0]),
+                               'dy': Listvitesse[0] * sin(Listangle[0])}
 
-        CoordObstacleHaut = {'x': self.listposX[randint(0, 46)],
+        CoordObstacleHaut = {'x': self.listpos[randint(0, 7)],
                              'y': 50,
                              'ray': self.RayonObstacles,
-                             'dx': self.Listvitesse[1] * cos(self.Listangle[1]),
-                             'dy': self.Listvitesse[1] * sin(self.Listangle[1])}
+                             'dx': Listvitesse[1] * cos(Listangle[1]),
+                             'dy': Listvitesse[1] * sin(Listangle[1])}
 
         CoordObstacleDroite = {'x': self.Largeur - self.RayonObstacles - 1,
-                               'y': self.listposY[randint(0, 26)],
+                               'y': self.listpos[randint(0, 5)],
                                'ray': self.RayonObstacles,
-                               'dx': self.Listvitesse[2] * cos(self.Listangle[2]),
-                               'dy': self.Listvitesse[2] * sin(self.Listangle[2])}
+                               'dx': Listvitesse[2] * cos(Listangle[2]),
+                               'dy': Listvitesse[2] * sin(Listangle[2])}
 
-        CoordObstacleBas = {'x': self.listposX[randint(0, 46)],
+        CoordObstacleBas = {'x': self.listpos[randint(0, 7)],
                             'y': self.Hauteur - self.RayonObstacles - 1,
                             'ray': self.RayonObstacles,
-                            'dx': self.Listvitesse[3] * cos(self.Listangle[3]),
-                            'dy': self.Listvitesse[3] * sin(self.Listangle[3])}
+                            'dx': Listvitesse[3] * cos(Listangle[3]),
+                            'dy': Listvitesse[3] * sin(Listangle[3])}
 
         self.balles = [CoordObstacleDroite, CoordObstacleHaut, CoordObstacleGauche, CoordObstacleBas]
 
@@ -412,21 +391,17 @@ class F02(Tk):
                                                        CoordObstacleBas['y'] + CoordObstacleBas['ray'],
                                                        fill='yellow')
 
+
+
         self.balls = [ObjObstacleDroite, ObjObstacleHaut, ObjObstacleGauche, ObjetObstacleBas]
+
+        self.action()
+
         # ...........< L A B E L S >........................
         # Création d'un widget Label (texte 'Nom')
-        LabelTitre = Label(self, text=" Un Heros contre Galacticov ", font=('Arial', 20), fg='blue')
-        # LabelTitre.pack(padx=1, pady=1)
-        LabelTitre.place(x=900, y=700)
-
-        LabelScore = Label(self, text=" Score: ", font=('Arial', 20), fg='blue')
-        # LabelTitre.pack(padx=1, pady=1)
-        LabelScore.place(x=20, y=100)
-
-        self.TextScore = StringVar()
-        self.TextScore.set(str(int(self.CompteurScore)))
-        self.compteur_lbl = Label(self, textvariable=self.TextScore, font=("", 16))
-        self.compteur_lbl.place(x=120, y=100)
+        Label1 = Label(self, text=" Un Heros contre Galacticov ", font=('Arial', 20), fg='blue')
+        # Label1.pack(padx=1, pady=1)
+        Label1.place(x=900, y=700)
 
         # ...........< B U T T O N S >........................
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B07] : Retour au menu (Retour F01)
@@ -445,12 +420,9 @@ class F02(Tk):
         self.B0_FinPartie = Button(self, text="Fin de partie", command=self.Fin_Partie)
         self.B0_FinPartie.place(x=400, y=700)
 
-        # *********************** Appel des fonctions
-        self.GestionAjoutBalles()
-        self.action()
-
-
-    # ********************* FONTIONS DE L'OBJET
+        # Bouton score
+        self.B08_score = Button(self, text="Score", command=self.Chrono)
+        self.B08_score.place(x=700, y=700)
 
     # ========================
     # FONCTION OUTILS : Récupérant l'angle du fichier score.txt et le retournant en radian. Auteur : Ethan SUISSA - Terminé
@@ -601,84 +573,20 @@ class F02(Tk):
         rebond = self.RebondHauteur(valInit)  # On teste le rebond sur les côtés avec la fonction RebondHauteur.
         return self.valY_Final, rebond  # Renvoie des paramètres aux fonctions de déplacement pour réutilisation.
 
-    # FONCTION de creation des obstacles
-    def AjoutBalles(self):
-        # ATTENTION: Les directions des obstacles dans le nom représentent l'endroit d'où ils partent, et non leurs
-        # trajectoires.
-        # Declaration initiales (rappel)
+    def plusdeballe(self):
+        self.move()
 
-        ObjetObstacleRandom = self.CanevasJeu.create_oval(100,100,100,100,fill='yellow')  # Pour sécuriser Pycharm
-        TypeObstacle = randint(0, 3)
-        CoordObstacleRandom = {}
-        if TypeObstacle == 0:
-            CoordObstacleRandom = {'x': 50,
-                                    'y': self.listposY[randint(0, 26)],  # 26 et 46 car liste a décalage de position
-                                    'ray': self.RayonObstacles,
-                                    'dx': self.Listvitesse[0] * cos(self.Listangle[0]),
-                                    'dy': self.Listvitesse[0] * sin(self.Listangle[0])}
-            ObjetObstacleRandom = self.CanevasJeu.create_oval(CoordObstacleRandom['x'] - CoordObstacleRandom['ray'],
-                                                                 CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
-                                                                 CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
-                                                                 CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
-                                                                 fill='red')
-        if TypeObstacle == 1:
-            CoordObstacleRandom = {'x': self.listposX[randint(0, 46)],
-                                     'y': 50,
-                                     'ray': self.RayonObstacles,
-                                     'dx': self.Listvitesse[1] * cos(self.Listangle[1]),
-                                     'dy': self.Listvitesse[1] * sin(self.Listangle[1])}
 
-            ObjetObstacleRandom = self.CanevasJeu.create_oval(CoordObstacleRandom['x'] - CoordObstacleRandom['ray'],
-                                                               CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
-                                                               CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
-                                                               CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
-                                                               fill='green')
-
-        if TypeObstacle == 2:
-            CoordObstacleRandom = {'x': self.Largeur - self.RayonObstacles - 1,
-                                    'y': self.listposY[randint(0, 26)],
-                                    'ray': self.RayonObstacles,
-                                    'dx': self.Listvitesse[2] * cos(self.Listangle[2]),
-                                    'dy': self.Listvitesse[2] * sin(self.Listangle[2])}
-
-            ObjetObstacleRandom = self.CanevasJeu.create_oval(CoordObstacleRandom['x'] - CoordObstacleRandom['ray'],
-                                                                CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
-                                                                CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
-                                                                CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
-                                                                fill='blue')
-        if TypeObstacle == 3:
-            CoordObstacleRandom = {'x': self.listposX[randint(0, 46)],
-                                    'y': self.Hauteur - self.RayonObstacles - 1,
-                                    'ray': self.RayonObstacles,
-                                    'dx': self.Listvitesse[3] * cos(self.Listangle[3]),
-                                    'dy': self.Listvitesse[3] * sin(self.Listangle[3])}
-
-            ObjetObstacleRandom = self.CanevasJeu.create_oval(CoordObstacleRandom['x'] - CoordObstacleRandom['ray'],
-                                                                CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
-                                                                CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
-                                                                CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
-                                                                fill='yellow')
-
-        self.balles.append(CoordObstacleRandom)
-        self.balls.append(ObjetObstacleRandom)
-        print("balles", self.balles, "balls", self.balls)
-
-# FONCTION de gestion de creation des obstacles
-    def GestionAjoutBalles(self):
-        self.AjoutBalles()
-        if self.FinAttente:  # Si Pause n'est pas activé, sert aussi pour éviter les interruptions brutales
-            self.after(10000, self.GestionAjoutBalles)
 
 
 
     # FONCTION de déplacement des obstacles
     def action(self):
         "Animation"
-        # print("Action balle !")
-        if self.FinAttente:  # Si Pause n'est pas activé, sert aussi pour éviter les interruptions brutales
-            self.collide()
-            self.ComptageScore()
-            self.move()
+        print("Action balle !")
+        self.collide()
+        self.move()
+        if self.FinAttente:  # Si Pause n'est pas activé
             self.after(20, self.action)
 
     def move(self):
@@ -686,38 +594,46 @@ class F02(Tk):
         for i in range(len(self.balles)):
             self.balles[i]['x'] += self.balles[i]['dx']
             self.balles[i]['y'] += self.balles[i]['dy']
-            if self.FinAttente:  # Sert pour éviter les interruptions brutales
-                self.CanevasJeu.coords(self.balls[i],
-                                       self.balles[i]['x'] - self.balles[i]['ray'],
-                                       self.balles[i]['y'] - self.balles[i]['ray'],
-                                       self.balles[i]['x'] + self.balles[i]['ray'],
-                                       self.balles[i]['y'] + self.balles[i]['ray'])
+            self.CanevasJeu.coords(self.balls[i],
+                                   self.balles[i]['x'] - self.balles[i]['ray'],
+                                   self.balles[i]['y'] - self.balles[i]['ray'],
+                                   self.balles[i]['x'] + self.balles[i]['ray'],
+                                   self.balles[i]['y'] + self.balles[i]['ray'])
 
     def collide(self):
         "Test de collision des balles"
 
         # Collision avec les parois
+        j = 0
         for i in self.balles:
-            if i['x'] - i['ray'] <= 0: # Réinitialisation à droite
-                i['x'] = self.Largeur - self.RayonObstacles - 1
-                i['y'] = self.listposY[randint(0, 26)]
-
-            if i['x'] + i['ray'] >= int(self.CanevasJeu['width']): # Réinitialisation à gauche
-                i['x'] = 50
-                i['y'] = self.listposY[randint(0, 26)]
-
-            if (i['y'] - i['ray']) <= 0: # Réinitialisation en bas
-                i['x'] = self.listposX[randint(0, 46)]
-                i['y'] = self.Hauteur - self.RayonObstacles - 1
-
-            if (i['y'] + i['ray']) >= int(self.CanevasJeu['height']): # Réinitialisation en haut
-                i['x'] = self.listposX[randint(0, 46)]
-                i['y'] = 50
+            if (i['x'] - i['ray']) <= 0 or (i['x'] + i['ray']) >= int(self.CanevasJeu['width']) or \
+                    (i['y'] - i['ray']) <= 0 or (i['y'] + i['ray']) >= int(self.CanevasJeu['height']):
                 # i['dx'] = -i['dx']
                 # CopieObjBall = self.balls[j]
                 # CopieCoordBall = self.balles[j]
+
+                # Réinitialisation à droite
+                if self.balls[j] == 10:
+                    i['x'] = self.Largeur - self.RayonObstacles - 1
+                    i['y'] = self.listpos[randint(0, 28)]
+
+                # Réinitialisation en bas
+                if self.balls[j] == 11:
+                    i['x'] = self.listpos[randint(0, 48)]
+                    i['y'] = self.Hauteur - self.RayonObstacles - 1
+
+                # Réinitialisation à gauche
+                if self.balls[j] == 8:
+                    i['x'] = 50
+                    i['y'] = self.listpos[randint(0, 28)]
+                # Réinitialisation en haut
+                if self.balls[j] == 9:
+                    i['x'] = self.listpos[randint(0, 48)]
+                    i['y'] = 50
+
                 # Modif de balls, balles et des coordonnées de départ à faire
                 # self.CanevasJeu.delete(self.balls[j])
+            j += 1
 
             # di['dy'] = -i['dy']
         # Collision entre les balles
@@ -732,7 +648,7 @@ class F02(Tk):
         #                          (self.balles[i]['y'] - self.balles[j]['y']) ** 2):
         #                     self.balles[i]['dx'], self.balles[j]['dx'] = self.balles[j]['dx'], self.balles[i]['dx']
         #                     self.balles[i]['dy'], self.balles[j]['dy'] = self.balles[j]['dy'], self.balles[i]['dy']
-        #                  j += 1
+        #                 j += 1
         self.CollisionVaisseau()
 
     # FONCTION vérifiant les collisions du vaisseaux et appliquant ses conséquences
@@ -746,28 +662,26 @@ class F02(Tk):
         # sommets de sa diagonale principale (celui du bas puis celui du haut). Elle les retourne sous forme d'un tuple
         # des nombres associés aux éléments graphiques crées.
 
-        # print("Listes Collisions", ListCollisions, "\nNumImagePerso =", self.ImgPerso, "NumImageEcran =",
-        #                        self.objImgFondEcran,
-        #                        "NumImageV4 =", self.objImgV4, "NumImageV3 =", self.objImgV3, "\nNumImageV2 =", self.objImgV2,
-        #                        "NumImageV1 =", self.objImgV1,
-        #                        "\nNumBalleDroite =", self.balls[0], "NumBallebas =", self.balls[3], "NumBalleGauche =", self.balls[2],
-        #                        "NumBalleHaut =", self.balls[1])  # Pour control de collision : affiche identité des objets en collisions.
-        # "NumImageTest =",
-        #               self.raquette,
+        print("Listes Collisions", ListCollisions, "\nNumImagePerso =", self.ImgPerso, "NumImageEcran =",
+              self.objImgFondEcran, "NumImageTest =",
+              self.raquette,
+              "NumImageV4 =", self.objImgV4, "NumImageV3 =", self.objImgV3, "\nNumImageV2 =", self.objImgV2,
+              "NumImageV1 =", self.objImgV1,
+              "\nNumBalleDroite =", self.balls[0], "NumBallebas =", self.balls[3], "NumBalleGauche =", self.balls[2],
+              "NumBalleHaut =", self.balls[1])  # Pour control de collision : affiche identité des objets en collisions.
 
         if len(ListCollisions) > 2:  # On vérifie si la liste du tuple de find.Overlapping excède 2, c'est à dire s'il y
             # a un objet supplémentaire en contact avec le vaisseau. En effet, deux objets sont toujours sur ce
             # rectangle: l'image du perso (représentée par 1) et celle du Canevas (représentée par 6).
-
             for i in range(len(ListCollisions)):
-                for j in range(len(self.balls)):
-                    if ListCollisions[i] == self.balls[j]:  # or ListCollisions[i] == self.raquette):# Si le nombre du
-                        # tuple est celui associé à l'une des
-                        # balles, mais pas celui des pointes de vaisseaux car ce sont des images de fond uniquement.
-                        if self.FinAttente:  # Sert pour éviter les interruptions brutales
-                            print("Collision balle avec :", i, "Fin de partie")
-                            self.Fin_Partie()  # Déclenchement de l'arrêt de la partie
+                if (ListCollisions[i] == self.balls[0] or ListCollisions[i] == self.balls[1] or
+                        ListCollisions[i] == self.balls[2] or ListCollisions[i] == self.balls[3] or
+                        ListCollisions[i] == self.raquette):  # Si le nombre du tuple est celui associé à l'une des
+                    # balles, mais pas celui des pointes de vaisseaux car ce sont des images de fond uniquement.
+                    print("Collision balle avec :", i, "Fin de partie")
+                    self.Fin_Partie()  # Déclenchement de l'arrêt de la partie
                     # Erreur compliquée à modifier : trouver un moyen de stopper action.
+
 
     def Pause(self):
         self.FinAttente = False  # Les fonctions de déplacement des objets et personnage ne s'active que si ce boléen
@@ -776,22 +690,13 @@ class F02(Tk):
         # à time.sleep()).
         def Reprendre():  # Si le bouton "Reprendre" est cliqué, le boléen change et tout redémarre
             self.FinAttente = True
-            self.action()  # Redémarre les balles car fonctions récursive, activée une fois dans l'algorithme principal.
+            self.action() # Redémarre les balles car fonctions récursive, activée une fois dans l'algorithme principal.
 
         self.BoutonReprise = Button(self, text="Reprendre", command=Reprendre)
         self.BoutonReprise.place(x=550, y=700)  # Le clic de "Pause" crée le bouton reprendre
 
-
-
-    def ComptageScore(self):
-        # Augmente le score toutes les X millisecondes
-        self.CompteurScore += 0.03
-        if self.FinAttente:
-            self.TextScore.set(str(int(self.CompteurScore)))
-            # self.compteur_lbl.configure(text=str(int(self.CompteurScore)))
-            # self.compteur_lbl['text'] = str(int(self.CompteurScore))
-        # if self.FinAttente:
-        #  self.after(1000, self.ComptageScore)
+    def Chrono(self):
+        print("A coder")
 
     #              input('hit ENTER to continue')
     #              while not self.FinAttente:
@@ -827,17 +732,15 @@ class F02(Tk):
         # Ferme la fenetre
         F02.destroy(self)  # ferme F02, format donne même résultat
         # ouvre F01
-        app = F04(self.CompteurScore, self.IdJoueur)
+        app = F04(self.Score, self.IdJoueur)
         app.focus_force()  # Force le focus sur la fenetre
         app.mainloop()
 
     # ========================
     # FONCTION : Fonction de fin de partie, appelée si partie finie pour récupérer le meilleur score et ouvrir F04
     def Fin_Partie(self):
-        self.FinAttente = False  # Arrêt de toutes les fonctions en cours exécutée par l'ordi.pq
-        # time.sleep(1) Pour arrêt
-        # self.CompteurScore = 3216  # A récupérer
-        BestScore = score_comparaison2(self.CompteurScore, self.IdJoueur)  # Ligne trouvée avec l'ID dans la fonction
+        self.Score = 3216  # A récupérer
+        BestScore = score_comparaison2(self.Score, self.IdJoueur)  # Ligne trouvée avec l'ID dans la fonction
         ModifPrecisFichier(self.IdJoueur + 2, 3, BestScore)  # self.IdJoueur +2 car c'est le numéro de ligne
         # correspondant, le meilleur score est à l'emplacement t[i][3] du tableau d'"open_score_file",
         # BestScore est ce qu'on écrit.
