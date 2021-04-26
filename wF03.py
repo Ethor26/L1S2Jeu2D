@@ -52,6 +52,7 @@ class F03(Tk):
         self.CanvasInfo.tag_lower(self.ImgFondF03)
 
         # ...........< T E X T E S > .......................
+        # Création d'un texte create_text (T09)
         self.CanvasInfo.create_text(600, 350, text="Bienvenue dans notre jeu ! \nLe but est simple :"
                                           " esquivez les missiles qui vous arrivent dessus\n"
                                           "Pour cela, deux options s'offrent à vous :\n"
@@ -66,6 +67,7 @@ class F03(Tk):
                                           "La touche 'p' : vous permettra d'exécuter cette commande",
                            font='Gabriola 23 italic', fill='cyan')
 
+        # Création d'un texte create_text (T08)
         self.CanvasInfo.create_text(600, 50,
                                     text="Informations sur le jeu.", font='Gabriola 32 italic', fill='blue')
 
@@ -81,7 +83,7 @@ class F03(Tk):
         self.RetourMenu = Button(self, text="Retourner au menu", command=self.commandeOuvreF01)
         self.RetourMenu.place(x=180, y=670)
 
-        # ELEMENT GRAPHIQUE : <Button> = [A preciser] : Un bouton pour quitter l'application
+        # ELEMENT GRAPHIQUE : <Button> = [Bouton B06] : Un bouton pour quitter l'application
         self.quitButton = Button(self, text="Quitter", command=self.destroy)
         self.quitButton.place(x=330, y=670)
 
