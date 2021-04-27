@@ -5,26 +5,26 @@
 # Date : 4 mai 2021 (?)
 # Fichier F00
 # ======================================================
-import os # Sert pour simplifier l'écriture du chemin d'accès d'un fichier (voir os.getcwd()).
+import os  # Sert pour simplifier l'écriture du chemin d'accès d'un fichier (voir os.getcwd()).
 from tkinter import *  # Attention, TKinter doit être importé pour utiliser image de fond, pas remplacable par import de
 # fichier wF0... De plus, ordre des import important !
 from PIL import Image
-from PIL.ImageTk import PhotoImage # Ces deux liens servent pour amener les fonctions fixant les images de fond.
+from PIL.ImageTk import PhotoImage  # Ces deux liens servent pour amener les fonctions fixant les images de fond.
 
-from wF01 import F01 # Import de F01 pour pouvoir l'ouvrir
+from wF01 import F01  # Import de F01 pour pouvoir l'ouvrir
 
 
-class F00(Tk): # Declaration de l'objet F00
+class F00(Tk):  # Declaration de l'objet F00
     # *****************************************
     # Constructeur de l'objet F01 : ne pas supprimer, sert pour mettre les paramètres et fonctions propres à l'objet.
-    def __init__(self, message): # Importation d'un message de test, ici "début" affiché en console
+    def __init__(self, message):  # Importation d'un message de test, ici "début" affiché en console
         # (pour vérifier l'importation de paramètres).
         Tk.__init__(self)
-        print("*** F00 ***")  # Pour controle en console
-        self.title("F00")  # Le titre de la fenêtre
-        self.minsize(1200, 700)  # Initialisation de la taille de fenêtre
-        self.Largeur = 1200  # Paramètre représentant la largeur de la zone de jeu
-        self.Hauteur = 700  # Hauteur de la zone de jeu
+        print("*** F00 ***")  # Pour controle en console.
+        self.title("F00")  # Le titre de la fenêtre.
+        self.minsize(1200, 700)  # Initialisation de la taille de fenêtre.
+        self.Largeur = 1200  # Paramètre représentant la largeur de la zone du Canevas.
+        self.Hauteur = 700  # Hauteur de la zone du canevas.
 
         # Paramètres plein écran, réutilisés dans les autres fenêtres.
         self.fullScreenState = True
@@ -47,12 +47,13 @@ class F00(Tk): # Declaration de l'objet F00
         # ...........< I M A G E S > .........................
         # ELEMENT GRAPHIQUE : <Image en FOND> = [Libellé I01] + <Canevas> = [Libellé G01] :
         # Affichage du fond d'écran de F00 dans son Canevas
-        self.Photofond = Image.open(os.getcwd() + "/IMAGES/Image F00/image5.png") # Ouverture de l'image en important le
+        self.Photofond = Image.open(
+            os.getcwd() + "/IMAGES/Image F00/image5.png")  # Ouverture de l'image en important le
         # chemin d'accès de l'image : os.getcwd() est une chaine de caractère représentant l'emplacement du fichier
         # wF00, le fichier image a donc ce chemin là avec celui du dossier IMAGES puis du dossier "Images F00".
-        self.FondF00 = PhotoImage(self.Photofond) # Formatation de l'image en tant que image pour Canevas
+        self.FondF00 = PhotoImage(self.Photofond)  # Formatation de l'image en tant que image pour Canevas
 
-        self.CanvasPres = Canvas(self, width=self.Largeur, height=self.Hauteur) # Creation du Canevas de F00
+        self.CanvasPres = Canvas(self, width=self.Largeur, height=self.Hauteur)  # Creation du Canevas de F00
         self.ImgFondF00 = self.CanvasPres.create_image(self.Largeur // 2, self.Hauteur // 2, image=self.FondF00)
         # Creation d'un emplacement d'image dans le canevas, où l'on place l'image de Fond sélectionnée.
         self.CanvasPres.pack(padx=5, pady=5)  # .pack sert à placer un élément dans la fenêtre.
@@ -69,7 +70,7 @@ class F00(Tk): # Declaration de l'objet F00
 
         # ELEMENT GRAPHIQUE : <Label> = [Libellé T03] : Texte du scénario
         # Affichage du scénario : un label sur Tkinter permet d'afficher du texte, create_text met du texte dans un
-        # canvas. Paramètre inutile ici car placement direct.
+        # canvas. Paramètre inutile ici car placement direct. fill = couleur du texte.
         self.CanvasPres.create_text(600, 300,
                                     text="Il y a bien longtemps, une galaxie lointaine était dirigée par un Conseil"
                                          " de sages qui s’efforçaient à ce que tous le monde vive une vie paisible.\n"
@@ -93,8 +94,10 @@ class F00(Tk): # Declaration de l'objet F00
 
         # ...........< B U T T O N S >........................
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B01] : ouvrir menu (F01)
-        self.ouvreF01 = Button(self, text="Start", command=self.commandeOuvreF01)
-        self.ouvreF01.place(x=200, y=650)
+        self.ouvreF01 = Button(self, text="Start", command=self.commandeOuvreF01)  # Creation d'un bouton sur tkinter:
+        # la fenêtre du bouton est l'objet représenté par self, le texte dans le bouton est "start" et le clic active la
+        # fonction définie dans "command", ici self.commandeOuvreF01 (SANS PARAMETRES).
+        self.ouvreF01.place(x=200, y=650)  # Place le bouton aux coordonnées x et y définies.
 
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B06] : Un bouton pour quitter l'application
         self.quitButton = Button(self, text="Quitter", command=self.destroy)
@@ -116,9 +119,12 @@ class F00(Tk): # Declaration de l'objet F00
 
     # COMMANDE = ouvre F01,  et ferme F00 (retour au menu)
     def commandeOuvreF01(self):
-        self.destroy()  # ferme F00
+        self.destroy()  # ferme F00, destroy supprime aussi toute les modifications qu'aura recue un objet : si on
+        # réouvre une fenêtre, elle sera à son état initial. Exemple : si on ferme la fenêtre de jeu F02 et qu'on la
+        # réouvre, les obstacles, le nombre de vie, le score et le personnage reprendront leur état initial (score = 0,
+        # nombre de vie = 3...).
         # ouvre F01
         app = F01(0)  # 0 représente un ID nul, sert pour que F01 puisse transmettre l'ID après
         app.focus_force()  # Force le focus sur la fenetre, pour ne pas avoir besoin de cliquer dessus et risquer
         # d'endommager le code.
-        app.mainloop() # Ouvre l'objet tkinter (fenêtre) F01.
+        app.mainloop()  # Ouvre l'objet tkinter (fenêtre) F01.
