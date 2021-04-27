@@ -14,7 +14,7 @@ from PIL import Image
 from PIL.ImageTk import PhotoImage
 
 
-class F01(Tk):
+class F01(Tk):  # declaration de l'objet F01
     paddingtop = 100
     leftPadding = 40
 
@@ -46,6 +46,7 @@ class F01(Tk):
         # FONCTIONS WIDGET ::::::::
 
         # Affichage du fond d'écran de F01
+        # ELEMENT GRAPHIQUE : <Image en FOND> = [Libellé I02]: fond de F01
         self.Photofond = Image.open(os.getcwd() + "/IMAGES/ImageF01/nebuleuse.jpg")
         self.Photofond = self.Photofond.resize((self.Largeur, self.Hauteur), Image.ANTIALIAS)
         self.FondF01 = PhotoImage(self.Photofond)
@@ -61,7 +62,7 @@ class F01(Tk):
             "Enregistrer le ,nom"
             Name = EntreeNom.get()
             print("Nom :", Name)
-            msg = "En Avant " + Name + "!"
+            msg = "En Avant " + Name + "!" # ELEMENT GRAPHIQUE : <Label> = [Libellé SV01] :message apres saisie nom
             if Name != "":  # Si la fenêtre d'entrée du nom n'est pas vide :
                 # On vérifie si le joueur existe dans la base de donnée
                 tab, NbLignes = open_score_file2()
@@ -93,31 +94,18 @@ class F01(Tk):
         # ...........< L A B E L S > .........................
 
         # ...........< L A B E L S > .........................
-        # ELEMENT GRAPHIQUE : <Label> = [Libellé T04] : ...??
-        # ??? A FAIRE
+        # ELEMENT GRAPHIQUE : <Label> = [Libellé T06] : intervalle angles possibles
         lblEntreAngle = Label(self, bg="purple", fg="white",
                               text="Angle entre 0 et 360° :")  # Nom de la fenêtre en rouge à déclarer comme au
         # dessus (avec le nom de fenêtre qu'on veut)
         lblEntreAngle.place(x=self.leftPadding, y=self.paddingtop + 220)
 
-        # ELEMENT GRAPHIQUE : <Label> = [Libellé T05] : ...??
-        # ??? A FAIRE
-
-        # ELEMENT GRAPHIQUE : <Label> = [Libellé T06] : ...??
-        # ??? A FAIRE
-
-        # ELEMENT GRAPHIQUE : <Label> = [Libellé T07] : ...??
-        # ??? A FAIRE
-
-        # ELEMENT GRAPHIQUE : <Label> = [Libellé T08] : ...??
-        # ??? A FAIRE
-
-        # Création d'un widget Label (texte 'Nom')
+        # Création d'un widget Label (texte 'Nom'),ELEMENT GRAPHIQUE : <Label> = [Libellé T01]: Titre jeu
         Label1 = Label(self, text="Un Heros contre Galacticov ", font=('Arial', 20), fg='blue')
         # Label1.pack(padx=1, pady=1)
         Label1.place(x=self.leftPadding, y=50)
 
-        # Création d'un widget Label (texte 'Nom')
+        # Création d'un widget Label (texte 'Nom'),ELEMENT GRAPHIQUE : <Label> = [Libellé T05]: demande de saisie du pseudo
         Label1 = Label(self, text='Quel est ton nom ', bg="purple", fg="white",
                        font=("Arial", 20))  # ajouter: "jeune protecteur de la Galaxie?"
         # Label1.pack(padx=1, pady=1)
@@ -155,13 +143,13 @@ class F01(Tk):
         # ...........< B U T T O N S >........................
         # Boutons "configuration commande" et "valider" en haut
 
-        # Création d'un widget Button (bouton Valider)
+        # ELEMENT GRAPHIQUE : <Button> = [Bouton B02] : enregistrement du pseudo
         self.BoutonValidNom = Button(self, text="Valider", bg="RoyalBlue1", fg="white", font=("Arial", 15),
                                      command=RecupNameDever)
 
         self.BoutonValidNom.place(x=self.leftPadding, y=self.paddingtop + 150)
 
-        # ELEMENT GRAPHIQUE : <Button> = [Bouton B0?] : Configuration commande
+        # ELEMENT GRAPHIQUE : <Button> = [Bouton B03] : Configuration commande
         BoutConfCom = Button(self, text="Informations Jeu", command=self.commandeOuvreF03)
         BoutConfCom.place(x=self.leftPadding + 400, y=self.paddingtop + 600)  # Bouton pour tester le verrouillage
 
@@ -170,33 +158,24 @@ class F01(Tk):
             # Déverouillage des boutons
             self.DeverouilCommands()
 
-        # ELEMENT GRAPHIQUE : <Button> = [Bouton B04] : ...??
-        # ??? A FAIRE
-
-        # ELEMENT GRAPHIQUE : <Button> = [Bouton B05] : ...??
-        # ??? A FAIRE
-
-        # ELEMENT GRAPHIQUE : <Button> = [Bouton B06] : ...??
-        # ??? A FAIRE
-
-        # ELEMENT GRAPHIQUE : <Button> = [A preciser] : Un bouton pour quitter l'application
+        # ELEMENT GRAPHIQUE : <Button> = [Bouton B06] : bouton pour quitter l'application
         self.quitButton = Button(self, text="Quitter", command=self.destroy)
         self.quitButton.place(x=self.leftPadding + 300, y=self.paddingtop + 600)
 
         # ...........< L I S T B O X ' S > .......................
-        # (Tkinter)LISTBOX : Liste des ID des joueurs de la base de données (déclaration & position)
+        # ELEMENT GRAPHIQUE : <Label> = [Libellé L01] : Liste des ID des joueurs de la base de données (déclaration & position)
         self.AffID = Listbox(self)
         self.AffID.place(x=self.leftPadding + 800, y=50, width=100, height=500)
 
-        # (Tkinter)LISTBOX : Liste des noms des joueurs de la base de données (déclaration & position)
+        # ELEMENT GRAPHIQUE : <Label> = [Libellé L02] : Liste des noms des joueurs de la base de données (déclaration & position)
         self.AffNom = Listbox(self)
         self.AffNom.place(x=self.leftPadding + 900, y=50, width=100, height=500)
 
-        # (Tkinter)LISTBOX : Liste des Angles des joueurs de la base de données (déclaration & position)
+        # ELEMENT GRAPHIQUE : <Label> = [Libellé L03] : Liste des Angles des joueurs de la base de données (déclaration & position)
         self.AffAngle = Listbox(self)
         self.AffAngle.place(x=self.leftPadding + 1000, y=50, width=100, height=500)
 
-        # (Tkinter)LISTBOX : Liste des score des joueurs de la base de données (déclaration & position)
+        # ELEMENT GRAPHIQUE : <Label> = [Libellé L04] : Liste des score des joueurs de la base de données (déclaration & position)
         self.AffScore = Listbox(self)
         self.AffScore.place(x=self.leftPadding + 1100, y=50, width=100, height=500)
 
@@ -209,15 +188,15 @@ class F01(Tk):
     # ==============
     # FONCTION OUTIL pour déverouiller les commandes si joueur enregistré (id != 0 ou nom entré)
     def DeverouilCommands(self):
-        # Bouton "Jouer" à placer
+        # ELEMENT GRAPHIQUE : <Button> = [Bouton B05] :bouton pour lancer le jeu et ouvrir F02
         self.ouvreF02 = Button(self, text="jouer", command=self.commandeOuvreF02)
         self.ouvreF02.place(x=self.leftPadding, y=self.paddingtop + 600)
 
-        # ELEMENT GRAPHIQUE : <Entry> = [à definir] pour saisir l'angle
+        # ELEMENT GRAPHIQUE : <Entry> = [E02]: pour saisir l'angle
         self.entreAngle = Entry(self)  # Ajouter self pour mettre dans constructeur ?
         self.entreAngle.place(x=self.leftPadding, y=self.paddingtop + 250, width=70)
 
-        # ELEMENT GRAPHIQUE : <Button> = [Bouton B09] : "Appliquer (Enregistrer) l'angle"
+        # ELEMENT GRAPHIQUE : <Button> = [Bouton B04] : "Appliquer (Enregistrer) l'angle"
         self.AppliqAngle = Button(self, text="Appliquer l'angle", command=self.EnregistrAngle)
         self.AppliqAngle.place(x=self.leftPadding + 300, y=self.paddingtop + 250)
 
@@ -249,12 +228,12 @@ class F01(Tk):
                     AngleEnDegree = AngleEnDegree % 360  # Création d'un modulo pour ajuster les angles trop grand.
                 if AngleEnDegree < 0:
                     AngleEnDegree += 360  # Angle ne change pas mais on le replace sur l'intervalle [0; 360]
-                msg = "Angle enregistré"
+                msg = "Angle enregistré" # ELEMENT GRAPHIQUE : <Label> = [Libellé SV02] : si angle bon
             except ValueError:
-                msg = ">> Angle doit etre un entier "  # Message informant l'utilisateur, s'affiche à l'ecran
+                msg = ">> Angle doit etre un entier "  # ELEMENT GRAPHIQUE : <Label> = [Libellé SV02] : si angle mauvais
                 print(msg)  # Pour contrôle en console
         else:
-            msg = "Pas d'angle enregistré"
+            msg = "Pas d'angle enregistré" # ELEMENT GRAPHIQUE : <Label> = [Libellé SV02] : si pas d'angle
         self.messageUtilisateurAngle.set(msg)  # Pour mise à jour texte écran
         print(str(self.messageUtilisateurAngle.get()))  # Pour Controle
         # AffAngle.insert(END, AngleEnDegree)
