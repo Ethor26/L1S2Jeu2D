@@ -47,7 +47,8 @@ def closeFile(f):
 # =============================================================================
 
 # =============================================================================
-# FONCTION OUTIL : Ecriture dans la base de donnée. Auteur : Jean-Alexis TADDEI- en cours
+# FONCTION OUTIL : Ecriture dans la base de donnée. Auteur : Jean-Alexis TADDEI- Terminé
+#Fonction test pas utilisé
 def ajout_score(f, id, user, angle, score):
     with open(f, 'a') as file:
         file.write('\n')
@@ -59,7 +60,7 @@ def ajout_score(f, id, user, angle, score):
         file.write(';')
         file.write(score)
 
-
+#Ajout de l'id et du nom dans la base de donnée
 def ajout_nom_F01(name):
     with open("scores.txt", 'r') as file:
         score = file.readlines()
@@ -72,13 +73,13 @@ def ajout_nom_F01(name):
         # Possibilité de faire plusieurs "file.write"  à la suite ou concaténer les chaines
         return id
 
-
+#Ajout de l'angle dans la base de donnée
 def ajout_angle_F02(angle):
     with open("scores.txt", "a") as file:
         ang = str(angle)
         file.write(ang + ";")
 
-
+#Ajout du score dans la base de donnée
 def ajout_score_F0(score):  # fenetre de jeu
     with open("scores.txt", "a") as f:
         sco = str(score)
