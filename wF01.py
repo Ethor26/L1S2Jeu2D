@@ -73,7 +73,7 @@ class F01(Tk):  # declaration de l'objet F01
             "Enregistrer le ,nom"
             Name = EntreeNom.get()
             print("Nom :", Name)
-            msg = "En Avant " + Name + "!" # ELEMENT GRAPHIQUE : <Label> = [Libellé SV01] :message apres saisie nom
+            msg = "En Avant " + Name + "!"
             if Name != "":  # Si la fenêtre d'entrée du nom n'est pas vide :
                 # On vérifie si le joueur existe dans la base de donnée
                 tab, NbLignes = open_score_file()
@@ -125,7 +125,7 @@ class F01(Tk):  # declaration de l'objet F01
 
         # ELEMENT GRAPHIQUE : <Entry> = [Libellé E01] : Entrée du pseudo
         # Création d'un widget Entry (champ de saisie)
-        Nom = StringVar()
+        Nom = StringVar() # ELEMENT GRAPHIQUE : <Label> = [Libellé SV01] :message apres saisie nom
         EntreeNom = Entry(self, textvariable=Nom, bg='bisque', fg='RoyalBlue1', font=("Arial", 20), )
         # bg = couleur du fond d'écran du texte entré, fg = couleur du texte entré, font = police et taille du texte.
         EntreeNom.focus_set()  # Inutile de cliquer pour entrer le nom.
