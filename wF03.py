@@ -36,7 +36,7 @@ class F03(Tk):
     def createWidgets(self):  # Création des widgets (boutons, labels, etc...)
         self.grid()  # Choix du mode d'arrangement des elements
 
-        # ==================================================
+        # =================================================
 
         # Fond d'écran :
         self.PhotofondInfo = Image.open(os.getcwd() + "/IMAGES/ImageF03/ImageGuerreSatellite.jpg")  # Affichage de
