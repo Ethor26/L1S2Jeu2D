@@ -33,3 +33,47 @@
 # Autre methode pour modifier un texte sans stringVar:
 # self.compteur_lbl.configure(text=str(int(self.CompteurScore)))
 # self.compteur_lbl['text'] = str(int(self.CompteurScore))
+
+# Creation et deplacement d'ovale (inutilisé : remplacé par image)
+
+# # Objet associé à CoordObstaclesGauche
+        #         ObjObstacleGauche = self.CanevasJeu.create_oval(CoordObstacleGauche['x'] - CoordObstacleGauche['ray'],
+        #                                                         CoordObstacleGauche['y'] - CoordObstacleGauche['ray'],
+        #                                                         CoordObstacleGauche['x'] + CoordObstacleGauche['ray'],
+        #                                                         CoordObstacleGauche['y'] + CoordObstacleGauche['ray'],
+        #                                                         fill='yellow') # Couleur = jaune.
+        #         # Objet associé à CoordObstaclesHaut
+        #         ObjObstacleHaut = self.CanevasJeu.create_oval(CoordObstacleHaut['x'] - CoordObstacleHaut['ray'],
+        #                                                       CoordObstacleHaut['y'] - CoordObstacleHaut['ray'],
+        #                                                       CoordObstacleHaut['x'] + CoordObstacleHaut['ray'],
+        #                                                       CoordObstacleHaut['y'] + CoordObstacleHaut['ray'],
+        #                                                       fill='yellow')
+        #         # Objet associé à CoordObstaclesDroite
+        #         ObjObstacleDroite = self.CanevasJeu.create_oval(CoordObstacleDroite['x'] - CoordObstacleDroite['ray'],
+        #                                                         CoordObstacleDroite['y'] - CoordObstacleDroite['ray'],
+        #                                                         CoordObstacleDroite['x'] + CoordObstacleDroite['ray'],
+        #                                                         CoordObstacleDroite['y'] + CoordObstacleDroite['ray'],
+        #                                                         fill='yellow')
+        #         # Objet associé à CoordObstaclesBas
+        #         ObjetObstacleBas = self.CanevasJeu.create_oval(CoordObstacleBas['x'] - CoordObstacleBas['ray'],
+        #                                                        CoordObstacleBas['y'] - CoordObstacleBas['ray'],
+        #                                                        CoordObstacleBas['x'] + CoordObstacleBas['ray'],
+        #                                                        CoordObstacleBas['y'] + CoordObstacleBas['ray'],
+        #                                                        fill='yellow')
+        #         # La liste "balls" prend l'ensemble des objets obstacles, elle sera lue par les
+        #         # fonction de déplacement.
+        #         self.balls = [ObjObstacleDroite, ObjObstacleHaut, ObjObstacleGauche, ObjetObstacleBas]
+
+# # ObjetObstacleRandom = self.CanevasJeu.create_oval(CoordObstacleRandom['x'] - CoordObstacleRandom['ray'],
+#             #                                                               CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
+#             #                                                               CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
+#             #                                                               CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
+#             #                                                               fill='yellow')
+
+# La fonction .coord est ici utilisée pour
+                # redessiner un ovale avec 4 paramètre (et non pas un rectangle comme avec le personnage).
+                # self.CanevasJeu.coords(self.balls[i],
+        #                                        self.balles[i]['x'] - self.balles[i]['ray'],
+        #                                        self.balles[i]['y'] - self.balles[i]['ray'],
+        #                                        self.balles[i]['x'] + self.balles[i]['ray'],
+        #                                        self.balles[i]['y'] + self.balles[i]['ray'])

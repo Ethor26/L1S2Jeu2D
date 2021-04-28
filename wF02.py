@@ -43,7 +43,7 @@ class F02(Tk):
         self.Perso_Largeur = 30
 
         # Dimension du rayon des obstacles.
-        self.RayonObstacles = 15
+        self.RayonObstacles = 20
 
         # position initiale du perso, respectivement X et Y
         self.PosX = 600
@@ -357,6 +357,11 @@ class F02(Tk):
         self.objImgExpl = self.CanevasJeu.create_image(self.PosX, self.PosY, image=self.imgExpl)
         self.CanevasJeu.tag_lower(self.objImgExpl)
 
+        # Image Boule de feu
+        self.imageBoulFeu = Image.open(os.getcwd() + "/IMAGES/ImagesF02/ImageBouledefeu.png")
+        self.imageBoulFeu = self.imageBoulFeu.resize((40, 40), Image.ANTIALIAS)
+        self.imgBoulFeu = PhotoImage(self.imageBoulFeu)
+
         # ...........< O B S T A C L E S >........................
 
         # Listes des positions initiales aleatoires, d'où pourront partir les balles
@@ -386,7 +391,8 @@ class F02(Tk):
             AngleRadianBalle += pi / 2
 
         # Declaration de 4 obstacles distincts, chacun allant dans une direction différente. La déclaration se fait en
-        # 2 temps : une variables de type dictionnaire contient leurs coordonnées x et y à chaque instant, leurs rayon,
+        # 2 temps. Tout d'abord, une variables de type dictionnaire contient leurs coordonnées x et y à chaque instant,
+        # leurs rayon,
         # et leurs déplacement instantannée dx et dy (additionné aux variables de positions à chaque instant).
 
         # ATTENTION: Les directions des obstacles dans le nom représentent l'endroit d'où ils partent, et non leurs
@@ -399,7 +405,8 @@ class F02(Tk):
                                'y': self.listposY[randint(0, 26)],  # 26 et 46 car le rang d'une liste a un décalage de
                                # position de -1. Randint choisit un nombre dans une liste d'entier, une position de la
                                # liste à un rang aléatoire est choisie.
-                               'ray': self.RayonObstacles, # Définie le rayon de l'obstacle (c'est un cercle).
+                               'ray': self.RayonObstacles, # Définie le rayon de l'obstacle (c'est un cercle), sert
+                               # principalement pour les collisions.
                                'dx': self.Listvitesse[0] * cos(self.Listangle[0]),  # L'obstacle additionne à chaque
                                # unité de temps la première vitesse de la liste des vitesse aléatoire
                                # (vitesse instantannée), multipliée par l'angle de la direction de sa trajectoire (ici 0
@@ -440,39 +447,18 @@ class F02(Tk):
         for i in range(4):
             DictPos = {'x0': self.balles[i]['x'], 'y0': self.balles[i]['y']}  # x0 et y0 représentent les positions
             # initiales x et y de chaque balles.
-            self.ListPosInitBalles.append(DictPos)
+            self.ListPosInitBalles.append(DictPos)  # Ajout du dictionnaire de coordonnée initiales d'une balle dans la
+            # liste, et ce pour chaque balles.
 
-        # Dans un 2e temps : on crée les objets tkinter avec la fonction Canevas.create_oval : les paramètres sont les 4
-        # extrémités d'un ovale allongée, dans cette ordre : point au milieu à gauche, point haut central, point au
-        # milieu à droite et point bas central.
-
-        # Objet associé à CoordObstaclesGauche
-        ObjObstacleGauche = self.CanevasJeu.create_oval(CoordObstacleGauche['x'] - CoordObstacleGauche['ray'],
-                                                        CoordObstacleGauche['y'] - CoordObstacleGauche['ray'],
-                                                        CoordObstacleGauche['x'] + CoordObstacleGauche['ray'],
-                                                        CoordObstacleGauche['y'] + CoordObstacleGauche['ray'],
-                                                        fill='yellow') # Couleur = jaune.
-        # Objet associé à CoordObstaclesHaut
-        ObjObstacleHaut = self.CanevasJeu.create_oval(CoordObstacleHaut['x'] - CoordObstacleHaut['ray'],
-                                                      CoordObstacleHaut['y'] - CoordObstacleHaut['ray'],
-                                                      CoordObstacleHaut['x'] + CoordObstacleHaut['ray'],
-                                                      CoordObstacleHaut['y'] + CoordObstacleHaut['ray'],
-                                                      fill='yellow')
-        # Objet associé à CoordObstaclesDroite
-        ObjObstacleDroite = self.CanevasJeu.create_oval(CoordObstacleDroite['x'] - CoordObstacleDroite['ray'],
-                                                        CoordObstacleDroite['y'] - CoordObstacleDroite['ray'],
-                                                        CoordObstacleDroite['x'] + CoordObstacleDroite['ray'],
-                                                        CoordObstacleDroite['y'] + CoordObstacleDroite['ray'],
-                                                        fill='yellow')
-        # Objet associé à CoordObstaclesBas
-        ObjetObstacleBas = self.CanevasJeu.create_oval(CoordObstacleBas['x'] - CoordObstacleBas['ray'],
-                                                       CoordObstacleBas['y'] - CoordObstacleBas['ray'],
-                                                       CoordObstacleBas['x'] + CoordObstacleBas['ray'],
-                                                       CoordObstacleBas['y'] + CoordObstacleBas['ray'],
-                                                       fill='yellow')
-        # La liste "balls" prend l'ensemble des objets obstacles, elle sera lue par les
-        # fonction de déplacement.
-        self.balls = [ObjObstacleDroite, ObjObstacleHaut, ObjObstacleGauche, ObjetObstacleBas]
+        # Dans un 2e temps : on crée les objets tkinter avec la fonction Canevas.create_image : on crée donc des images
+        # mobiles. L'emplacement de cette déclaration est important : il doit être après la creation de self.balles pour
+        # que chaque image recoive les coordonnées de son type d'obstacles associée : la première prend celles de
+        # l'obstacle de gauche, la 2e celle de celui du haut et ainsi de suite pour les 2 autres..
+        self.ListImgBoulFeu = []  # Creation de la listes stockant les 4 images
+        for elt in self.balles:
+            self.objImgBoulFeu = self.CanevasJeu.create_image(elt['x'], elt['y'], image=self.imgBoulFeu)
+            self.ListImgBoulFeu.append(self.objImgBoulFeu)  # Creation des 4 images avec leur coordonnées de départ,
+            # ajout dans une liste.
 
         # ...........< L A B E L S >........................
         # ELEMENT GRAPHIQUE : <Label> = [Libellé T01] : Titre du jeu
@@ -526,7 +512,7 @@ class F02(Tk):
         self.BoutonReprise.place(x=550, y=700)  # Le clic de "Pause" crée le bouton reprendre
 
         # *********************** Appel des fonctions
-        self.AjoutBalles() # Démarrage de la fonction qui ajoute des balles au cour du temps.
+        self.AjoutBalles()  # Démarrage de la fonction qui ajoute des balles au cour du temps.
         self.action()  # Démarrage de la fonction qui fait bouger les obstacles, gère le score et les collisions.
 
     # ********************* FONTIONS DE L'OBJET
@@ -688,12 +674,8 @@ class F02(Tk):
         # trajectoires.
         # Declaration initiales (rappel)
         if self.FinAttente:  # Si Pause n'est pas activé, sert aussi pour éviter les interruptions brutales
-
             # Pré-déclaration pour "rassurer" Pycharm.
-            ObjetObstacleRandom = self.CanevasJeu.create_oval(100, 100, 100, 100,
-                                                              fill='yellow')
             CoordObstacleRandom = {}
-
             # L'obstacle crée prend un des 4 types d'obstacles (partant de : haut, bas, droite ou gauche) de mainère
             # aléatoire. Ce type est représenté par un numéro entre 0 et 3, choisi au hasard par randint.
             TypeObstacle = randint(0, 3)
@@ -705,11 +687,6 @@ class F02(Tk):
                                        'ray': self.RayonObstacles,
                                        'dx': self.Listvitesse[0] * cos(self.Listangle[0]),
                                        'dy': self.Listvitesse[0] * sin(self.Listangle[0])}
-                ObjetObstacleRandom = self.CanevasJeu.create_oval(CoordObstacleRandom['x'] - CoordObstacleRandom['ray'],
-                                                                  CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
-                                                                  CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
-                                                                  CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
-                                                                  fill='yellow')
             # Si le type est 1, l'obstacle partira du Haut.
             if TypeObstacle == 1:
                 CoordObstacleRandom = {'x': self.listposX[randint(0, 46)],
@@ -718,11 +695,6 @@ class F02(Tk):
                                        'dx': self.Listvitesse[1] * cos(self.Listangle[1]),
                                        'dy': self.Listvitesse[1] * sin(self.Listangle[1])}
 
-                ObjetObstacleRandom = self.CanevasJeu.create_oval(CoordObstacleRandom['x'] - CoordObstacleRandom['ray'],
-                                                                  CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
-                                                                  CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
-                                                                  CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
-                                                                  fill='yellow')
             # Si le type est 2, l'obstacle partira de la droite.
             if TypeObstacle == 2:
                 CoordObstacleRandom = {'x': self.Largeur - self.RayonObstacles - 1,
@@ -731,11 +703,6 @@ class F02(Tk):
                                        'dx': self.Listvitesse[2] * cos(self.Listangle[2]),
                                        'dy': self.Listvitesse[2] * sin(self.Listangle[2])}
 
-                ObjetObstacleRandom = self.CanevasJeu.create_oval(CoordObstacleRandom['x'] - CoordObstacleRandom['ray'],
-                                                                  CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
-                                                                  CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
-                                                                  CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
-                                                                  fill='yellow')
             # Si le type est 3, l'obstacle partira du bas.
             if TypeObstacle == 3:
                 CoordObstacleRandom = {'x': self.listposX[randint(0, 46)],
@@ -744,19 +711,17 @@ class F02(Tk):
                                        'dx': self.Listvitesse[3] * cos(self.Listangle[3]),
                                        'dy': self.Listvitesse[3] * sin(self.Listangle[3])}
 
-                ObjetObstacleRandom = self.CanevasJeu.create_oval(CoordObstacleRandom['x'] - CoordObstacleRandom['ray'],
-                                                                  CoordObstacleRandom['y'] - CoordObstacleRandom['ray'],
-                                                                  CoordObstacleRandom['x'] + CoordObstacleRandom['ray'],
-                                                                  CoordObstacleRandom['y'] + CoordObstacleRandom['ray'],
-                                                                  fill='yellow')
+            # Creation de l'image mobile de la boule de feu.
+            self.objImgBoulFeu = self.CanevasJeu.create_image(CoordObstacleRandom['x'], CoordObstacleRandom['y'],
+                                                              image=self.imgBoulFeu)
 
             # Ajout des propriétés du nouvel obstacles dans chaque liste, de la même manière que pour les 4 premiers. Il
             # sera donc considéré comme un nouvel obstacles à gérer pour les fonctions de mouvements
             if len(self.balles) < 50:  # S'il n'y a pas déjà 50 obstacles (pour éviter une génération infinie).
                 self.ListPosInitBalles.append({'x0': CoordObstacleRandom['x'], 'y0': CoordObstacleRandom['y']})
                 self.balles.append(CoordObstacleRandom)
-                self.balls.append(ObjetObstacleRandom)
-            print("balles", self.balles, "balls", self.balls)  # Pour contrôle.
+                self.ListImgBoulFeu.append(self.objImgBoulFeu)
+            # print("balles", self.balles, "balls", self.balls)  # Pour contrôle.
             self.after(10000, self.AjoutBalles) # Réinitialisation de la fonction toutes les 10s pour créer un obstacle.
 
     # ========================
@@ -783,13 +748,8 @@ class F02(Tk):
             self.balles[i]['y'] += self.balles[i]['dy']  # Chaque obstacle voit sa coordonné en ordonnée additionnée
             # avec son déplacement instantanné en ordonnée.
             if self.FinAttente:  # Sert pour éviter les interruptions brutales
-                # Les obstacles sont redessinées à leur nouvelles positions. La fonction .coord est ici utilisée pour
-                # redessiner un ovale avec 4 paramètre (et non pas un rectangle comme avec le personnage).
-                self.CanevasJeu.coords(self.balls[i],
-                                       self.balles[i]['x'] - self.balles[i]['ray'],
-                                       self.balles[i]['y'] - self.balles[i]['ray'],
-                                       self.balles[i]['x'] + self.balles[i]['ray'],
-                                       self.balles[i]['y'] + self.balles[i]['ray'])
+                # Les obstacles sont redessinées à leur nouvelles positions.
+                self.CanevasJeu.coords(self.ListImgBoulFeu[i], self.balles[i]['x'], self.balles[i]['y'])
 
     # ========================
     # FONCTION vérifiant si les obstacles sont en collision avec les bords du Canevas ou le vaisseau. Si oui, les
@@ -837,8 +797,8 @@ class F02(Tk):
             # rectangle: l'image du perso (représentée par 1) et celle du Canevas (représentée par 6).
 
             for i in range(len(ListCollisions)):
-                for j in range(len(self.balls)):
-                    if ListCollisions[i] == self.balls[j]:  # Si le nombre du
+                for j in range(len(self.ListImgBoulFeu)):
+                    if ListCollisions[i] == self.ListImgBoulFeu[j]:  # Si le nombre du
                         # tuple est celui associé à l'une des
                         # balles, mais pas celui des pointes de vaisseaux car ce sont des images de fond uniquement.
                         if self.FinAttente:  # Sert pour éviter les interruptions brutales
