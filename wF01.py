@@ -222,13 +222,14 @@ class F01(Tk):  # declaration de l'objet F01
     def EnregistrAngle(self):  # Fonction doit être mise avant sinon erreur
         TextAngleEnDegree = self.entreAngle.get()
         # Etape 1 : Ajustement de l'angle pour un résultat convenable.
-        AngleEnDegree = self.TrtAngle(TextAngleEnDegree)
+        AngleEnDegree, message = self.TrtAngle(TextAngleEnDegree)
         print("Angle en degree = ", AngleEnDegree)  # Pour controle
 
         # Etape 2 : Envoi de l'angle dans score.txt
-        ModifPrecisFichier(self.IdJoueur + 2, 2,
+        if message == "Angle enregistré":
+            ModifPrecisFichier(self.IdJoueur + 2, 2,
                            AngleEnDegree)  # Explication de l'appel : voir l'appel identique dans F02
-        self.MajListe() # Pour mise à jour instantannée des listbox
+            self.MajListe()  # Pour mise à jour instantannée des listbox
 
         # ========================
         # FONCTION OUTIL Traite l'angle pour le rendre enregistrable et utilisable.
@@ -236,7 +237,6 @@ class F01(Tk):  # declaration de l'objet F01
     def TrtAngle(self, TextAngleEnDegree):
         # Récupération angle de la zone de Saisie ou pose de 0
         AngleEnDegree = 0
-        msg = "..."
         if TextAngleEnDegree != "":
             try:  # Essai la tranformation en int en vérifiant les erreurs avant (pour éviter un plantage total).
                 AngleEnDegree = int(TextAngleEnDegree)
@@ -253,7 +253,7 @@ class F01(Tk):  # declaration de l'objet F01
         self.messageUtilisateurAngle.set(msg)  # Pour mise à jour texte écran
         print(str(self.messageUtilisateurAngle.get()))  # Pour Controle
         # AffAngle.insert(END, AngleEnDegree)
-        return AngleEnDegree
+        return AngleEnDegree, msg
 
     # ========================
     # FONCTIONS OUTILS réglant le plein écran (déjà expliquées).
