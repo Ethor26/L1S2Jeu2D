@@ -134,6 +134,7 @@ class F02(Tk):
 
         # =============================================================================
         # FONCTION de déplacement de la touche P. Auteur : Ethan SUISSA - Terminé
+        # COMMANDE : <Deplacement Programmable> = [Libellé C01]
         def deplacement_P():
             if self.FinAttente:  # Sert pour éviter les interruptions brutales
                 nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
@@ -168,6 +169,7 @@ class F02(Tk):
 
         # =============================================================================
         # FONCTION de déplacement de la touche D. Auteur : Lilandra ALBERT-LAVAUX - Terminé
+        # COMMANDE : <Deplacement Droite> = [Libellé C05]
         def deplacement_D():  # ATTENTION : Pas de paramètres !
             if self.FinAttente:  # Sert pour éviter les interruptions brutales
                 nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
@@ -200,6 +202,7 @@ class F02(Tk):
 
         # =============================================================================
         # FONCTION de déplacement de la touche Q. Auteur : Lilandra ALBERT-LAVAUX - Terminé
+        # COMMANDE : <Deplacement Gauche> = [Libellé C02]
         def deplacement_Q():  # ATTENTION : Pas de paramètres !
             if self.FinAttente:  # Sert pour éviter les interruptions brutales
                 nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
@@ -231,6 +234,7 @@ class F02(Tk):
 
         # =============================================================================
         # FONCTION de déplacement de la touche Z. Auteur : Lilandra ALBERT-LAVAUX - Terminé
+        # COMMANDE : <Deplacement Haut> = [Libellé C03]
         def deplacement_Z():  # ATTENTION : Pas de paramètres !
             if self.FinAttente:  # Sert pour éviter les interruptions brutales
                 nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
@@ -241,8 +245,7 @@ class F02(Tk):
                 print("Deplacement Haut : posY = ", self.PosY)  # pour contrôle.
                 print("Deplacement Haut : posX = ", self.PosX)  # pour contrôle.
 
-
-                if self.FinAttente: # Sert pour éviter les interruptions brutales
+                if self.FinAttente:  # Sert pour éviter les interruptions brutales
                     # Repositionnne le personnage
                     self.CanevasJeu.coords(self.ImgPerso, self.PosX, self.PosY)
 
@@ -258,12 +261,13 @@ class F02(Tk):
                     self.cpTemps += 1
 
                     if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
-                        self.after_cancel(self.idAfterZ) # arrête la réactualisation de la fenêtre
+                        self.after_cancel(self.idAfterZ)  # arrête la réactualisation de la fenêtre
                         # (et le déplacement)
                         self.cpTemps = 0  # Réinitialisation du compteur de temps de déplacement.
 
         # =============================================================================
         # FONCTION de déplacement de la touche S. Auteur : Lilandra ALBERT-LAVAUX - Terminé
+        # COMMANDE : <Deplacement Bas> = [Libellé C04]
         def deplacement_S():  # ATTENTION : Pas de paramètres !
             if self.FinAttente:  # Sert pour éviter les interruptions brutales
                 nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
@@ -290,7 +294,7 @@ class F02(Tk):
                     self.cpTemps += 1
 
                     if nbRebond > 0 or self.cpTemps > self.LimiteTpsDepl:
-                        self.after_cancel(self.idAfterS) # arrête la réactualisation de la fenêtre
+                        self.after_cancel(self.idAfterS)  # arrête la réactualisation de la fenêtre
                         # (et le déplacement)
                         self.cpTemps = 0
 
@@ -299,7 +303,8 @@ class F02(Tk):
 
         # ...........< I M A G E S >........................
 
-        # ELEMENT GRAPHIQUE : <Canvas> = G01 (fond imagé ou se deroule le jeu)
+        # ELEMENT GRAPHIQUE : <Image en FOND> = [Libellé I03] + <Canevas> = [Libellé G02] : Canevas imagé ou se déroule
+        # le jeu.
         # Etape 1 : Création d'un Canevas noir
         self.CanevasJeu = Canvas(self, width=self.Largeur, height=self.Hauteur)
         self.CanevasJeu.pack(side=TOP, padx=5, pady=5)  # .pack est aussi une méthode de placement des objets tkinter.
@@ -317,47 +322,51 @@ class F02(Tk):
         self.CanevasJeu.bind('<Key>', CommandeClavier)  # Met en relation les touches du clavier et les commandes.
         self.CanevasJeu.tag_lower(self.objImgFondEcran)  # placement à l'arriere plan, tag_raise pour premier plan.
 
-        # ELEMENT GRAPHIQUE : <PointesVaisseaux> = G01 : Eléments graphiques du fond
-        # Vaisseau pointe Bas
+        # ELEMENT GRAPHIQUE : <PointesVaisseaux> : Eléments graphiques du fond.
+        #   Vaisseau pointe Bas. Libellé : I04.
         self.imageV1 = Image.open(os.getcwd() + "/IMAGES/ImagesF02/image-DestoyerImperial-3 Bas.png")
         self.imageV1 = self.imageV1.resize((150, 180), Image.ANTIALIAS)  # resize permet de mettre les photos au bon
         # format pour les inclure dans le canevas. Antialias = inconnu, permet à resize de fonctionner
         self.imgV1 = PhotoImage(self.imageV1)  # Même principe que fond d'écran
         self.objImgV1 = self.CanevasJeu.create_image(self.Largeur // 2, self.Hauteur, image=self.imgV1)
 
-        # Vaisseau pointe Haut : Même principe que pointe bas, valable pour toutes les pointes de vaisseaux
+        #   Vaisseau pointe Haut : Libellé : I06.
+        # Même principe que pointe bas, valable pour toutes les pointes de vaisseaux
         self.imageV2 = Image.open(os.getcwd() + "/IMAGES/ImagesF02/image-DestoyerImperial-3 Haut.png")
         self.imageV2 = self.imageV2.resize((150, 180), Image.ANTIALIAS)
         self.imgV2 = PhotoImage(self.imageV2)
         self.objImgV2 = self.CanevasJeu.create_image(self.Largeur // 2, 0, image=self.imgV2)
 
-        # Vaisseau pointe Droite
+        #   Vaisseau pointe Droite. Libellé : I05.
         self.imageV3 = Image.open(os.getcwd() + "/IMAGES/ImagesF02/image-DestoyerImperial-3 Droite.png")
         self.imageV3 = self.imageV3.resize((150, 180), Image.ANTIALIAS)
         self.imgV3 = PhotoImage(self.imageV3)
         self.objImgV3 = self.CanevasJeu.create_image(self.Largeur, self.Hauteur // 2, image=self.imgV3)
 
-        # Vaisseau pointe Gauche
+        #   Vaisseau pointe Gauche. Libellé : I07.
         self.imageV4 = Image.open(os.getcwd() + "/IMAGES/ImagesF02/image-DestoyerImperial-3 Gauche.png")
         self.imageV4 = self.imageV4.resize((150, 180), Image.ANTIALIAS)
         self.imgV4 = PhotoImage(self.imageV4)
         self.objImgV4 = self.CanevasJeu.create_image(0, self.Hauteur // 2, image=self.imgV4)
 
-        # Image Personnage : faucon millenium
+        #   Image Personnage : faucon millenium. Libellé : P01.
         self.PersoImgVaisseau = Image.open(os.getcwd() + "/IMAGES/ImagesF02/faucon millenium-3.png")
         self.PersoImgVaisseau = self.PersoImgVaisseau.resize((self.Perso_Largeur, self.Perso_Hauteur), Image.ANTIALIAS)
         self.logo = PhotoImage(self.PersoImgVaisseau)
         self.ImgPerso = self.CanevasJeu.create_image(self.PosX, self.PosY, image=self.logo)  # Placement à PosX et PosY
         # pour le déplacement de l'image comme personnage.
 
-        # Image explosion
+        # ELEMENT GRAPHIQUE : <ImageExplosion> : [Libellé I10]. appliquée à l'endroit du perso.
         self.imageExpl = Image.open(os.getcwd() + "/IMAGES/ImagesF02/ImageExplosion.png")
         self.imageExpl = self.imageExpl.resize((100, 60), Image.ANTIALIAS)
         self.imgExpl = PhotoImage(self.imageExpl)
         self.objImgExpl = self.CanevasJeu.create_image(self.PosX, self.PosY, image=self.imgExpl)
         self.CanevasJeu.tag_lower(self.objImgExpl)
 
-        # Image Boule de feu
+        # ELEMENT GRAPHIQUE : <ImageBouleDeFeu> : Image constituant les obstacles. Libellé associé à ceux des
+        # dictionnaires déclaré juste après (exemple : CoordObstHaut a le libellé Ob02, l'image associée aura donc le
+        # même). En effet, l'image est juste importée ici mais les véritables "objets image mobile" sont crées dans la
+        # Partie "obstacle".
         self.imageBoulFeu = Image.open(os.getcwd() + "/IMAGES/ImagesF02/ImageBouledefeu.png")
         self.imageBoulFeu = self.imageBoulFeu.resize((40, 40), Image.ANTIALIAS)
         self.imgBoulFeu = PhotoImage(self.imageBoulFeu)
@@ -400,20 +409,22 @@ class F02(Tk):
         # haut à gauche de l'écran, l'axe x va bien vers la droite mais l'axe y vas vers le bas : plus il augmente, plus
         # l'objet descend.
 
+        # ELEMENT GRAPHIQUE ASSOCIE : <ImageBouleDeFeu> : [Libellé Ob01].
         # Coordonnées de l'obstacles partant de la gauche vers la droite.
         CoordObstacleGauche = {'x': 50,  # Equivalent du 0 en abscisse, 50 pour compenser le rayon
                                'y': self.listposY[randint(0, 26)],  # 26 et 46 car le rang d'une liste a un décalage de
                                # position de -1. Randint choisit un nombre dans une liste d'entier, une position de la
                                # liste à un rang aléatoire est choisie.
-                               'ray': self.RayonObstacles, # Définie le rayon de l'obstacle (c'est un cercle), sert
+                               'ray': self.RayonObstacles,  # Définie le rayon de l'obstacle (c'est un cercle), sert
                                # principalement pour les collisions.
                                'dx': self.Listvitesse[0] * cos(self.Listangle[0]),  # L'obstacle additionne à chaque
                                # unité de temps la première vitesse de la liste des vitesse aléatoire
                                # (vitesse instantannée), multipliée par l'angle de la direction de sa trajectoire (ici 0
                                # car il part de la gauche pour aller à droite). Le cosinus est pour le déplacement de x.
                                'dy': self.Listvitesse[0] * sin(self.Listangle[0])}
-                                # Le sinus est pour le déplacement de x.
+        #                       Le sinus est pour le déplacement de x.
 
+        # ELEMENT GRAPHIQUE ASSOCIE : <ImageBouleDeFeu> : [Libellé Ob02].
         # Coordonnées de l'obstacles partant du haut vers le bas.
         CoordObstacleHaut = {'x': self.listposX[randint(0, 46)],
                              'y': 50,
@@ -422,18 +433,20 @@ class F02(Tk):
                              # CoordObstacleGauche avec l'angle à 90°.
                              'dy': self.Listvitesse[1] * sin(self.Listangle[1])}
 
+        # ELEMENT GRAPHIQUE ASSOCIE : <ImageBouleDeFeu> : [Libellé Ob04].
         # Coordonnées de l'obstacles partant de la droite vers la gauche.
         CoordObstacleDroite = {'x': self.Largeur - self.RayonObstacles - 1,  # l'obstacle part de la droite de l'écran
                                'y': self.listposY[randint(0, 26)],
                                'ray': self.RayonObstacles,
-                               'dx': self.Listvitesse[2] * cos(self.Listangle[2]), # Même principe avec l'angle à 180°
+                               'dx': self.Listvitesse[2] * cos(self.Listangle[2]),  # Même principe avec l'angle à 180°
                                'dy': self.Listvitesse[2] * sin(self.Listangle[2])}
 
+        # ELEMENT GRAPHIQUE ASSOCIE : <ImageBouleDeFeu> : [Libellé Ob03].
         # Coordonnées de l'obstacles partant du bas vers le haut.
         CoordObstacleBas = {'x': self.listposX[randint(0, 46)],
                             'y': self.Hauteur - self.RayonObstacles - 1,  # L'obstacle part du bas de l'écran.
                             'ray': self.RayonObstacles,
-                            'dx': self.Listvitesse[3] * cos(self.Listangle[3]), # Même principe avec l'angle à 270°
+                            'dx': self.Listvitesse[3] * cos(self.Listangle[3]),  # Même principe avec l'angle à 270°
                             'dy': self.Listvitesse[3] * sin(self.Listangle[3])}
 
         # La liste "balles" prend l'ensemble des dictionnaires de coordonnées des obstacles, elle sera lue par les
@@ -458,7 +471,8 @@ class F02(Tk):
         for elt in self.balles:
             self.objImgBoulFeu = self.CanevasJeu.create_image(elt['x'], elt['y'], image=self.imgBoulFeu)
             self.ListImgBoulFeu.append(self.objImgBoulFeu)  # Creation des 4 images avec leur coordonnées de départ,
-            # ajout dans une liste.
+            # ajout dans une liste. Donc creation des 4 :
+            #   ELEMENT GRAPHIQUE ASSOCIE : <ImageBouleDeFeu> : [Libellé Ob...].
 
         # ...........< L A B E L S >........................
         # ELEMENT GRAPHIQUE : <Label> = [Libellé T01] : Titre du jeu
@@ -613,7 +627,7 @@ class F02(Tk):
         # Rebond à gauche ou à droite
         rebondL = self.RebondLargeur(valX_Initial)
         rebondH = self.RebondHauteur(valY_Initial)
-        if rebondL or rebondH: # Si un des deux types de rebond est repéré, on considère qu'il en a eu 1.
+        if rebondL or rebondH:  # Si un des deux types de rebond est repéré, on considère qu'il en a eu 1.
             rebond = True
         else:
             rebond = False
@@ -722,7 +736,8 @@ class F02(Tk):
                 self.balles.append(CoordObstacleRandom)
                 self.ListImgBoulFeu.append(self.objImgBoulFeu)
             # print("balles", self.balles, "balls", self.balls)  # Pour contrôle.
-            self.after(10000, self.AjoutBalles) # Réinitialisation de la fonction toutes les 10s pour créer un obstacle.
+            self.after(10000,
+                       self.AjoutBalles)  # Réinitialisation de la fonction toutes les 10s pour créer un obstacle.
 
     # ========================
     # FONCTION concentrant toutes celles gérant le déplacement des obstacles, les conséquences en cas de collision
@@ -758,7 +773,7 @@ class F02(Tk):
         "Test de collision des balles"
 
         # Si collision avec les parois, les obstacles retournent à leurs posisitons initiales :
-        for i in self.balles: # La boucle vérifie les collisions pour chaque balle.
+        for i in self.balles:  # La boucle vérifie les collisions pour chaque balle.
             if i['x'] - i['ray'] <= 0:  # Si l'obstacle va trop à gauche, réinitialisation à droite
                 i['x'] = self.Largeur - self.RayonObstacles - 1
                 i['y'] = self.listposY[randint(0, 26)]
@@ -768,7 +783,7 @@ class F02(Tk):
                 i['x'] = 50
                 i['y'] = self.listposY[randint(0, 26)]
 
-            if (i['y'] - i['ray']) <= 0: # Si l'obstacle va trop en haut, réinitialisation en bas
+            if (i['y'] - i['ray']) <= 0:  # Si l'obstacle va trop en haut, réinitialisation en bas
                 i['x'] = self.listposX[randint(0, 46)]
                 i['y'] = self.Hauteur - self.RayonObstacles - 1
 
@@ -803,7 +818,7 @@ class F02(Tk):
                         # balles, mais pas celui des pointes de vaisseaux car ce sont des images de fond uniquement.
                         if self.FinAttente:  # Sert pour éviter les interruptions brutales
                             print("Collision balle avec :", i, "Fin de partie")
-                            self.ActionsPerteVie() # Declenchement la fonction de perte de vie et l'ensemble des
+                            self.ActionsPerteVie()  # Declenchement la fonction de perte de vie et l'ensemble des
                             # évènements associés.
 
     # ========================
@@ -839,7 +854,7 @@ class F02(Tk):
         self.CompteurScore += 0.03  # L'augmentation de la variable de score est calculé avec l'actualisation de la
         # fonction "action" toutes les 20 ms pour qu'au final, le score augmente d'1 toute les secondes.
         if self.FinAttente:  # Si bouton pause non activé, évite les interruptions brutales.
-            self.TextScore.set(str(int(self.CompteurScore))) # Affichage de la nouvelle valeur de score
+            self.TextScore.set(str(int(self.CompteurScore)))  # Affichage de la nouvelle valeur de score
 
     # ========================
     # FONCTION créeant une pause du jeu : les commandes deviennent inutilisables et les obstacles sont figées. L'effet

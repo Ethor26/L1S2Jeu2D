@@ -18,7 +18,7 @@ class F03(Tk):
         Tk.__init__(self)
         self.title("F03")  # Le titre de la fenêtre
         self.minsize(1200, 700)  # taille de fenêtre
-        self.IdJoueur = IDJoueur # Transmission de l'ID du joueur
+        self.IdJoueur = IDJoueur  # Transmission de l'ID du joueur
         self.Largeur = 1200  # Largeur de la zone de jeu
         self.Hauteur = 700  # Hauteur de la zone de jeu
 
@@ -32,12 +32,17 @@ class F03(Tk):
         # Une méthode séparée pour construire le contenu de la fenêtre
         self.createWidgets()
 
-    # Méthode de création des widgets
+    # **************************************
+    # Fonction/Méthode de création des widgets.
     def createWidgets(self):  # Création des widgets (boutons, labels, etc...)
         self.grid()  # Choix du mode d'arrangement des elements
 
         # =================================================
+        # ELEMENTS GRAPHIQUES::::::::
 
+        # ...........< I M A G E S >........................
+
+        # ELEMENT GRAPHIQUE : <Image en FOND> = [Libellé I08] + <Canevas> = [Libellé G03]
         # Fond d'écran :
         self.PhotofondInfo = Image.open(os.getcwd() + "/IMAGES/ImageF03/ImageGuerreSatellite.jpg")  # Affichage de
         # l'image grâce au chemin d'accès de l'image : os.getcwd() est une chaine de caractère représentant
