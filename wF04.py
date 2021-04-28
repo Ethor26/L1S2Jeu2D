@@ -103,7 +103,7 @@ class F04(Tk):
     # ===============================
     # FONCTIONS statuant si le meilleur score est dépassé (en cours).
     def VictoireJeu(self):
-        tab, nbLignes = open_score_file2()
+        tab, nbLignes = open_score_file()
         if self.ScoreRec >= int(tab[self.IDJoueur+ 1][3]):
             print("Meilleur score dépassé")  # Pour controle
             return True, int(tab[self.IDJoueur + 1][3])

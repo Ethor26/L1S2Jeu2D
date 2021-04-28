@@ -32,3 +32,8 @@ listposY = [25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 3
 print("Longeur liste X", len(listposX),"Longeur liste Y", len(listposY), )
 print(Liste[randint(0, 4)])
 
+# print("Listes Collisions", ListCollisions, "\nNumImagePerso =", self.ImgPerso, "NumImageEcran =",
+        # self.objImgFondEcran, "NumImageV4 =", self.objImgV4, "NumImageV3 =", self.objImgV3, "\nNumImageV2 =",
+        # self.objImgV2, "NumImageV1 =", self.objImgV1, "\nNumBalleDroite =", self.balls[0], "NumBallebas =",
+        # self.balls[3], "NumBalleGauche =", self.balls[2], "NumBalleHaut =", self.balls[1])  # Pour control de
+        # collision : affiche identité des objets en collisions.

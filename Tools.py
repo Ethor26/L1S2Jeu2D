@@ -5,7 +5,6 @@
 # Date : 4 mai 2021 (?)
 # Fichier outils
 # ======================================================
-from math import *
 
 # ========================================================================================
 # FONCTION OUTIL: fonction COMPLEMENTAIRE aux précédentes qui retourner la clé d'un dictionnaire avec en entrée
@@ -47,8 +46,8 @@ def closeFile(f):
 # =============================================================================
 
 # =============================================================================
-# FONCTION OUTIL : Ecriture dans la base de donnée. Auteur : Jean-Alexis TADDEI- en cours
-def ajout_score(f, id, user, angle, score):
+# FONCTION OUTIL : Ecriture dans la base de donnée. Auteur : Jean-Alexis TADDEI- Terminée
+def ajout_score(f, id, user, angle, score): # Inutilisée
     with open(f, 'a') as file:
         file.write('\n')
         file.write(id)
@@ -87,7 +86,7 @@ def ajout_score_F0(score):  # fenetre de jeu
 
 # =============================================================================
 # FONCTION OUTIL : Lecture de la base de donnée. Auteur : Jean-Alexis TADDEI- Terminée
-def open_score_file2():
+def open_score_file():
     with open("scores.txt", 'r') as filin:
         score = filin.readlines()
         nb_line = len(score)
@@ -105,7 +104,7 @@ def open_score_file2():
 def score_comparaison2(Score, IdJoueur):
     # on regarde dans le txt quel est le meilleur score on doit utiliser la fonction open_score_file afin d'utiliser
     # le tableau avec le score
-    tab, nb_ligne = open_score_file2()
+    tab, nb_ligne = open_score_file()
     best_score = int(tab[IdJoueur + 1][3])
     if Score >= best_score:
         best_score = Score
@@ -120,7 +119,7 @@ import fileinput
 
 
 def ModifPrecisFichier(NumLigne, NumElt, Modif):
-    tab, nbLignes = open_score_file2() # Lecture de la base de donnée
+    tab, nbLignes = open_score_file() # Lecture de la base de donnée
 
     # Enregistrement de la ligne à modifier
     OldLigne = lireLaLignechoisie("scores.txt", NumLigne)

@@ -428,7 +428,7 @@ class F02(Tk):
     # FONCTION OUTILS : Récupérant l'angle du fichier score.txt et le retournant en radian. Auteur : Ethan SUISSA - Terminé
     def ValeurAngleParametreEnRadian(self):
         # Etape 1 : Récupération angle du fichier Score.txt.
-        tab, nbLignes = open_score_file2()
+        tab, nbLignes = open_score_file()
         VAngleEnDegree = int(tab[self.IdJoueur + 1][2])  # self.IdJoueur + 2 = Numéro de ligne, on enlève 1 car tableau.
 
         # Etape 2 : Conversion et envoi pour calcul commande programmable

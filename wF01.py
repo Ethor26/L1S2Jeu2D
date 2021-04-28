@@ -15,30 +15,40 @@ from PIL.ImageTk import PhotoImage
 
 
 class F01(Tk):  # declaration de l'objet F01
-    paddingtop = 100
-    leftPadding = 40
 
-    # Constructeur de l'objet F01 : ne pas supprimer !!!
+    # *****************************************
+    # Constructeur de l'objet F01 : ne pas supprimer, sert pour mettre les paramètres et fonctions propres à l'objet.
     def __init__(self, IDJoueur):
         Tk.__init__(self)
         print("*** F01 ***")  # Pour controle en console
         self.title("F01")  # Le titre de la fenêtre
-        self.minsize(1200, 700)  # taille de fenêtre
+        self.minsize(1200, 700)  # Initialisation de la taille de fenêtre
 
-        self.IdJoueur = IDJoueur
+        self.IdJoueur = IDJoueur # L'ID représente l'identifiant de chaque joueur, c'est le premier élément de chaque
+        # ligne de la base de donnée (fichier scores.txt). Il passe dans toutes les fenêtres pour confirmer que c'est
+        # toujours le même joueur qui joue au jeu (identité du joueur définie par le nom et l'appui de "Valider"), cela
+        # permet aux fonctions qui modifient la base de données de modifier la ligne du joueur actif uniquement. Il sert
+        # aussi pour déverouiller les commandes d'Entrée d'Angle et de lancer du jeu, ce déverouillage s'exécute une
+        # fois pour chaque joueur (pas besoin de réecrire le nom à chaque fois pour cela). Cette transmission est
+        # nécessaire pour que le jeu ne soit pas affectée par la perte de données crée par les "self.destroy".
 
         # Une méthode séparée pour construire le contenu de la fenêtre
-        self.Largeur = 1500  # Largeur de la zone de jeu
-        self.Hauteur = 1000  # Hauteur de la zone de jeu
+        self.Largeur = 1500  # Paramètre représentant la largeur de la zone du Canevas
+        self.Hauteur = 1000  # Hauteur de la zone du Canevas.
+
+        self.paddingtop = 100 # leftPadding et Paddingtop sont des variables de placement pour les boutons, ce qui
+        # permet de définir des unités de mesure dans le placement.
+        self.leftPadding = 40
 
         # Paramètres plein écran
         self.fullScreenState = True
         self.attributes("-fullscreen", self.fullScreenState)
         self.bind("<F11>", self.toggleFullScreen)
         self.bind("<Escape>", self.quitFullScreen)
-        self.createWidgets()  # Une méthode séparée pour construire le contenu de la fenêtre : A PLACER EN BAS
+        self.createWidgets()  # Une méthode séparée pour construire le contenu de la fenêtre
 
-    # Méthode/fonction de création des widgets
+    # **************************************
+    # Fonction/Méthode de création des widgets.
     def createWidgets(self):
         self.grid()  # Choix du mode d'arrangement
 
@@ -53,7 +63,8 @@ class F01(Tk):  # declaration de l'objet F01
         self.CanvasMenu = Canvas(self, width=self.Largeur, height=self.Hauteur)
         self.ImgFondF01 = self.CanvasMenu.create_image(self.Largeur // 2, self.Hauteur // 2, image=self.FondF01)
         self.CanvasMenu.pack(padx=5, pady=5)  # .pack sert à placer le texte
-        self.CanvasMenu.tag_lower(self.ImgFondF01)
+        self.CanvasMenu.tag_lower(self.ImgFondF01)  # Canevas.tag_lower(objet) sert à faire passer un objet du Canevas à
+        # l'arrière plan, àl'inverse de tag_raise qui le met au premier.
 
         # =================
         # FONCTION Récupération Nom et enregistrement dans score.txt, met à jour l'ID de joueur et permet le premier
@@ -65,13 +76,13 @@ class F01(Tk):  # declaration de l'objet F01
             msg = "En Avant " + Name + "!"
             if Name != "":  # Si la fenêtre d'entrée du nom n'est pas vide :
                 # On vérifie si le joueur existe dans la base de donnée
-                tab, NbLignes = open_score_file2()
+                tab, NbLignes = open_score_file()
                 JoueurExist = False
                 for i in range(NbLignes):
                     if tab[i][1] == Name:
                         JoueurExist = True
-                        self.IdJoueur = i - 1  # L'id du joueur est toujours égal à la valeur du numéro de ligne - 2 mais
-                        # on rajoute 1 pour le décalage du tableau
+                        self.IdJoueur = i - 1  # L'id du joueur est toujours égal à la valeur du numéro de ligne - 2
+                        # mais on rajoute 1 pour le décalage du tableau
                         break
                 # Si le joueur n'existe pas, on initialise son profil
                 if not JoueurExist:
@@ -83,17 +94,16 @@ class F01(Tk):  # declaration de l'objet F01
                     # de -2.
                     # Déverouillage des boutons
                 self.DeverouilCommands()
-                self.MajListe()
+                self.MajListe()  # Permet la mise à jour instantannée de la listbox.
             else:
                 msg = "Pas de nom, pas de jeu !"
             self.messageUtilisateurNom.set(msg)  # Pour mise à jour texte écran
 
-            # ==================================================
-            # ELEMENTS GRAPHIQUES::::::::
+        # ==================================================
+        # ELEMENTS GRAPHIQUES::::::::
 
         # ...........< L A B E L S > .........................
 
-        # ...........< L A B E L S > .........................
         # ELEMENT GRAPHIQUE : <Label> = [Libellé T06] : intervalle angles possibles
         lblEntreAngle = Label(self, bg="purple", fg="white",
                               text="Angle entre 0 et 360° :")  # Nom de la fenêtre en rouge à déclarer comme au
@@ -117,26 +127,27 @@ class F01(Tk):  # declaration de l'objet F01
         # Création d'un widget Entry (champ de saisie)
         Nom = StringVar() # ELEMENT GRAPHIQUE : <Label> = [Libellé SV01] :message apres saisie nom
         EntreeNom = Entry(self, textvariable=Nom, bg='bisque', fg='RoyalBlue1', font=("Arial", 20), )
-        EntreeNom.focus_set()  # : nécessaire ?
+        # bg = couleur du fond d'écran du texte entré, fg = couleur du texte entré, font = police et taille du texte.
+        EntreeNom.focus_set()  # Inutile de cliquer pour entrer le nom.
         EntreeNom.place(x=self.leftPadding + 300, y=self.paddingtop + 50)
 
         # ...........< L A B E L S  V A R I A B L E S > .........................
 
-        # ELEMENT GRAPHIQUE : <Label> = Message vérifiant le nom
-        # Message après vérifiaction de l'entrée du nom
+        # ELEMENT GRAPHIQUE : <Label> = [StringVar Sv02] : Message vérifiant le nom
+        # Le stringvar est un label de textes qu'on peut faire varier au cour du programme avec le .set().
         self.messageUtilisateurNom = StringVar()  # Variable de message d'erreur de saisie type stringvar() pour
         self.messageUtilisateurNom.set("...")  # maj Label pertinent.
-        # Placement Message Nom
+        # Declaration et Placement du label avec le message du nom.
         self.LblMessage = Label(self, textvariable=self.messageUtilisateurNom, bg="MediumOrchid4", fg="white",
-                                font=("Arial", 15))
+                                font=("Arial", 15)) # Changement du "texte" en "texteVariable" pour le StringVar.
         self.LblMessage.place(x=self.leftPadding + 300, y=self.paddingtop + 150)
 
-        # ELEMENT GRAPHIQUE : <Label> = Message vérifiant l'angle
+        # ELEMENT GRAPHIQUE : <Label> = [StringVar Sv03] :Message vérifiant l'angle
         # Message après vérifiaction de l'entrée de l'angle
         self.messageUtilisateurAngle = StringVar()  # Variable de message d'erreur de saisie type stringvar() pour
-        self.messageUtilisateurAngle.set("...")
+        self.messageUtilisateurAngle.set("...") # maj Label pertinent.
 
-        # Placement
+        # Declaration et Placement du label avec le message de l'angle.
         self.LblMessage = Label(self, textvariable=self.messageUtilisateurAngle, bg="MediumOrchid4", fg="white")
         self.LblMessage.place(x=self.leftPadding + 300, y=self.paddingtop + 220)
 
@@ -149,12 +160,13 @@ class F01(Tk):  # declaration de l'objet F01
 
         self.BoutonValidNom.place(x=self.leftPadding, y=self.paddingtop + 150)
 
-        # ELEMENT GRAPHIQUE : <Button> = [Bouton B03] : Configuration commande
+        # ELEMENT GRAPHIQUE : <Button> = [Bouton B03] : Ouverture de F03, fenêtre d'information.
         BoutConfCom = Button(self, text="Informations Jeu", command=self.commandeOuvreF03)
-        BoutConfCom.place(x=self.leftPadding + 400, y=self.paddingtop + 600)  # Bouton pour tester le verrouillage
+        BoutConfCom.place(x=self.leftPadding + 400, y=self.paddingtop + 600)
 
-        print("ID =", self.IdJoueur)
-        if self.IdJoueur != 0:
+        print("ID =", self.IdJoueur) # Pour control.
+        if self.IdJoueur != 0:  # Si le joueur est définie après l'entrée du nom (le placement ici sert si on réouvre
+            # F01 pour ne pas devoir ré-entrer le nom).
             # Déverouillage des boutons
             self.DeverouilCommands()
 
@@ -163,30 +175,34 @@ class F01(Tk):  # declaration de l'objet F01
         self.quitButton.place(x=self.leftPadding + 300, y=self.paddingtop + 600)
 
         # ...........< L I S T B O X ' S > .......................
-        # ELEMENT GRAPHIQUE : <Label> = [Libellé L01] : Liste des ID des joueurs de la base de données (déclaration & position)
+        # ELEMENT GRAPHIQUE : <Label> = [Libellé L01] : Liste des ID des joueurs de la base de données
+        # (déclaration & position), une listbox permet leur affichage.
         self.AffID = Listbox(self)
         self.AffID.place(x=self.leftPadding + 800, y=50, width=100, height=500)
 
-        # ELEMENT GRAPHIQUE : <Label> = [Libellé L02] : Liste des noms des joueurs de la base de données (déclaration & position)
+        # ELEMENT GRAPHIQUE : <Label> = [Libellé L02] : Liste des noms des joueurs de la base de données
+        # (déclaration & position)
         self.AffNom = Listbox(self)
         self.AffNom.place(x=self.leftPadding + 900, y=50, width=100, height=500)
 
-        # ELEMENT GRAPHIQUE : <Label> = [Libellé L03] : Liste des Angles des joueurs de la base de données (déclaration & position)
+        # ELEMENT GRAPHIQUE : <Label> = [Libellé L03] : Liste des Angles des joueurs de la base de données
+        # (déclaration & position)
         self.AffAngle = Listbox(self)
         self.AffAngle.place(x=self.leftPadding + 1000, y=50, width=100, height=500)
 
-        # ELEMENT GRAPHIQUE : <Label> = [Libellé L04] : Liste des score des joueurs de la base de données (déclaration & position)
+        # ELEMENT GRAPHIQUE : <Label> = [Libellé L04] : Liste des score des joueurs de la base de données
+        # (déclaration & position)
         self.AffScore = Listbox(self)
         self.AffScore.place(x=self.leftPadding + 1100, y=50, width=100, height=500)
 
         # Alimentation des listboxs
         self.MajListe()
 
-    # ==================================================
+    # **************************************
     # FONCTIONS DE L'OBJET::::::::
 
-    # ==============
-    # FONCTION OUTIL pour déverouiller les commandes si joueur enregistré (id != 0 ou nom entré)
+        # ======================
+        # FONCTION OUTIL pour déverouiller les commandes si joueur enregistré (id != 0 ou nom entré)
     def DeverouilCommands(self):
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B05] :bouton pour lancer le jeu et ouvrir F02
         self.ouvreF02 = Button(self, text="jouer", command=self.commandeOuvreF02)
@@ -200,7 +216,7 @@ class F01(Tk):  # declaration de l'objet F01
         self.AppliqAngle = Button(self, text="Appliquer l'angle", command=self.EnregistrAngle)
         self.AppliqAngle.place(x=self.leftPadding + 300, y=self.paddingtop + 250)
 
-        # =================
+        # =====================
         # FONCTION Récupération Angle et enregistrement dans score.txt pour application
 
     def EnregistrAngle(self):  # Fonction doit être mise avant sinon erreur
@@ -212,9 +228,9 @@ class F01(Tk):  # declaration de l'objet F01
         # Etape 2 : Envoi de l'angle dans score.txt
         ModifPrecisFichier(self.IdJoueur + 2, 2,
                            AngleEnDegree)  # Explication de l'appel : voir l'appel identique dans F02
-        self.MajListe()
+        self.MajListe() # Pour mise à jour instantannée des listbox
 
-        # =================
+        # ========================
         # FONCTION OUTIL Traite l'angle pour le rendre enregistrable et utilisable.
 
     def TrtAngle(self, TextAngleEnDegree):
@@ -239,6 +255,8 @@ class F01(Tk):  # declaration de l'objet F01
         # AffAngle.insert(END, AngleEnDegree)
         return AngleEnDegree
 
+    # ========================
+    # FONCTIONS OUTILS réglant le plein écran (déjà expliquées).
     def toggleFullScreen(self, event):
         self.fullScreenState = not self.fullScreenState
         self.attributes("-fullscreen", self.fullScreenState)
@@ -247,23 +265,26 @@ class F01(Tk):  # declaration de l'objet F01
         self.fullScreenState = False
         self.attributes("-fullscreen", self.fullScreenState)
 
+    # ========================
+    # FONCTION réglant la mise à jour des listbox.
     def MajListe(self):
-        # Initialisation des listboxs
+        # Initialisation des listboxs par suppression de leur contenu précédent.
         self.AffID.delete(0, END)
         self.AffNom.delete(0, END)
         self.AffAngle.delete(0, END)
         self.AffScore.delete(0, END)
 
         # Remplissage
-        tab, nb_ligne = open_score_file2()
+        tab, nb_ligne = open_score_file()  # Lecture du ficher score.txt
         for i in range(0, nb_ligne):
-            self.AffID.insert(END, tab[i][0])
+            self.AffID.insert(END, tab[i][0])  # Remplissage de la listbox des ID par tous les éléments de la première
+            # colonne du tableau contenant la base de donné, ce sont donc bien les ID.
         for i in range(0, nb_ligne):
-            self.AffNom.insert(END, tab[i][1])
+            self.AffNom.insert(END, tab[i][1])  # Même principe avec la colonne 2 pour la liste des noms.
         for i in range(0, nb_ligne):
-            self.AffAngle.insert(END, tab[i][2])
+            self.AffAngle.insert(END, tab[i][2])  # Même principe avec la colonne 3 pour la liste des angles.
         for i in range(0, nb_ligne):
-            self.AffScore.insert(END, tab[i][3])
+            self.AffScore.insert(END, tab[i][3])  # Même principe avec la colonne 4 pour la liste des scores.
 
     # COMMANDE : ouvre F02 (Jouer)
     def commandeOuvreF02(self):
