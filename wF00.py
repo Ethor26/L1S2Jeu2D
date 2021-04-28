@@ -50,9 +50,9 @@ class F00(Tk): # Declaration de l'objet F00
         self.Photofond = Image.open(os.getcwd() + "/IMAGES/Image F00/image5.png") # Ouverture de l'image en important le
         # chemin d'accès de l'image : os.getcwd() est une chaine de caractère représentant l'emplacement du fichier
         # wF00, le fichier image a donc ce chemin là avec celui du dossier IMAGES puis du dossier "Images F00".
-        self.FondF00 = PhotoImage(self.Photofond) # Formatation de l'image en tant que image pour Canevas
+        self.FondF00 = PhotoImage(self.Photofond)  # Formatation de l'image en tant que image pour Canevas
 
-        self.CanvasPres = Canvas(self, width=self.Largeur, height=self.Hauteur) # Creation du Canevas de F00
+        self.CanvasPres = Canvas(self, width=self.Largeur, height=self.Hauteur)  # Creation du Canevas de F00
         self.ImgFondF00 = self.CanvasPres.create_image(self.Largeur // 2, self.Hauteur // 2, image=self.FondF00)
         # Creation d'un emplacement d'image dans le canevas, où l'on place l'image de Fond sélectionnée.
         self.CanvasPres.pack(padx=5, pady=5)  # .pack sert à placer un élément dans la fenêtre.
@@ -122,3 +122,4 @@ class F00(Tk): # Declaration de l'objet F00
         app.focus_force()  # Force le focus sur la fenetre, pour ne pas avoir besoin de cliquer dessus et risquer
         # d'endommager le code.
         app.mainloop() # Ouvre l'objet tkinter (fenêtre) F01.
+
