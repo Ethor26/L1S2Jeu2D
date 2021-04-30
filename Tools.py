@@ -62,53 +62,53 @@ def ajout_score(f, id, user, angle, score):
 
 #Ajout de l'id et du nom dans la base de donnée
 def ajout_nom_F01(name):
-    with open("scores.txt", 'r') as file:
-        score = file.readlines()
-        nb_line = len(score)
-        f = open("scores.txt", 'a')
-        f.write('\n')
-        nb_line = nb_line - 1
-        id = str(nb_line)
-        f.write(id + ';' + name + ";")
+    with open("scores.txt", 'r') as file: #fonction with qui ouvre et ferme le fichier une fois la fonction terminée
+        score = file.readlines() #on met dans un tableau chaque ligne du ficher
+        nb_line = len(score) #On associe la taille du tableau à une variable pour connaître le nombre de lignes
+        f = open("scores.txt", 'a') #on réouvre le fichier en mode Ecriture
+        f.write('\n')#On revient à la ligne pour écrire dans le fichier
+        nb_line = nb_line - 1 #On retire 1 aux nombres de lignes pour avoir l'id du joueur qui croissent
+        id = str(nb_line) #On doit convertir en charactère afin de pouvoir écrire dans le fichier
+        f.write(id + ';' + name + ";") #On écrit dans le fichier l'id ainsi que le nom récupérer en variable de la fonction
         # Possibilité de faire plusieurs "file.write"  à la suite ou concaténer les chaines
         return id
 
 #Ajout de l'angle dans la base de donnée
 def ajout_angle_F02(angle):
-    with open("scores.txt", "a") as file:
-        ang = str(angle)
-        file.write(ang + ";")
+    with open("scores.txt", "a") as file: #On ouvre le ficher en mode écriture avec la fonction with qui va fermer le fichier une fois la fonction terminée
+        ang = str(angle) #L'angle récupérer en variable de la fonction doit etre converti en charatère afin de pouvoir l'écrire dans le fichier
+        file.write(ang + ";") #On écrit l'angle dans le fichier à la suite des autres données du joueur
 
 #Ajout du score dans la base de donnée
 def ajout_score_F0(score):  # fenetre de jeu
-    with open("scores.txt", "a") as f:
-        sco = str(score)
-        f.write(sco)
+    with open("scores.txt", "a") as f: #On ouvre le ficher en mode écriture avec la fonction with qui va fermer le fichier une fois la fonction terminée
+        sco = str(score) #On converti la variable récupérer qui est un nombre qu'on va convertir en charactère pour pouvoir l'écrire dans le ficher
+        f.write(sco) #On écrit le score dans le fichier à la suite des autres données du joueur
 
 
 # =============================================================================
 # FONCTION OUTIL : Lecture de la base de donnée. Auteur : Jean-Alexis TADDEI- Terminée
 def open_score_file2():
-    with open("scores.txt", 'r') as filin:
-        score = filin.readlines()
-        nb_line = len(score)
-        tab = []
-        for i in range(nb_line):
-            score[i] = score[i].rstrip('\n')
-            spell = score[i]
-            spel = spell.split(";")
-            tab.append(spel)
-        filin.close()
-    return tab, nb_line
+    with open("scores.txt", 'r') as filin:#On ouvre le ficher avec la fonction with qui va fermer le fichier une fois la fonction terminée
+        score = filin.readlines() #on attribue chaque ligne du ficher dans un tableau
+        nb_line = len(score) #On compte le nombre de ligne que possède le fichier
+        tab = [] #On déclare un nouveau tableau
+        for i in range(nb_line): #On ouvre une boucle
+            score[i] = score[i].rstrip('\n') #Par soucis d'affichage on doit enlever les \n qui étaient considérés comme un retour à la ligne dans un txt mais pas dans un tableau
+            spell = score[i] #On associe à une variable la ligne de associée à la boucle
+            spel = spell.split(";") #On enlève les ';' de la ligne afin de récupérer un tableau avec de la forme [id, name, angle, score]
+            tab.append(spel) #On ajoute a un nouveau tableau chaque tableau créé dans la boucle
+        filin.close() #On ferme finalement le fichier
+    return tab, nb_line #On retourne le tableau avec toutes les données et le nombre de ligne qui va nous servir
 
 # =============================================================================
 # FONCTION OUTIL : Comparaison Score. Auteur : Jean-Alexis TADDEI- Terminée
 def score_comparaison2(Score, IdJoueur):
     # on regarde dans le txt quel est le meilleur score on doit utiliser la fonction open_score_file afin d'utiliser
     # le tableau avec le score
-    tab, nb_ligne = open_score_file2()
-    best_score = int(tab[IdJoueur + 1][3])
-    if Score >= best_score:
+    tab, nb_ligne = open_score_file2() #On récupère les 2 variables retournées avec la fonction open_score_file2
+    best_score = int(tab[IdJoueur + 1][3]) #tab est un tableau en 2 dimensions, on prend le premier score
+    if Score >= best_score: #on compare le score avec tous les autres scores des données
         best_score = Score
     return best_score
     # Test : Score = 1
@@ -145,4 +145,4 @@ def ModifPrecisFichier(NumLigne, NumElt, Modif):
     # Test : ModifPrecisFichier(3, 2, 1)
 
 
-p
+
