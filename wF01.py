@@ -76,7 +76,7 @@ class F01(Tk):  # declaration de l'objet F01
             msg = "En Avant " + Name + "!"
             if Name != "":  # Si la fenêtre d'entrée du nom n'est pas vide :
                 # On vérifie si le joueur existe dans la base de donnée
-                tab, NbLignes = open_score_file()
+                tab, NbLignes = open_score_file2()
                 JoueurExist = False
                 for i in range(NbLignes):
                     if tab[i][1] == Name:
@@ -275,7 +275,7 @@ class F01(Tk):  # declaration de l'objet F01
         self.AffScore.delete(0, END)
 
         # Remplissage
-        tab, nb_ligne = open_score_file()  # Lecture du ficher score.txt
+        tab, nb_ligne = open_score_file2()  # Lecture du ficher score.txt
         for i in range(0, nb_ligne):
             self.AffID.insert(END, tab[i][0])  # Remplissage de la listbox des ID par tous les éléments de la première
             # colonne du tableau contenant la base de donné, ce sont donc bien les ID.
