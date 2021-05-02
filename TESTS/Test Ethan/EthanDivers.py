@@ -77,3 +77,15 @@
         #                                        self.balles[i]['y'] - self.balles[i]['ray'],
         #                                        self.balles[i]['x'] + self.balles[i]['ray'],
         #                                        self.balles[i]['y'] + self.balles[i]['ray'])
+
+# # Fonction test, non utilisé pour Bdd
+# def ajout_score(f, id, user, angle, score):
+#     with open(f, 'a') as file:
+#         file.write('\n')
+#         file.write(id)
+#         file.write(';')
+#         file.write(user)
+#         file.write(';')
+#         file.write(angle)
+#         file.write(';')
+#         file.write(score)
