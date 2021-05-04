@@ -13,8 +13,6 @@ from Tools import *  # Import de Tools pour pouvoir utiliser ses fonctions
 from PIL import Image
 from PIL.ImageTk import PhotoImage  # Ces deux liens servent pour amener les fonctions fixant les images de fond.
 import wF02  # Import de F02 pour pouvoir l'ouvrir
-
-
 class F04(Tk):
     # **************************************
     # Constructeur de l'objet F04 : ne pas supprimer !!!
@@ -25,7 +23,7 @@ class F04(Tk):
         self.Largeur = 1200  # Largeur de la zone de résultat
         self.Hauteur = 700  # Hauteur de la zone de résultat
         # Paramètres plein écran
-        self.fullScreenState = True  # On met l'était de Vrai en disant que la fenêtre est en pleine écran
+        self.fullScreenState = True  # On attribue Vrai en disant que la fenêtre est en pleine écran
         self.attributes("-fullscreen",
                         self.fullScreenState)  # On spécifie si la fenêtre est en mode plaine écran ou non
         self.bind("<F11>", self.toggleFullScreen)  # On choisit une touche pour activer le pleine écran
@@ -34,7 +32,6 @@ class F04(Tk):
         self.IDJoueur = IdJoueur  # On attribue une variable
         # Une méthode séparée pour construire le contenu de la fenêtre
         self.createWidgets()
-
     # **************************************
     # Fonction/Méthode de création des widgets.
     def createWidgets(self):
@@ -42,13 +39,11 @@ class F04(Tk):
         self.grid()  # Choix du mode d'arrangement des elements
         # ==================================================
         # FONCTIONS WIDGETS::::::::
-
         # ==================================================
         # ELEMENTS GRAPHIQUES::::::::
-
         # ...........< I M A G E S >.........................
         # Fond d'écran :
-        self.PhotofondInfo = Image.open(os.getcwd() + "/IMAGES/ImageF04/ImageConflitSpace.jpg")  # On importe l'image
+        self.PhotofondInfo = Image.open(os.getcwd() + "/IMAGES/ImageF04/ImageConflitSpace.jpg")  # On importe l'image I09
         self.PhotofondInfo = self.PhotofondInfo.resize((self.Largeur, self.Hauteur), Image.ANTIALIAS)  # resize permet
         # de mettre les photos au bon format pour les inclure dans le canevas. Antialias = inconnu, permet à resize de
         # fonctionner
@@ -59,50 +54,47 @@ class F04(Tk):
         # On met les paramètres de longueur et largeur de l'image de fond
         self.CanvasResult.pack(padx=5, pady=5)  # .pack sert à placer les éléments
         self.CanvasResult.tag_lower(self.ImgFondF04)  # Met l'objet à l'arrière plan
-
+        # I09 est bien placée
         # ...........< L A B E L S > .........................
         # ELEMENT GRAPHIQUE : <Label> = [A definir] : Afficher Score, nom, ...
         self.CanvasResult.create_text(600, 100,
-                                      text="Résultat de la partie :", font='Gabriola 32 bold',
+                                      text="Résultat de la partie :", font='Gabriola 32 bold', # T09
                                       fill='white')  # Création de la partie du texte qui sera toujours la
         Depasse, BestScore = self.VictoireJeu()  # Attribution des 2 variables de la fonction VictoireJeu, le booléen
         # qui indique si dépassé et le meilleur score du joueur.
         if Depasse:  # Condition pour afficher 2 textes différents : si le meilleur score est dépassé dans cette partie.
             self.CanvasResult.create_text(300, 300,
-                                          text="Bravo, vous avez battu votre record !\nVotre score est : {}\n"
-                                               "Votre ancien meilleur score était : {}".format(
+                                          text="Bravo, vous avez battu votre record !\nVotre score est : {}\n" # T10 et A01
+                                               "Votre ancien meilleur score était : {}".format( # A02
                                               int(self.ScoreRec), BestScore), font='Gabriola 26',
                                           fill='cyan')  # Si le nouveau score est le meilleur score on affiche un
             # message de félicitation.
         else:  # Si le meilleur score n'a pas été dépassé :
             self.CanvasResult.create_text(300, 300,
-                                          text="Dommage, vous ferez mieux la prochaine fois !\n Votre score est : {}\n"
-                                               "Votre meilleur score est : {}".format(
+                                          text="Dommage, vous ferez mieux la prochaine fois !\n Votre score est : {}\n" # T11 et A01
+                                               "Votre meilleur score est : {}".format( # A02
                                               int(self.ScoreRec), BestScore), font='Gabriola 26',
                                           fill='cyan')  # Sinon on afficher le texte d'encouragement pour la prochaine
             # fois.
         # Création d'un widget Label (texte 'Nom')
-        Label1 = Label(self, text=" Un Heros contre Galacticov ", font=('Arial', 20),
+        Label1 = Label(self, text=" Un Heros contre Galacticov ", font=('Arial', 20), # T01
                        fg='blue')  # On personnalise le label, du titre.
         # Label1.pack(padx=1, pady=1)
         Label1.place(x=900, y=750)  # On place le label
-
         # ...........< B U T T O N S >........................
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B07 bis] : Retour au menu (Retour F01)
-        self.RetourMenu = Button(self, text="Rejouer",
+        self.RetourMenu = Button(self, text="Rejouer", # B05
                                  command=self.commandeOuvreF02)  # Creation du bouton et de ce qu'il fait
         self.RetourMenu.place(x=250, y=600)  # On place ce bouton
         # ELEMENT GRAPHIQUE : <Button> = [A preciser] : Un bouton pour retourner au menu.
-        self.quitButton = Button(self, text="Retourner au Menu",
+        self.quitButton = Button(self, text="Retourner au Menu", #B09
                                  command=self.commandeOuvreF01)  # Création d'un bouton et de ce qu'il fait
         self.quitButton.place(x=350, y=600)  # Placement du bouton dans la fenêtre
         # ELEMENT GRAPHIQUE : <Button> = [A preciser] : Un bouton pour quitter l'application
         self.quitButton = Button(self, text="Quitter", command=self.destroy)  # Création d'un bouton et de sa fonction
         self.quitButton.place(x=550, y=600)  # Placement du bouton
-
     # ==================================================
     # AUTRES FONCTIONS::::::::
-
     # ===============================
     # FONCTIONS statuant si le meilleur score est dépassé (en cours).
     def VictoireJeu(self):  # On crée les fonctions qu'on utilise
@@ -117,16 +109,13 @@ class F04(Tk):
             return False, int(
                 tab[self.IDJoueur + 1][3])  # On retourne faux si le score n'a pas été dépassé, et le meilleur score du
             # joueur.
-
     # Fonctions de l'activation du pleine écran : détailler dans F00.
     def toggleFullScreen(self, event):
         self.fullScreenState = not self.fullScreenState
         self.attributes("-fullscreen", self.fullScreenState)
-
     def quitFullScreen(self, event):
         self.fullScreenState = False
         self.attributes("-fullscreen", self.fullScreenState)
-
     # COMMANDE = ouvre F01,  (retour au menu)
     def commandeOuvreF01(self):
         # Ferme la fenetre
@@ -135,7 +124,6 @@ class F04(Tk):
         app = wF01.F01(self.IDJoueur)
         app.focus_force()  # Force le focus sur la fenetre
         app.mainloop()  # Ouverture de F01
-
     # COMMANDE : ouvre F02 (Jouer)
     def commandeOuvreF02(self):
         self.destroy()  # ferme F01
