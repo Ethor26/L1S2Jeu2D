@@ -2,20 +2,9 @@
 # PROJET TRANSVERSE 1 L1 : Jeu 2D Python
 # Auteurs : Equipe ShirosakiBest = Ethan SUISSA, Lilandra ALBERT-LAVAULT, Pierre REY, Jean-Alexis TADDEI, Ludwig
 # NEUBERTH- EFREI -L1 BN
-# Date : 4 mai 2021 (?)
-# Fichier outils
+# Date : pour le 24 mai 2021
+# Fichier outils, comporte les fonctions d'écriture de la base de donnée.
 # ======================================================
-# from math import *
-
-
-# ========================================================================================
-# FONCTION OUTIL: fonction COMPLEMENTAIRE aux précédentes qui retourner la clé d'un dictionnaire avec en entrée
-# celui-ci et une de ses valeurs.  Auteur : Ethan SUISSA - Terminé
-def find_key(Dict, Val):
-    for key, val in Dict.items():
-        if Val == val:
-            return key
-
 
 # ===================================================================================
 # FONCTION OUTIL: Renvoie la ligne choisie du fichier indiqué dans une chaine de caractère (équivalent de read_file_line
@@ -40,15 +29,8 @@ def lireLaLignechoisie(chemin_acces, noLine):  # Entrée :  Chemin_acces = chemi
 
 
 # =============================================================================
-# FONCTION OUTIL : Fermer un fichier
-def closeFile(f):
-    f.close()
-
-
-# =============================================================================
 # =============================================================================
 # FONCTIONS OUTILS : Ecriture dans la base de donnée. Auteur : Jean-Alexis TADDEI- Terminé
-
 
 # Ajout de l'id et du nom dans la base de donnée
 def ajout_nom_F01(name):
@@ -127,7 +109,6 @@ def score_comparaison2(Score, IdJoueur):
 # FONCTION OUTIL : Modifie précisément un élément de la ligne de la base de donnée. Auteur : Ethan SUISSA- terminé
 
 import fileinput
-
 
 def ModifPrecisFichier(NumLigne, NumElt, Modif):
     tab, nbLignes = open_score_file2()  # Lecture de la base de donnée

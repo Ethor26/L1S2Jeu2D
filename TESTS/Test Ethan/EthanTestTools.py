@@ -20,3 +20,6 @@ from matplotlib import pyplot
 
 print(pyplot.plot([1, 2, 3, 6], [1, 4, 9, 36]))
 
+# Creation exe:
+# C:\Users\ethan\AppData\Roaming\Python\Python39\site-packages\pyinstaller.exe --onefile --windowed D:\ethan\OneDrive - Efrei\L1-S2\L1S2-PROGRAMMATION\PycharmProjects\L1S2-ProjTransv-Jeu2D\Jeu2D.py
+

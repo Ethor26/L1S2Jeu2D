@@ -2,9 +2,12 @@
 # PROJET TRANSVERSE 1 L1 : Jeu 2D Python
 # Auteurs : Equipe ShirosakiBest = Ethan SUISSA, Lilandra ALBERT-LAVAULT, Pierre REY, Jean-Alexis TADDEI, Ludwig
 # NEUBERTH- EFREI -L1 BN
-# Date : 4 mai 2021 (?)
+# Date : pour le 24 mai 2021
 # Fichier F00
 # ======================================================
+
+# =====================
+# Bibliothèques et importations :
 import os  # Sert pour simplifier l'écriture du chemin d'accès d'un fichier (voir os.getcwd()).
 from tkinter import *  # Attention, TKinter doit être importé pour utiliser image de fond, pas remplacable par import de
 # fichier wF0... De plus, ordre des import important !
@@ -14,6 +17,8 @@ from PIL.ImageTk import PhotoImage  # Ces deux liens servent pour amener les fon
 from wF01 import F01  # Import de F01 pour pouvoir l'ouvrir
 
 
+# ====================
+# Programme :
 class F00(Tk):  # Declaration de l'objet F00
     # *****************************************
     # Constructeur de l'objet F01 : ne pas supprimer, sert pour mettre les paramètres et fonctions propres à l'objet.

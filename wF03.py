@@ -2,9 +2,12 @@
 # PROJET TRANSVERSE 1 L1 : Jeu 2D Python
 # Auteurs : Equipe ShirosakiBest = Ethan SUISSA, Lilandra ALBERT-LAVAULT, Pierre REY, Jean-Alexis TADDEI, Ludwig
 # NEUBERTH- EFREI -L1 BN
-# Date : 4 mai 2021 (?)
-# Fichier F03 = "CONFIGURATION DES COMMANDES"
+# Date : pour le 24 mai 2021
+# Fichier F03 = "INFORMATIONS DU JEU"
 # ======================================================
+
+# =====================
+# Bibliothèques et importations :
 import wF01
 import os
 from tkinter import *
@@ -12,6 +15,8 @@ from PIL import Image
 from PIL.ImageTk import PhotoImage
 
 
+# ====================
+# Programme :
 class F03(Tk):
     # Constructeur de l'objet F03 : ne pas supprimer !!!
     def __init__(self, IDJoueur):  # NomJoueur a ajouter en paramètre ?
@@ -60,26 +65,24 @@ class F03(Tk):
         # ...........< T E X T E S > .......................
         # ELEMENT GRAPHIQUE : <Label> = [Libellé T09] : Texte explicatif du jeu
         self.CanvasInfo.create_text(600, 350, text="Bienvenue dans notre jeu ! \nLe but est simple :"
-                                          " esquivez les missiles qui vous arrivent dessus\n"
-                                          "Pour cela, deux options s'offrent à vous :\n"
-                                          "- La première est de se déplacer a l'aide des touches :\n "
-                                            "'z' : pour aller en haut\t"
-                                            "'q' : pour aller a gauche\n"
-                                            "'s' : pour aller en bas\t"
-                                            "'d' : pour aller à droite\n"
-                                          "- La seconde est d'utiliser une commande programmable qui vous fera bondir\n"
-                                          "avec un angle que vous pouvez choisir dans le menu, vous obtiendrez  \n"
-                                          " un déplacement parabolique avec cet angle.\n"
-                                          "La touche 'p' : vous permettra d'exécuter cette commande",
-                           font='Gabriola 23 italic', fill='cyan')
+                                                   " esquivez les missiles qui vous arrivent dessus\n"
+                                                   "Pour cela, deux options s'offrent à vous :\n"
+                                                   "- La première est de se déplacer a l'aide des touches :\n "
+                                                   "'z' : pour aller en haut\t"
+                                                   "'q' : pour aller a gauche\n"
+                                                   "'s' : pour aller en bas\t"
+                                                   "'d' : pour aller à droite\n"
+                                                   "- La seconde est d'utiliser une commande programmable qui vous fera bondir\n"
+                                                   "avec un angle que vous pouvez choisir dans le menu, vous obtiendrez  \n"
+                                                   " un déplacement parabolique avec cet angle.\n"
+                                                   "La touche 'p' : vous permettra d'exécuter cette commande",
+                                    font='Gabriola 23 italic', fill='cyan')
         # font sert à choisir la police, la taille. fill sert a donner une couleur au texte
-
 
         # ELEMENT GRAPHIQUE : <Label> = [Libellé T08] : Titre de la fenêtre
         self.CanvasInfo.create_text(600, 50,
                                     text="Informations sur le jeu.", font='Gabriola 32 italic', fill='blue')
         # font sert à choisir la police, la taille. fill sert a donner une couleur au texte
-
 
         # ELEMENT GRAPHIQUE : <Label> = [Libellé T03] : Nom du jeu
         Label1 = Label(self, text=" Un Heros contre Galacticov ", font=('Arial', 20), fg='blue')
@@ -117,4 +120,3 @@ class F03(Tk):
         app.focus_force()  # Force le focus sur la fenetre, pour ne pas avoir besoin de cliquer dessus
         # et risquer d'endommager le code
         app.mainloop()  # Maintiens la fenêtre ouverte tant qu'il n'y pas d'action pour la fermer
-

@@ -89,3 +89,11 @@
 #         file.write(angle)
 #         file.write(';')
 #         file.write(score)
+
+# ========================================================================================
+# FONCTION OUTIL: fonction COMPLEMENTAIRE aux précédentes qui retourner la clé d'un dictionnaire avec en entrée
+# celui-ci et une de ses valeurs.  Auteur : Ethan SUISSA - Terminé
+# def find_key(Dict, Val):
+#     for key, val in Dict.items():
+#         if Val == val:
+#             return key

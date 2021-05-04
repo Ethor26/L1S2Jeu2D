@@ -2,12 +2,14 @@
 # PROJET TRANSVERSE 1 L1 : Jeu 2D Python
 # Auteurs : Equipe ShirosakiBest = Ethan SUISSA, Lilandra ALBERT-LAVAULT, Pierre REY, Jean-Alexis TADDEI, Ludwig
 # NEUBERTH- EFREI -L1 BN
-# Date : 4 mai 2021 (?)
+# Date : pour le 24 mai 2021
 # Fichier F02 = "JEUX EN ACTION"
 # ======================================================
-# from math import *
+
+# =====================
+# Bibliothèques et importations :
+
 import os
-# import time
 import time
 from random import *
 from tkinter import *
@@ -19,6 +21,8 @@ import wF01  # Modification de l'import pour éviter les "circular import", en g
 from wF04 import F04
 
 
+# ====================
+# Programme :
 class F02(Tk):
 
     # ************************************
@@ -731,13 +735,14 @@ class F02(Tk):
 
             # Ajout des propriétés du nouvel obstacles dans chaque liste, de la même manière que pour les 4 premiers. Il
             # sera donc considéré comme un nouvel obstacles à gérer pour les fonctions de mouvements
-            if len(self.balles) < 50:  # S'il n'y a pas déjà 50 obstacles (pour éviter une génération infinie).
+            if len(self.balles) < 50 and self.FinAttente:  # S'il n'y a pas déjà 50 obstacles (pour éviter une génération infinie).
                 self.ListPosInitBalles.append({'x0': CoordObstacleRandom['x'], 'y0': CoordObstacleRandom['y']})
                 self.balles.append(CoordObstacleRandom)
                 self.ListImgBoulFeu.append(self.objImgBoulFeu)
             # print("balles", self.balles, "balls", self.balls)  # Pour contrôle.
-            self.after(10000,
-                       self.AjoutBalles)  # Réinitialisation de la fonction toutes les 10s pour créer un obstacle.
+            if self.FinAttente:
+                self.after(10000,
+                           self.AjoutBalles)  # Réinitialisation de la fonction toutes les 10s pour créer un obstacle.
 
     # ========================
     # FONCTION concentrant toutes celles gérant le déplacement des obstacles, les conséquences en cas de collision

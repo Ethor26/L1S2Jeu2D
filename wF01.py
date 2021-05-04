@@ -2,18 +2,24 @@
 # PROJET TRANSVERSE 1 L1 : Jeu 2D Python
 # Auteurs : Equipe ShirosakiBest = Ethan SUISSA, Lilandra ALBERT-LAVAULT, Pierre REY, Jean-Alexis TADDEI, Ludwig
 # NEUBERTH- EFREI -L1 BN
-# Date : 4 mai 2021 (?)
+# Date : pour le 24 mai 2021
 # Fichier F01 = "ECRAN D'ACCUEIL"
 
 # ======================================================
+
+# =====================
+# Bibliothèques et importations :
+
 from wF03 import *
-from tkinter import *
+from tkinter import *  # '*' signifie qu'on importe toutes les modifications d'un fichier
 from Tools import *
 from wF02 import F02
 from PIL import Image
 from PIL.ImageTk import PhotoImage
 
 
+# ====================
+# Programme :
 class F01(Tk):  # declaration de l'objet F01
 
     # *****************************************
@@ -24,7 +30,7 @@ class F01(Tk):  # declaration de l'objet F01
         self.title("F01")  # Le titre de la fenêtre
         self.minsize(1200, 700)  # Initialisation de la taille de fenêtre
 
-        self.IdJoueur = IDJoueur # L'ID représente l'identifiant de chaque joueur, c'est le premier élément de chaque
+        self.IdJoueur = IDJoueur  # L'ID représente l'identifiant de chaque joueur, c'est le premier élément de chaque
         # ligne de la base de donnée (fichier scores.txt). Il passe dans toutes les fenêtres pour confirmer que c'est
         # toujours le même joueur qui joue au jeu (identité du joueur définie par le nom et l'appui de "Valider"), cela
         # permet aux fonctions qui modifient la base de données de modifier la ligne du joueur actif uniquement. Il sert
@@ -36,7 +42,7 @@ class F01(Tk):  # declaration de l'objet F01
         self.Largeur = 1500  # Paramètre représentant la largeur de la zone du Canevas
         self.Hauteur = 1000  # Hauteur de la zone du Canevas.
 
-        self.paddingtop = 100 # leftPadding et Paddingtop sont des variables de placement pour les boutons, ce qui
+        self.paddingtop = 100  # leftPadding et Paddingtop sont des variables de placement pour les boutons, ce qui
         # permet de définir des unités de mesure dans le placement.
         self.leftPadding = 40
 
@@ -64,6 +70,7 @@ class F01(Tk):  # declaration de l'objet F01
         self.ImgFondF01 = self.CanvasMenu.create_image(self.Largeur // 2, self.Hauteur // 2, image=self.FondF01)
         self.CanvasMenu.pack(padx=5, pady=5)  # .pack sert à placer le texte
         self.CanvasMenu.tag_lower(self.ImgFondF01)  # Canevas.tag_lower(objet) sert à faire passer un objet du Canevas à
+
         # l'arrière plan, àl'inverse de tag_raise qui le met au premier.
 
         # =================
@@ -125,7 +132,7 @@ class F01(Tk):  # declaration de l'objet F01
 
         # ELEMENT GRAPHIQUE : <Entry> = [Libellé E01] : Entrée du pseudo
         # Création d'un widget Entry (champ de saisie)
-        Nom = StringVar() # ELEMENT GRAPHIQUE : <Label> = [Libellé SV01] :message apres saisie nom
+        Nom = StringVar()  # ELEMENT GRAPHIQUE : <Label> = [Libellé SV01] :message apres saisie nom
         EntreeNom = Entry(self, textvariable=Nom, bg='bisque', fg='RoyalBlue1', font=("Arial", 20), )
         # bg = couleur du fond d'écran du texte entré, fg = couleur du texte entré, font = police et taille du texte.
         EntreeNom.focus_set()  # Inutile de cliquer pour entrer le nom.
@@ -139,13 +146,13 @@ class F01(Tk):  # declaration de l'objet F01
         self.messageUtilisateurNom.set("...")  # maj Label pertinent.
         # Declaration et Placement du label avec le message du nom.
         self.LblMessage = Label(self, textvariable=self.messageUtilisateurNom, bg="MediumOrchid4", fg="white",
-                                font=("Arial", 15)) # Changement du "texte" en "texteVariable" pour le StringVar.
+                                font=("Arial", 15))  # Changement du "texte" en "texteVariable" pour le StringVar.
         self.LblMessage.place(x=self.leftPadding + 300, y=self.paddingtop + 150)
 
         # ELEMENT GRAPHIQUE : <Label> = [StringVar Sv03] :Message vérifiant l'angle
         # Message après vérifiaction de l'entrée de l'angle
         self.messageUtilisateurAngle = StringVar()  # Variable de message d'erreur de saisie type stringvar() pour
-        self.messageUtilisateurAngle.set("...") # maj Label pertinent.
+        self.messageUtilisateurAngle.set("...")  # maj Label pertinent.
 
         # Declaration et Placement du label avec le message de l'angle.
         self.LblMessage = Label(self, textvariable=self.messageUtilisateurAngle, bg="MediumOrchid4", fg="white")
@@ -164,7 +171,7 @@ class F01(Tk):  # declaration de l'objet F01
         BoutConfCom = Button(self, text="Informations Jeu", command=self.commandeOuvreF03)
         BoutConfCom.place(x=self.leftPadding + 400, y=self.paddingtop + 600)
 
-        print("ID =", self.IdJoueur) # Pour control.
+        print("ID =", self.IdJoueur)  # Pour control.
         if self.IdJoueur != 0:  # Si le joueur est définie après l'entrée du nom (le placement ici sert si on réouvre
             # F01 pour ne pas devoir ré-entrer le nom).
             # Déverouillage des boutons
@@ -201,8 +208,8 @@ class F01(Tk):  # declaration de l'objet F01
     # **************************************
     # FONCTIONS DE L'OBJET::::::::
 
-        # ======================
-        # FONCTION OUTIL pour déverouiller les commandes si joueur enregistré (id != 0 ou nom entré)
+    # ======================
+    # FONCTION OUTIL pour déverouiller les commandes si joueur enregistré (id != 0 ou nom entré)
     def DeverouilCommands(self):
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B05] :bouton pour lancer le jeu et ouvrir F02
         self.ouvreF02 = Button(self, text="jouer", command=self.commandeOuvreF02)
@@ -228,7 +235,7 @@ class F01(Tk):  # declaration de l'objet F01
         # Etape 2 : Envoi de l'angle dans score.txt
         if message == "Angle enregistré":
             ModifPrecisFichier(self.IdJoueur + 2, 2,
-                           AngleEnDegree)  # Explication de l'appel : voir l'appel identique dans F02
+                               AngleEnDegree)  # Explication de l'appel : voir l'appel identique dans F02
             self.MajListe()  # Pour mise à jour instantannée des listbox
 
         # ========================
@@ -244,12 +251,12 @@ class F01(Tk):  # declaration de l'objet F01
                     AngleEnDegree = AngleEnDegree % 360  # Création d'un modulo pour ajuster les angles trop grand.
                 if AngleEnDegree < 0:
                     AngleEnDegree += 360  # Angle ne change pas mais on le replace sur l'intervalle [0; 360]
-                msg = "Angle enregistré" # ELEMENT GRAPHIQUE : <Label> = [Libellé SV02] : si angle bon
+                msg = "Angle enregistré"  # ELEMENT GRAPHIQUE : <Label> = [Libellé SV02] : si angle bon
             except ValueError:
                 msg = ">> Angle doit etre un entier "  # ELEMENT GRAPHIQUE : <Label> = [Libellé SV02] : si angle mauvais
                 print(msg)  # Pour contrôle en console
         else:
-            msg = "Pas d'angle enregistré" # ELEMENT GRAPHIQUE : <Label> = [Libellé SV02] : si pas d'angle
+            msg = "Pas d'angle enregistré"  # ELEMENT GRAPHIQUE : <Label> = [Libellé SV02] : si pas d'angle
         self.messageUtilisateurAngle.set(msg)  # Pour mise à jour texte écran
         print(str(self.messageUtilisateurAngle.get()))  # Pour Controle
         # AffAngle.insert(END, AngleEnDegree)
@@ -300,4 +307,3 @@ class F01(Tk):  # declaration de l'objet F01
         app = F03(self.IdJoueur)  # implémente l'objet app
         app.focus_force()  # Force le focus sur la fenetre
         app.mainloop()
-
