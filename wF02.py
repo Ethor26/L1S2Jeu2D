@@ -142,7 +142,7 @@ class F02(Tk):
         def deplacement_P():
             if self.FinAttente:  # Sert pour éviter les interruptions brutales
                 nbRebond = 0  # Initialisation du nombre de rebond sur les côtés à chaque mouvement
-                self.Temps += 0.00015  # Augmentation d'une variable de temps pour calcul Position Y (de commande
+                self.Temps += 0.0002  # Augmentation d'une variable de temps pour calcul Position Y (de commande
                 # programmable) et permet de définir la limite du mouvement.
                 # Récupération des nouvelles position
                 self.PosX, self.PosY, self.siRebond, Temps = self.ValeurPosXY_P(self.PosX, self.PosY, self.Temps)
@@ -166,7 +166,7 @@ class F02(Tk):
                         self.idAfterP = self.after(1, deplacement_P)
                         print("idAfterP", self.idAfterP)
                         # On arrête le déplacement s'il y a un rebond ou si le facteur temps est supérieur à 0.05
-                        if nbRebond > 0 or self.Temps > 0.06:  # 0.07 pour courbe complète
+                        if nbRebond > 0 or self.Temps > 0.065:  # 0.07 pour courbe complète
                             self.after_cancel(self.idAfterP)  # arrête la réactualisation de la fenêtre
                             # (et le déplacement)
                             self.Temps = 0  # Réinitialisation du compteur de temps de déplacement.
@@ -559,7 +559,7 @@ class F02(Tk):
     # FONCTION OUTIL : Utilise l'équation de mouvement pour calculer la postion finale en fonction de l'angle
     # Auteur : Ethan SUISSA - Terminé
     def CalcProg(self, AngleDeduitDegree, Temps):
-        v0 = 0.7  # Choix de vitesse intiale : modélise celle avec laquelle on lance un objet.
+        v0 = 1.2  # Choix de vitesse intiale : modélise celle avec laquelle on lance un objet.
         g = 9.81  # Constante de gravitation influencant la chute.
         Angle_Deduit_Radian = radians(AngleDeduitDegree)  # convertion en Radian de l'angle deduit, utiliser
         # math.radians si "import math"

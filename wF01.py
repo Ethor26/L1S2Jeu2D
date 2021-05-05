@@ -123,7 +123,7 @@ class F01(Tk):  # declaration de l'objet F01
         Label1.place(x=self.leftPadding, y=50)
 
         # Création d'un widget Label (texte 'Nom'),ELEMENT GRAPHIQUE : <Label> = [Libellé T05]: demande de saisie du pseudo
-        Label1 = Label(self, text='Quel est ton nom ', bg="purple", fg="white",
+        Label1 = Label(self, text='Quel est ton nom ?', bg="purple", fg="white",
                        font=("Arial", 20))  # ajouter: "jeune protecteur de la Galaxie?"
         # Label1.pack(padx=1, pady=1)
         Label1.place(x=self.leftPadding, y=self.paddingtop + 50)
@@ -133,7 +133,7 @@ class F01(Tk):  # declaration de l'objet F01
         # ELEMENT GRAPHIQUE : <Entry> = [Libellé E01] : Entrée du pseudo
         # Création d'un widget Entry (champ de saisie)
         Nom = StringVar()  # ELEMENT GRAPHIQUE : <Label> = [Libellé SV01] :message apres saisie nom
-        EntreeNom = Entry(self, textvariable=Nom, bg='bisque', fg='RoyalBlue1', font=("Arial", 20), )
+        EntreeNom = Entry(self, textvariable=Nom, bg='bisque', fg='RoyalBlue1', font=("Arial", 20))
         # bg = couleur du fond d'écran du texte entré, fg = couleur du texte entré, font = police et taille du texte.
         EntreeNom.focus_set()  # Inutile de cliquer pour entrer le nom.
         EntreeNom.place(x=self.leftPadding + 300, y=self.paddingtop + 50)
@@ -216,8 +216,8 @@ class F01(Tk):  # declaration de l'objet F01
         self.ouvreF02.place(x=self.leftPadding, y=self.paddingtop + 600)
 
         # ELEMENT GRAPHIQUE : <Entry> = [E02]: pour saisir l'angle
-        self.entreAngle = Entry(self)  # Ajouter self pour mettre dans constructeur ?
-        self.entreAngle.place(x=self.leftPadding, y=self.paddingtop + 250, width=70)
+        self.entreAngle = Entry(self, font=("Arial", 18))
+        self.entreAngle.place(x=self.leftPadding, y=self.paddingtop + 250, width=100)
 
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B04] : "Appliquer (Enregistrer) l'angle"
         self.AppliqAngle = Button(self, text="Appliquer l'angle", command=self.EnregistrAngle)
