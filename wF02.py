@@ -99,7 +99,7 @@ class F02(Tk):
         # FONCTION qui crée un déplacment lorsque l'on actionne une touche
         def CommandeClavier(event):
             self.touche = event.keysym  # Un événement (event) est la survenue d’une action (clavier, souris) dont votre
-            # application a besoin d’être informée
+            # application a besoin d’être informée (trouvé sur internet).
 
             # Si touche d => deplt a droite
             if self.touche == 'd':
