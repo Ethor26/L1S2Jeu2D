@@ -91,16 +91,17 @@ def open_score_file2():
 # FONCTION OUTIL : Comparaison Score. Auteur : Jean-Alexis TADDEI- Terminée
 
 
-def score_comparaison2(Score, IdJoueur):
+def score_comparaison(Score, IdJoueur):
     # on regarde dans le txt quel est le meilleur score on doit utiliser la fonction open_score_file afin d'utiliser
     # le tableau avec le score
     tab, nb_ligne = open_score_file2()  # On récupère les 2 variables retournées avec la fonction open_score_file2
+    Old_best_score = int(tab[IdJoueur + 1][3])
     best_score = int(tab[IdJoueur + 1][3])  # tab est un tableau en 2 dimensions, on prend le meilleur score à la ligne
     # du joueur (4e colonne, ligne de l'identifiant + 2, avec un décalage de -1 pour les indices du tableau).
     if Score >= best_score:  # on compare le score avec le meilleur score du joueur, s'il est supérieur, la variable
         # meilleur score prend celle du score de la partie.
         best_score = Score
-    return best_score
+    return best_score, Old_best_score
     # Test : Score = 1
     # print(score_comparaison2(Score))
 

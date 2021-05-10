@@ -23,7 +23,7 @@ import wF02  # Import de F02 pour pouvoir l'ouvrir
 class F04(Tk):
     # **************************************
     # Constructeur de l'objet F04 : ne pas supprimer !!!
-    def __init__(self, Score, IdJoueur):  # Importation du paramètre score de F02.
+    def __init__(self, Score, IdJoueur, AncienMeilScore):  # Importation du paramètre score de F02.
         Tk.__init__(self)
         self.title("F04")  # Le titre de la fenêtre.
         self.minsize(1200, 700)  # taille de fenêtre.
@@ -35,8 +35,9 @@ class F04(Tk):
                         self.fullScreenState)  # On spécifie si la fenêtre est en mode plaine écran ou non.
         self.bind("<F11>", self.toggleFullScreen)  # On choisit une touche pour activer le pleine écran.
         self.bind("<Escape>", self.quitFullScreen)  # On choisit une touche pour quitter le pleine écran.
-        self.ScoreRec = Score  # On attribue une variable.
-        self.IDJoueur = IdJoueur  # On attribue une variable.
+        self.ScoreRec = Score  # On attribue une variable dans l'objet à la valeur importée.
+        self.IDJoueur = IdJoueur  # On attribue une variable dans l'objet à la valeur importée.
+        self.OldBestScore = AncienMeilScore  # On attribue une variable dans l'objet à la valeur importée.
         # Une méthode séparée pour construire le contenu de la fenêtre.
         self.createWidgets()
 
@@ -82,14 +83,14 @@ class F04(Tk):
             self.CanvasResult.create_text(300, 300,
                                           text="Bravo, vous avez battu votre record !\nVotre score est : {}\n"  # T10 et A01
                                                "Votre ancien meilleur score était : {}".format(  # A02
-                                              int(self.ScoreRec), BestScore), font='Gabriola 26',
+                                              int(self.ScoreRec), self.OldBestScore), font='Gabriola 26',
                                           fill='cyan')  # Si le nouveau score est le meilleur score on affiche un
             # message de félicitation.
         else:  # Si le meilleur score n'a pas été dépassé :
             # ELEMENT GRAPHIQUE : <Labels> = [Texte T11] + [AffichageVariable A01 et A02] : Message d'encouragement.
             self.CanvasResult.create_text(300, 300,
                                           text="Dommage, vous ferez mieux la prochaine fois !\n Votre score est : {}\n"  # T11 et A01
-                                               "Votre meilleur score est : {}".format(  # A02
+                                               "Votre meilleur score reste à : {}".format(  # A02
                                               int(self.ScoreRec), BestScore), font='Gabriola 26',
                                           fill='cyan')  # Sinon on afficher le texte d'encouragement pour la prochaine
             # fois.

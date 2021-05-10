@@ -740,7 +740,7 @@ class F02(Tk):
     # FONCTION : Fonction de fin de partie, appelée si partie finie pour récupérer le meilleur score et ouvrir F04
     def Fin_Partie(self):
         self.Score = 3216  # A récupérer
-        BestScore = score_comparaison2(self.Score, self.IdJoueur)  # Ligne trouvée avec l'ID dans la fonction
+        BestScore = score_comparaison(self.Score, self.IdJoueur)  # Ligne trouvée avec l'ID dans la fonction
         ModifPrecisFichier(self.IdJoueur + 2, 3, BestScore)  # self.IdJoueur +2 car c'est le numéro de ligne
         # correspondant, le meilleur score est à l'emplacement t[i][3] du tableau d'"open_score_file",
         # BestScore est ce qu'on écrit.

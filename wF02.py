@@ -75,6 +75,9 @@ class F02(Tk):
         # Déclaration du score initial
         self.CompteurScore = 0
 
+        # Déclaration d'ancien meilleur score initial
+        self.Old_best_score = 0
+
         # Déclaration du nombre de vies initial
         self.CompteurVies = 3
 
@@ -914,7 +917,7 @@ class F02(Tk):
         # Ferme la fenetre
         F02.destroy(self)  # ferme F02, format donne même résultat
         # ouvre F01
-        app = F04(self.CompteurScore, self.IdJoueur)
+        app = F04(self.CompteurScore, self.IdJoueur, self.Old_best_score)
         app.focus_force()  # Force le focus sur la fenetre
         app.mainloop()
 
@@ -930,8 +933,10 @@ class F02(Tk):
         self.after_cancel(self.idAfterQ)
         self.after_cancel(self.idAfterZ)
         self.after_cancel(self.idAfterS)
-        BestScore = score_comparaison2(int(self.CompteurScore),
-                                       self.IdJoueur)  # Ligne trouvée avec l'ID dans la fonction
+        BestScore, OldBestScore = score_comparaison(int(self.CompteurScore),
+                                      self.IdJoueur)  # Ligne trouvée avec l'ID dans la fonction. Retourne le nouveau et
+        # l'ancien meilleur score.
+        self.Old_best_score = OldBestScore
         ModifPrecisFichier(self.IdJoueur + 2, 3, BestScore)  # self.IdJoueur +2 car c'est le numéro de ligne
         # correspondant, le meilleur score est à l'emplacement t[i][3] du tableau d'"open_score_file",
         # BestScore est ce qu'on écrit.
