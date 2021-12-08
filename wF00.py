@@ -106,7 +106,7 @@ class F00(Tk):  # Declaration de l'objet F00
         self.ouvreF01.place(x=200, y=650)  # Place le bouton aux coordonnées x et y définies.
 
         # ELEMENT GRAPHIQUE : <Button> = [Bouton B06] : Un bouton pour quitter l'application
-        self.quitButton = Button(self, text="Quitter", command=self.destroy)
+        self.quitButton = Button(self, bg="Royalblue3", fg="white", font=("Arial", 15), text="Quitter", command=self.destroy)
         self.quitButton.place(x=300, y=650)
 
     # **************************************
